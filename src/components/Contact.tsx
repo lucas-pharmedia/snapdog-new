@@ -135,7 +135,7 @@ const Contact: React.FC = () => {
 
               <button
                 type="submit"
-                className="mt-2 mb-0 w-full rounded-xl bg-blue-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:bg-blue-500"
+                className="mt-2 mb-0 w-full cursor-pointer rounded-xl bg-blue-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:bg-blue-500"
               >
                 提交
               </button>
