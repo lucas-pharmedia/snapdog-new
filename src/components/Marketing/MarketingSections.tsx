@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { BookOpen, Heart, Briefcase, Users, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
-import { motion, useAnimationControls } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+
 const Scenarios: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimationControls();
-  const [constraints, setConstraints] = useState({ left: 0, right: 0 });
   const tags = ['展場', '活動', '快閃品牌'];
   const cards = [
     {
@@ -34,32 +33,9 @@ const Scenarios: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        // 1. 用 JS 重置位移 (瞬間歸零，不拖泥帶水)
-        controls.set({ x: 0 });
-
-        // 2. 重新計算邊界
-        const containerWidth = containerRef.current.offsetWidth;
-        const contentWidth = containerRef.current.scrollWidth;
-
-        setConstraints({
-          left: containerWidth - contentWidth,
-          right: 0
-        });
-      }
-    };
-
-    // 初始執行一次
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [controls]);
   return (
     <section id="scenarios" className="py-15">
-      <div className="mx-auto px-5 md:max-w-480 md:px-0">
+      <div className="mx-auto px-5 lg:max-w-480 lg:px-0">
         <h2 className="mb-3 text-center text-[1.75rem] font-extrabold text-[#0F172B] md:text-[2.25rem]">
           滿足多樣化的活動場景
         </h2>
@@ -73,36 +49,38 @@ const Scenarios: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="overflow-hidden" ref={containerRef}>
-          <motion.div
-            drag={constraints.left < 0 ? 'x' : false}
-            dragConstraints={constraints}
-            className={cn(
-              'hide-scrollbar flex cursor-grab gap-2 active:cursor-grabbing md:w-auto',
-              constraints.left < 0 ? 'w-max' : 'w-full'
-            )}
+        <div>
+          <Swiper
+            spaceBetween={8}
+            slidesPerView="auto"
+            breakpoints={{
+              1024: {
+                allowTouchMove: false
+              }
+            }}
           >
             {cards.map((item, i) => (
-              <div
-                key={i}
-                className={cn(
-                  'group relative h-[400px] w-[285px] shrink-0 overflow-hidden rounded-[1.25rem] border border-slate-200 shadow-md transition-all duration-500 hover:shadow-xl',
-                  'md:aspect-[1.185] md:h-auto md:grow md:rounded-none'
-                )}
-              >
-                <div className="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
-                  <img src={item.img} className="h-full w-full object-cover opacity-90" alt={item.title} />
-                </div>
-                <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-slate-900/95 via-slate-900/50 to-transparent px-5 py-6 text-white">
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-black/20">
-                    {item.icon}
+              <SwiperSlide key={i} className={cn('w-auto! grow')}>
+                <div
+                  className={cn(
+                    'group relative h-[400px] w-[285px] overflow-hidden rounded-[1.25rem] border border-slate-200 shadow-md transition-all duration-500 hover:shadow-xl',
+                    'lg:aspect-[1.185] lg:h-auto lg:w-full lg:rounded-none'
+                  )}
+                >
+                  <div className="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                    <img src={item.img} className="h-full w-full object-cover opacity-90" alt={item.title} />
                   </div>
-                  <h3 className="mb-2 text-2xl leading-tight font-bold">{item.title}</h3>
-                  <p className="text-base">{item.desc}</p>
+                  <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-slate-900/95 via-slate-900/50 to-transparent px-5 py-6 text-white">
+                    <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-black/20">
+                      {item.icon}
+                    </div>
+                    <h3 className="mb-2 text-2xl leading-tight font-bold">{item.title}</h3>
+                    <p className="text-base">{item.desc}</p>
+                  </div>
                 </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </motion.div>
+          </Swiper>
         </div>
       </div>
     </section>
