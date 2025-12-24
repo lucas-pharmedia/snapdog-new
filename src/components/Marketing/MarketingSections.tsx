@@ -6,6 +6,7 @@ const Scenarios: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
+  const [resizeKey, setResizeKey] = useState(0);
   const tags = ['展場', '活動', '快閃品牌'];
   const cards = [
     {
@@ -37,10 +38,8 @@ const Scenarios: React.FC = () => {
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
-        // 1. 用 JS 重置位移 (瞬間歸零，不拖泥帶水)
         controls.set({ x: 0 });
 
-        // 2. 重新計算邊界
         const containerWidth = containerRef.current.offsetWidth;
         const contentWidth = containerRef.current.scrollWidth;
 
@@ -48,10 +47,11 @@ const Scenarios: React.FC = () => {
           left: containerWidth - contentWidth,
           right: 0
         });
+
+        setResizeKey((prev) => prev + 1);
       }
     };
 
-    // 初始執行一次
     handleResize();
 
     window.addEventListener('resize', handleResize);
@@ -73,13 +73,13 @@ const Scenarios: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="overflow-hidden" ref={containerRef}>
+        <div className="overflow-hidden" ref={containerRef} key={resizeKey}>
           <motion.div
             drag={constraints.left < 0 ? 'x' : false}
             dragConstraints={constraints}
             className={cn(
-              'hide-scrollbar flex cursor-grab gap-2 active:cursor-grabbing md:w-auto',
-              constraints.left < 0 ? 'w-max' : 'w-full'
+              'hide-scrollbar flex gap-2',
+              constraints.left < 0 ? 'cursor-grab active:cursor-grabbing' : ''
             )}
           >
             {cards.map((item, i) => (
