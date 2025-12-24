@@ -1,444 +1,978 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Snapdog - AI 拍貼機 | 玩轉活動的每一刻</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Fredoka:wght@400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Fredoka:wght@400;600&family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <script>
-        tailwind.config = {
-            theme: {
-                fontFamily: {
-                    sans: ['"Noto Sans TC"', '"Inter"', 'sans-serif'],
-                    decorative: ['"Fredoka"', 'sans-serif'],
-                },
-                extend: {
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in-down': 'fadeInDown 0.3s ease-out',
-                        'pop-tl': 'pop-top-left 3s ease-out infinite',
-                        'pop-tr': 'pop-top-right 2.5s ease-out infinite',
-                        'pop-bl': 'pop-bottom-left 3.2s ease-out infinite',
-                        'pop-br': 'pop-bottom-right 2.8s ease-out infinite',
-                        'pop-up': 'pop-up 3.5s ease-out infinite',
-                    },
-                    keyframes: {
-                        fadeInDown: {
-                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                         'pop-top-left': {
-                            '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
-                            '10%': { opacity: '1', transform: 'translate(-10px, -10px) scale(1.1)' },
-                            '100%': { opacity: '0', transform: 'translate(-50px, -50px) scale(0.9)' },
-                        },
-                        'pop-top-right': {
-                            '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
-                            '10%': { opacity: '1', transform: 'translate(10px, -10px) scale(1.1)' },
-                            '100%': { opacity: '0', transform: 'translate(50px, -40px) scale(0.9)' },
-                        },
-                        'pop-bottom-left': {
-                            '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
-                            '10%': { opacity: '1', transform: 'translate(-10px, 10px) scale(1.1)' },
-                            '100%': { opacity: '0', transform: 'translate(-40px, 50px) scale(0.9)' },
-                        },
-                        'pop-bottom-right': {
-                            '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
-                            '10%': { opacity: '1', transform: 'translate(10px, 10px) scale(1.1)' },
-                            '100%': { opacity: '0', transform: 'translate(40px, 60px) scale(0.9)' },
-                        },
-                        'pop-up': {
-                            '0%': { opacity: '0', transform: 'translateY(0) scale(0.5)' },
-                            '10%': { opacity: '1', transform: 'translateY(-15px) scale(1.1)' },
-                            '100%': { opacity: '0', transform: 'translateY(-80px) scale(0.9)' },
-                        },
-                    }
-                }
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '"Inter"', 'sans-serif'],
+            decorative: ['"Fredoka"', 'sans-serif']
+          },
+          extend: {
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'fade-in-down': 'fadeInDown 0.3s ease-out',
+              'pop-tl': 'pop-top-left 3s ease-out infinite',
+              'pop-tr': 'pop-top-right 2.5s ease-out infinite',
+              'pop-bl': 'pop-bottom-left 3.2s ease-out infinite',
+              'pop-br': 'pop-bottom-right 2.8s ease-out infinite',
+              'pop-up': 'pop-up 3.5s ease-out infinite'
+            },
+            keyframes: {
+              fadeInDown: {
+                '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+              'pop-top-left': {
+                '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
+                '10%': { opacity: '1', transform: 'translate(-10px, -10px) scale(1.1)' },
+                '100%': { opacity: '0', transform: 'translate(-50px, -50px) scale(0.9)' }
+              },
+              'pop-top-right': {
+                '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
+                '10%': { opacity: '1', transform: 'translate(10px, -10px) scale(1.1)' },
+                '100%': { opacity: '0', transform: 'translate(50px, -40px) scale(0.9)' }
+              },
+              'pop-bottom-left': {
+                '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
+                '10%': { opacity: '1', transform: 'translate(-10px, 10px) scale(1.1)' },
+                '100%': { opacity: '0', transform: 'translate(-40px, 50px) scale(0.9)' }
+              },
+              'pop-bottom-right': {
+                '0%': { opacity: '0', transform: 'translate(0, 0) scale(0.5)' },
+                '10%': { opacity: '1', transform: 'translate(10px, 10px) scale(1.1)' },
+                '100%': { opacity: '0', transform: 'translate(40px, 60px) scale(0.9)' }
+              },
+              'pop-up': {
+                '0%': { opacity: '0', transform: 'translateY(0) scale(0.5)' },
+                '10%': { opacity: '1', transform: 'translateY(-15px) scale(1.1)' },
+                '100%': { opacity: '0', transform: 'translateY(-80px) scale(0.9)' }
+              }
             }
+          }
         }
+      };
     </script>
 
     <style>
-        :root {
-            --z-bg: -1;
-            --z-stage: 10;
-            --z-text: 20;
-            --z-canvas: 30;
-            --z-slider: 40;
-            --z-ui: 60;
-            --z-hero: 75;
-            --z-nav: 80;
-            --z-marketing: 90;
-            --z-modal: 200;
-            --dot-color: #e2e8f0; 
-        }
+      :root {
+        --z-bg: -1;
+        --z-stage: 10;
+        --z-text: 20;
+        --z-canvas: 30;
+        --z-slider: 40;
+        --z-ui: 60;
+        --z-hero: 75;
+        --z-nav: 80;
+        --z-marketing: 90;
+        --z-modal: 200;
+        --dot-color: #e2e8f0;
+      }
 
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #fbfbfd;
-            color: #1d1d1f;
-            margin: 0; padding: 0;
-            overflow-x: hidden; overflow-y: auto; 
-        }
-        
-        /* 定義 SVG 漸層樣式 */
-        .icon-gradient-stroke {
-            stroke: url(#blue-gradient) !important;
-            stroke-width: 2px;
-        }
-        
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: 'Noto Sans TC', sans-serif;
+        background-color: #fbfbfd;
+        color: #1d1d1f;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
 
-        /* --- 背景與舞台 --- */
-        #parallax-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
-            z-index: var(--z-bg);
-            background-image: 
-                linear-gradient(to right, var(--dot-color) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--dot-color) 1px, transparent 1px);
-            background-size: 40px 40px; 
-            pointer-events: none; will-change: background-position;
-        }
+      /* 定義 SVG 漸層樣式 */
+      .icon-gradient-stroke {
+        stroke: url(#blue-gradient) !important;
+        stroke-width: 2px;
+      }
 
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+
+      /* --- 背景與舞台 --- */
+      #parallax-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: var(--z-bg);
+        background-image:
+          linear-gradient(to right, var(--dot-color) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--dot-color) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        will-change: background-position;
+      }
+
+      #hero-section {
+        position: relative;
+        z-index: var(--z-hero);
+        width: 100%;
+        height: 100vh; /* Desktop default */
+        background-color: #f8fafc;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Mobile specific fixed height for Hero */
+      @media (max-width: 768px) {
         #hero-section {
-            position: relative;
-            z-index: var(--z-hero);
-            width: 100%;
-            height: 100vh; /* Desktop default */
-            background-color: #F8FAFC;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+          height: 900px !important; /* Fixed height for mobile */
         }
-        
-        /* Mobile specific fixed height for Hero */
-        @media (max-width: 768px) {
-            #hero-section {
-                height: 900px !important; /* Fixed height for mobile */
-            }
-        }
+      }
 
-        .scroll-section { 
-            width: 100%; position: relative; 
-            pointer-events: none;
-            height: 100vh; 
-            height: 100dvh; 
-        }
+      .scroll-section {
+        width: 100%;
+        position: relative;
+        pointer-events: none;
+        height: 100vh;
+        height: 100dvh;
+      }
 
-        @media (min-width: 769px) {
-            .scroll-section { height: 135vh; }
+      @media (min-width: 769px) {
+        .scroll-section {
+          height: 135vh;
         }
+      }
 
+      #sticky-stage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        z-index: var(--z-stage);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* 調整桌機版上方 padding，避免被 Header 遮擋 */
+        padding-top: calc(100px + env(safe-area-inset-top));
+        padding-bottom: calc(90px + env(safe-area-inset-bottom));
+        pointer-events: none;
+        background: transparent;
+        transition:
+          opacity 0.5s ease,
+          transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        opacity: 0;
+      }
+
+      #sticky-stage.stage-visible {
+        opacity: 1;
+      }
+
+      /* --- 手機版面調整 --- */
+      @media (max-width: 768px), (max-height: 700px) {
         #sticky-stage {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh;
-            z-index: var(--z-stage);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            /* 調整桌機版上方 padding，避免被 Header 遮擋 */
-            padding-top: calc(100px + env(safe-area-inset-top)); 
-            padding-bottom: calc(90px + env(safe-area-inset-bottom));
-            pointer-events: none; background: transparent;
-            transition: opacity 0.5s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            opacity: 0;
+          justify-content: flex-start !important;
+          padding-top: calc(50px + env(safe-area-inset-top));
+          padding-bottom: 0;
         }
-        
-        #sticky-stage.stage-visible {
-            opacity: 1;
+        #sticky-stage.step-4-layout {
+          padding-top: calc(40px + env(safe-area-inset-top));
         }
+        #nav-controls {
+          display: none !important;
+        }
+      }
 
-        /* --- 手機版面調整 --- */
-        @media (max-width: 768px), (max-height: 700px) {
-            #sticky-stage { 
-                justify-content: flex-start !important; 
-                padding-top: calc(50px + env(safe-area-inset-top)); 
-                padding-bottom: 0; 
-            }
-            #sticky-stage.step-4-layout { 
-                padding-top: calc(40px + env(safe-area-inset-top)); 
-            }
-            #nav-controls {
-                display: none !important;
-            }
-        }
-
-        /* --- 標題區 --- */
+      /* --- 標題區 --- */
+      #text-container-wrapper {
+        position: relative;
+        width: 100%;
+        height: 15vh;
+        min-height: 100px;
+        flex-shrink: 0;
+        /* 縮短標題與畫布的間距 */
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        z-index: var(--z-text);
+        margin-bottom: 0.5rem;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+      @media (max-width: 768px), (max-height: 700px) {
         #text-container-wrapper {
-            position: relative; width: 100%; height: 15vh; min-height: 100px; flex-shrink: 0;
-            /* 縮短標題與畫布的間距 */
-            display: flex; justify-content: center; align-items: flex-end;
-            z-index: var(--z-text); margin-bottom: 0.5rem; pointer-events: none;
-            transition: all 0.3s ease;
+          height: auto;
+          min-height: 90px;
+          margin-bottom: 5px;
+          align-items: center;
         }
-        @media (max-width: 768px), (max-height: 700px) {
-            #text-container-wrapper { 
-                height: auto; 
-                min-height: 90px; 
-                margin-bottom: 5px; 
-                align-items: center; 
-            }
-        }
-        .text-overlay {
-            position: absolute; bottom: 0; width: 100%;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            opacity: 0; transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            pointer-events: auto; padding: 0 20px;
-        }
-        .text-overlay.active { opacity: 1; transform: translateY(0); }
-        #text-4 .segment-control { margin-top: 10px; margin-bottom: 5px; }
+      }
+      .text-overlay {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        pointer-events: auto;
+        padding: 0 20px;
+      }
+      .text-overlay.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #text-4 .segment-control {
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
 
-        /* --- 畫布區 --- */
+      /* --- 畫布區 --- */
+      #canvas-wrapper {
+        position: relative;
+        flex-grow: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: var(--z-canvas);
+        perspective: 1000px;
+        pointer-events: auto;
+        transition: margin-top 0.4s ease;
+      }
+      @media (max-width: 768px), (max-height: 700px) {
         #canvas-wrapper {
-            position: relative; flex-grow: 1; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            z-index: var(--z-canvas); perspective: 1000px; pointer-events: auto;
-            transition: margin-top 0.4s ease;
+          flex-grow: 0;
+          height: auto;
+          align-items: flex-start;
+          justify-content: center;
+          margin-top: 0;
         }
-        @media (max-width: 768px), (max-height: 700px) {
-            #canvas-wrapper { flex-grow: 0; height: auto; align-items: flex-start; justify-content: center; margin-top: 0; }
-        }
-        #main-canvas-container {
-            position: relative; background: white;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border-radius: 20px; overflow: hidden;
-            transform-origin: center center;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 300px; height: 450px; 
-            touch-action: pan-y; 
-        }
-        #main-canvas-container.transparent-mode {
-            background: transparent !important;
-            box-shadow: none !important;
-            overflow: visible !important;
-        }
+      }
+      #main-canvas-container {
+        position: relative;
+        background: white;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border-radius: 20px;
+        overflow: hidden;
+        transform-origin: center center;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        width: 300px;
+        height: 450px;
+        touch-action: pan-y;
+      }
+      #main-canvas-container.transparent-mode {
+        background: transparent !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+      }
 
-        .photo-layer { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-size: cover; background-position: center; 
-            overflow: hidden; 
-        }
-        .img-original { z-index: 1; }
-        .img-ai { 
-            z-index: 2; width: 100%; 
-            clip-path: inset(0 50% 0 0); will-change: clip-path; 
-        }
-        .img-ai-inner {
-            width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            filter: contrast(1.1) saturate(1.2);
-            transition: filter 0.3s ease;
-        }
+      .photo-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+      }
+      .img-original {
+        z-index: 1;
+      }
+      .img-ai {
+        z-index: 2;
+        width: 100%;
+        clip-path: inset(0 50% 0 0);
+        will-change: clip-path;
+      }
+      .img-ai-inner {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: contrast(1.1) saturate(1.2);
+        transition: filter 0.3s ease;
+      }
 
-        /* --- 拉桿 --- */
-        #comparison-slider { 
-            position: absolute; top: 0; bottom: 0; 
-            left: 50%; width: 50px; background: transparent; transform: translateX(-50%);
-            z-index: var(--z-slider); 
-            pointer-events: auto; touch-action: none; cursor: col-resize;
-        }
-        #comparison-slider::before {
-            content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
-            background: rgba(255,255,255,0.9); transform: translateX(-50%);
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-        #comparison-handle { 
-            position: absolute; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 48px; height: 48px; 
-            background: white; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); color: #333;
-            z-index: 2; pointer-events: auto; touch-action: none; cursor: grab;
-        }
-        #comparison-handle:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.1); }
+      /* --- 拉桿 --- */
+      #comparison-slider {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 50px;
+        background: transparent;
+        transform: translateX(-50%);
+        z-index: var(--z-slider);
+        pointer-events: auto;
+        touch-action: none;
+        cursor: col-resize;
+      }
+      #comparison-slider::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateX(-50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      #comparison-handle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 48px;
+        height: 48px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        color: #333;
+        z-index: 2;
+        pointer-events: auto;
+        touch-action: none;
+        cursor: grab;
+      }
+      #comparison-handle:active {
+        cursor: grabbing;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
 
-        /* --- UI 控制區 --- */
+      /* --- UI 控制區 --- */
+      #ui-controls-wrapper {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100px + env(safe-area-inset-bottom));
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        z-index: var(--z-ui);
+        pointer-events: none;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      @media (max-width: 768px), (max-height: 700px) {
         #ui-controls-wrapper {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            height: calc(100px + env(safe-area-inset-bottom));
-            display: flex; justify-content: center; align-items: flex-start;
-            z-index: var(--z-ui); pointer-events: none; padding-bottom: env(safe-area-inset-bottom);
+          position: relative;
+          bottom: auto;
+          left: auto;
+          height: 120px;
+          align-items: center;
+          margin-top: 10px;
+          padding-bottom: 0;
+          overflow: visible;
         }
-        @media (max-width: 768px), (max-height: 700px) {
-            #ui-controls-wrapper { position: relative; bottom: auto; left: auto; height: 120px; align-items: center; margin-top: 10px; padding-bottom: 0; overflow: visible; }
-        }
-        #ui-controls-wrapper > * { pointer-events: auto; }
-        
+      }
+      #ui-controls-wrapper > * {
+        pointer-events: auto;
+      }
+
+      .control-group {
+        position: absolute;
+        bottom: calc(20px + env(safe-area-inset-bottom));
+        transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        display: flex;
+        gap: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(100px);
+        flex-shrink: 0;
+      }
+      @media (max-width: 768px), (max-height: 700px) {
         .control-group {
-            position: absolute; bottom: calc(20px + env(safe-area-inset-bottom));
-            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex; gap: 12px; opacity: 0; pointer-events: none; transform: translateY(100px); flex-shrink: 0;
+          bottom: auto;
+          top: 10px;
+          transform-origin: top center;
         }
-        @media (max-width: 768px), (max-height: 700px) {
-            .control-group { bottom: auto; top: 10px; transform-origin: top center; }
-        }
+      }
 
-        .ai-style-item {
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
-            cursor: pointer; transition: transform 0.2s;
-        }
-        .ai-style-item:active { transform: scale(0.95); }
-        .ai-style-item.active .ai-thumb { border-color: #000; transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .ai-style-item.active .ai-label { color: #000; font-weight: 700; }
-        .ai-thumb {
-            width: 48px; height: 48px; border-radius: 50%;
-            background-size: cover; background-position: center;
-            border: 2px solid transparent; transition: all 0.3s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .ai-label { font-size: 10px; color: #666; font-weight: 500; transition: color 0.3s; }
+      .ai-style-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .ai-style-item:active {
+        transform: scale(0.95);
+      }
+      .ai-style-item.active .ai-thumb {
+        border-color: #000;
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      .ai-style-item.active .ai-label {
+        color: #000;
+        font-weight: 700;
+      }
+      .ai-thumb {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      .ai-label {
+        font-size: 10px;
+        color: #666;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
 
-        .layout-btn { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 3.5rem; height: 3.5rem; border-radius: 12px; 
-            background: white; border: 1px solid #e5e5e5; transition: all 0.2s; color: #666; 
-            cursor: pointer;
-        }
-        .layout-btn:active { transform: scale(0.95); }
-        .layout-btn.active { background: #007aff; color: white; border-color: #007aff; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
-        .layout-icon-box { border: 2px solid currentColor; margin-bottom: 2px; }
+      .layout-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #e5e5e5;
+        transition: all 0.2s;
+        color: #666;
+        cursor: pointer;
+      }
+      .layout-btn:active {
+        transform: scale(0.95);
+      }
+      .layout-btn.active {
+        background: #007aff;
+        color: white;
+        border-color: #007aff;
+        box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+      }
+      .layout-icon-box {
+        border: 2px solid currentColor;
+        margin-bottom: 2px;
+      }
 
-        .marquee-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; gap: 30px;
-            opacity: 0; transition: opacity 0.8s ease; pointer-events: none; z-index: -1;
-            transform: scale(1.1) rotate(-3deg);
+      .marquee-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        pointer-events: none;
+        z-index: -1;
+        transform: scale(1.1) rotate(-3deg);
+      }
+      .marquee-row {
+        display: flex;
+        gap: 20px;
+        width: max-content;
+      }
+      .marquee-item {
+        flex-shrink: 0;
+        width: 140px;
+        height: 200px;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eee;
+        background-size: cover;
+        background-position: center;
+      }
+      .marquee-move-left {
+        animation: marquee 30s linear infinite;
+      }
+      .marquee-move-right {
+        animation: marquee-rev 35s linear infinite;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
         }
-        .marquee-row { display: flex; gap: 20px; width: max-content; }
-        .marquee-item {
-            flex-shrink: 0; width: 140px; height: 200px; border-radius: 12px;
-            background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee;
-            background-size: cover; background-position: center;
+        100% {
+          transform: translateX(-50%);
         }
-        .marquee-move-left { animation: marquee 30s linear infinite; }
-        .marquee-move-right { animation: marquee-rev 35s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes marquee-rev { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+      }
+      @keyframes marquee-rev {
+        0% {
+          transform: translateX(-50%);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
 
-        .final-result-container { width: 100%; height: 100%; position: relative; border-radius: 20px; overflow: hidden; z-index: 10; }
-        #final-result-display { overflow: visible !important; border-radius: 20px; box-shadow: 0 20px 50px -10px rgba(0,0,0,0.3); }
-        .printer-body { position: absolute; top: -70px; left: 50%; transform: translateX(-50%); width: 120%; height: 70px; background: #2d2d2d; border-radius: 16px; z-index: 60; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: flex-end; padding-bottom: 12px; }
-        .printer-light { width: 40px; height: 4px; background: #00ff00; border-radius: 2px; animation: blink 1s infinite; box-shadow: 0 0 10px #00ff00; }
-        
-        @keyframes printLoop { 0% { clip-path: inset(0 0 100% 0); transform: translateY(-50%); opacity: 0; } 10% { opacity: 1; } 40% { clip-path: inset(0 0 0 0); transform: translateY(0); opacity: 1; } 70% { transform: translateY(0); opacity: 1; } 85% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(50px); opacity: 0; } }
-        .printing-animation { animation: printLoop 4.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
-        @keyframes wallFloat { 0% { transform: scale(1); opacity: 1; } 30% { transform: scale(0.65); opacity: 1; } 70% { transform: scale(0.65); opacity: 1; } 90% { transform: scale(0.65); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
-        .wall-animation { animation: wallFloat 4.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
-        
-        #frame-carousel-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 60vh; overflow: visible; pointer-events: none; z-index: 50; opacity: 0; transition: opacity 0.5s ease; display: flex; align-items: center; }
-        #frame-track { display: flex; align-items: center; cursor: grab; touch-action: pan-y; pointer-events: auto; }
-        .frame-slide { flex-shrink: 0; position: relative; display: flex; justify-content: center; align-items: center; transition: opacity 0.4s, transform 0.4s ease-out; opacity: 0.3; transform: scale(0.9); cursor: pointer; }
-        .frame-slide.active-frame { opacity: 1; transform: scale(1); z-index: 10; }
-        .frame-item { width: 100%; height: 100%; border-radius: 20px; box-sizing: border-box; pointer-events: none; }
-        .frame-none { border: 2px dashed rgba(156, 163, 175, 0.5); }
-        .frame-yellow { border: 16px solid #FCD34D; }
-        .frame-pink { border: 16px solid #F472B6; }
-        .frame-gradient { border: 16px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(to right, #6366f1, #a855f7, #ec4899) border-box; }
-        .frame-neon { border: 8px solid #fff; box-shadow: 0 0 15px #0ff, inset 0 0 15px #0ff; }
-        .frame-polaroid { background: white; padding: 12px 12px 60px 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 1px solid #eee; }
-        .frame-polaroid-inner { width: 100%; height: 100%; border: 1px solid #ddd; }
-        
-        .segment-control { background-color: #f1f2f4; padding: 4px; border-radius: 100px; display: flex; position: relative; width: 240px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-        .segment-btn { flex: 1; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 600; color: #666; z-index: 10; position: relative; transition: color 0.3s; }
-        .segment-btn.active { color: #000; }
-        .segment-indicator { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); background: white; border-radius: 100px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        
-        /* --- Carousel 文字標籤 --- */
-        .frame-label {
-            position: absolute; top: 100%; left: 0; width: 100%; margin-top: 12px; 
-            font-size: 12px; font-weight: 600; color: #94a3b8;
-            text-align: center; letter-spacing: 0.05em; transition: all 0.3s;
-        }
-        .frame-slide.active-frame .frame-label { color: #1d1d1f; transform: scale(1.1); }
-        
-        /* --- 指示器 --- */
-        #step-indicator { 
-            position: fixed; left: 24px; top: 50%; transform: translateY(-50%); 
-            z-index: var(--z-nav); display: flex; flex-direction: column; gap: 20px;
-            padding: 16px 10px; background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(8px); border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.5);
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
-        #step-indicator.active { opacity: 1; pointer-events: auto; }
+      .final-result-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        z-index: 10;
+      }
+      #final-result-display {
+        overflow: visible !important;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.3);
+      }
+      .printer-body {
+        position: absolute;
+        top: -70px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120%;
+        height: 70px;
+        background: #2d2d2d;
+        border-radius: 16px;
+        z-index: 60;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding-bottom: 12px;
+      }
+      .printer-light {
+        width: 40px;
+        height: 4px;
+        background: #00ff00;
+        border-radius: 2px;
+        animation: blink 1s infinite;
+        box-shadow: 0 0 10px #00ff00;
+      }
 
-        .step-dot { 
-            width: 4px; height: 4px; border-radius: 99px; background-color: #94a3b8;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; opacity: 0.6;
+      @keyframes printLoop {
+        0% {
+          clip-path: inset(0 0 100% 0);
+          transform: translateY(-50%);
+          opacity: 0;
         }
-        .step-dot.active { height: 24px; background-color: #1d1d1f; opacity: 1; }
-        
-        #nav-controls { 
-            position: fixed; bottom: 30px; right: 20px; 
-            display: flex; flex-direction: column; gap: 10px; z-index: var(--z-nav); 
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        10% {
+          opacity: 1;
         }
-        #nav-controls.active { opacity: 1; pointer-events: auto; }
+        40% {
+          clip-path: inset(0 0 0 0);
+          transform: translateY(0);
+          opacity: 1;
+        }
+        70% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        85% {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+      }
+      .printing-animation {
+        animation: printLoop 4.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+      }
+      @keyframes wallFloat {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        30% {
+          transform: scale(0.65);
+          opacity: 1;
+        }
+        70% {
+          transform: scale(0.65);
+          opacity: 1;
+        }
+        90% {
+          transform: scale(0.65);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0;
+        }
+      }
+      .wall-animation {
+        animation: wallFloat 4.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+      }
 
-        @media (min-width: 769px) { #nav-controls { top: 50%; bottom: auto; transform: translateY(-50%); } }
-        #nav-controls button { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s; }
-        #nav-controls button:disabled { opacity: 0; pointer-events: none; }
-        
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} 60% {transform: translateY(5px);} }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+      #frame-carousel-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw;
+        height: 60vh;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        display: flex;
+        align-items: center;
+      }
+      #frame-track {
+        display: flex;
+        align-items: center;
+        cursor: grab;
+        touch-action: pan-y;
+        pointer-events: auto;
+      }
+      .frame-slide {
+        flex-shrink: 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition:
+          opacity 0.4s,
+          transform 0.4s ease-out;
+        opacity: 0.3;
+        transform: scale(0.9);
+        cursor: pointer;
+      }
+      .frame-slide.active-frame {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 10;
+      }
+      .frame-item {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        box-sizing: border-box;
+        pointer-events: none;
+      }
+      .frame-none {
+        border: 2px dashed rgba(156, 163, 175, 0.5);
+      }
+      .frame-yellow {
+        border: 16px solid #fcd34d;
+      }
+      .frame-pink {
+        border: 16px solid #f472b6;
+      }
+      .frame-gradient {
+        border: 16px solid transparent;
+        background:
+          linear-gradient(white, white) padding-box,
+          linear-gradient(to right, #6366f1, #a855f7, #ec4899) border-box;
+      }
+      .frame-neon {
+        border: 8px solid #fff;
+        box-shadow:
+          0 0 15px #0ff,
+          inset 0 0 15px #0ff;
+      }
+      .frame-polaroid {
+        background: white;
+        padding: 12px 12px 60px 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #eee;
+      }
+      .frame-polaroid-inner {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+      }
 
-        /* --- New Marketing Sections Style --- */
-        #marketing-sections {
-            position: relative;
-            z-index: var(--z-marketing);
-            background: white;
-            box-shadow: 0 -20px 40px rgba(0,0,0,0.05);
+      .segment-control {
+        background-color: #f1f2f4;
+        padding: 4px;
+        border-radius: 100px;
+        display: flex;
+        position: relative;
+        width: 240px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      .segment-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        z-index: 10;
+        position: relative;
+        transition: color 0.3s;
+      }
+      .segment-btn.active {
+        color: #000;
+      }
+      .segment-indicator {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: 4px;
+        width: calc(50% - 4px);
+        background: white;
+        border-radius: 100px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* --- Carousel 文字標籤 --- */
+      .frame-label {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        margin-top: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #94a3b8;
+        text-align: center;
+        letter-spacing: 0.05em;
+        transition: all 0.3s;
+      }
+      .frame-slide.active-frame .frame-label {
+        color: #1d1d1f;
+        transform: scale(1.1);
+      }
+
+      /* --- 指示器 --- */
+      #step-indicator {
+        position: fixed;
+        left: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: var(--z-nav);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 16px 10px;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      #step-indicator.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .step-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 99px;
+        background-color: #94a3b8;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        cursor: pointer;
+        opacity: 0.6;
+      }
+      .step-dot.active {
+        height: 24px;
+        background-color: #1d1d1f;
+        opacity: 1;
+      }
+
+      #nav-controls {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: var(--z-nav);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      #nav-controls.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      @media (min-width: 769px) {
+        #nav-controls {
+          top: 50%;
+          bottom: auto;
+          transform: translateY(-50%);
         }
+      }
+      #nav-controls button {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
+      }
+      #nav-controls button:disabled {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(10px);
+        }
+        60% {
+          transform: translateY(5px);
+        }
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* --- New Marketing Sections Style --- */
+      #marketing-sections {
+        position: relative;
+        z-index: var(--z-marketing);
+        background: white;
+        box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.05);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- 隱藏的 SVG 漸層定義 -->
-    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
-        <defs>
-            <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#2563EB" />
-                <stop offset="100%" stop-color="#06B6D4" />
-            </linearGradient>
-        </defs>
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden" aria-hidden="true">
+      <defs>
+        <linearGradient id="blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2563EB" />
+          <stop offset="100%" stop-color="#06B6D4" />
+        </linearGradient>
+      </defs>
     </svg>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-[100] transition-all duration-300 ease-in-out py-5 group bg-transparent">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoClick()">
-                <div id="logo-bg" class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md transition-all duration-300">S</div>
-                <span id="logo-text" class="text-2xl font-bold tracking-tight text-slate-900 transition-all duration-300">Snapdog</span>
-            </div>
-            <div class="hidden md:flex items-center gap-10">
-                <button onclick="scrollToStickyStart()" class="text-slate-500 hover:text-blue-600 font-medium transition-colors text-[15px]">產品特色</button>
-                <a href="#scenarios" class="desktop-link text-slate-500 hover:text-blue-600 font-medium transition-colors text-[15px]">應用場景</a>
-                <a href="#business-value" class="desktop-link text-slate-500 hover:text-blue-600 font-medium transition-colors text-[15px]">商業價值</a>
-                <a href="#faq-section" class="desktop-link text-slate-500 hover:text-blue-600 font-medium transition-colors text-[15px]">常見問題</a>
-                <a href="#contact" class="desktop-link bg-slate-900 text-white rounded-full font-medium hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3 text-[15px] group">
-                    <span>立即規劃</span> 
-                    <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
-                </a>
-            </div>
-            <button id="mobile-menu-btn" class="md:hidden text-slate-900 p-1"><i data-lucide="menu" class="w-6 h-6"></i></button>
+    <nav
+      id="navbar"
+      class="group fixed top-0 left-0 z-[100] w-full bg-transparent py-5 transition-all duration-300 ease-in-out"
+    >
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-12">
+        <div class="flex cursor-pointer items-center gap-2" onclick="handleLogoClick()">
+          <div
+            id="logo-bg"
+            class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold text-white shadow-md transition-all duration-300"
+          >
+            S
+          </div>
+          <span id="logo-text" class="text-2xl font-bold tracking-tight text-slate-900 transition-all duration-300"
+            >Snapdog</span
+          >
         </div>
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-xl py-6 px-6 flex flex-col gap-6 animate-fade-in-down">
-            <button onclick="scrollToStickyStart(); document.getElementById('mobile-menu').classList.add('hidden');" class="text-lg font-medium text-slate-700 text-left">產品特色</button>
-            <a href="#scenarios" class="text-lg font-medium text-slate-700 mobile-link">應用場景</a>
-            <a href="#business-value" class="text-lg font-medium text-slate-700 mobile-link">商業價值</a>
-            <a href="#faq-section" class="text-lg font-medium text-slate-700 mobile-link">常見問題</a>
-            <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); handleMobileLinkClick(event, 'contact');" class="bg-blue-600 text-white py-4 rounded-xl font-bold w-full shadow-lg shadow-blue-200">立即規劃</button>
+        <div class="hidden items-center gap-10 md:flex">
+          <button
+            onclick="scrollToStickyStart()"
+            class="text-[15px] font-medium text-slate-500 transition-colors hover:text-blue-600"
+          >
+            產品特色
+          </button>
+          <a
+            href="#scenarios"
+            class="desktop-link text-[15px] font-medium text-slate-500 transition-colors hover:text-blue-600"
+            >應用場景</a
+          >
+          <a
+            href="#business-value"
+            class="desktop-link text-[15px] font-medium text-slate-500 transition-colors hover:text-blue-600"
+            >商業價值</a
+          >
+          <a
+            href="#faq-section"
+            class="desktop-link text-[15px] font-medium text-slate-500 transition-colors hover:text-blue-600"
+            >常見問題</a
+          >
+          <a
+            href="#contact"
+            class="desktop-link group flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
+          >
+            <span>立即規劃</span>
+            <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+          </a>
         </div>
+        <button id="mobile-menu-btn" class="p-1 text-slate-900 md:hidden">
+          <i data-lucide="menu" class="h-6 w-6"></i>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="animate-fade-in-down absolute top-full left-0 flex hidden w-full flex-col gap-6 border-t border-slate-100 bg-white px-6 py-6 shadow-xl md:hidden"
+      >
+        <button
+          onclick="
+            scrollToStickyStart();
+            document.getElementById('mobile-menu').classList.add('hidden');
+          "
+          class="text-left text-lg font-medium text-slate-700"
+        >
+          產品特色
+        </button>
+        <a href="#scenarios" class="mobile-link text-lg font-medium text-slate-700">應用場景</a>
+        <a href="#business-value" class="mobile-link text-lg font-medium text-slate-700">商業價值</a>
+        <a href="#faq-section" class="mobile-link text-lg font-medium text-slate-700">常見問題</a>
+        <button
+          onclick="
+            document.getElementById('mobile-menu').classList.add('hidden');
+            handleMobileLinkClick(event, 'contact');
+          "
+          class="w-full rounded-xl bg-blue-600 py-4 font-bold text-white shadow-lg shadow-blue-200"
+        >
+          立即規劃
+        </button>
+      </div>
     </nav>
 
     <div id="parallax-bg"></div>
@@ -446,194 +980,255 @@
 
     <!-- Section 1: Hero (獨立區塊，非 Sticky) -->
     <section id="hero-section" class="relative overflow-hidden pt-[110px] lg:pt-[200px]">
-        <!-- Background decorative blur -->
-        <div class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-bl from-blue-50 via-transparent to-transparent -z-10 opacity-60"></div>
-        <div class="max-w-7xl mx-auto px-4 lg:px-12 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-8 content-start lg:content-start h-full">
-            <!-- Left: Text -->
-            <div class="text-center lg:text-left w-full relative z-20">
-                <h1 class="text-5xl lg:text-[64px] font-extrabold text-slate-900 leading-[1.2] mb-2 lg:mb-8 tracking-tight">
-                    <div class="flex items-center justify-center lg:justify-start gap-3 mb-2">
-                        <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">玩轉回憶</span>
-                    </div>
-                    <span class="text-slate-900 block">創造有效互動</span>
-                </h1>
-                
-                <div class="flex justify-between lg:justify-start items-start gap-4 lg:gap-6 mb-4 lg:mb-10 px-2 lg:px-0">
-                    <div class="flex-1 lg:flex-none lg:pr-6 lg:border-r-2 border-slate-300">
-                        <div class="font-bold text-base lg:text-[20px] leading-tight text-slate-800">實體機台<br>即拍即印</div>
-                    </div>
-                    <div class="flex-1 lg:flex-none lg:px-6 lg:border-r-2 border-slate-300">
-                        <div class="font-bold text-base lg:text-[20px] leading-tight text-slate-800">客製專屬<br>AI百變風格</div>
-                    </div>
-                    <div class="flex-1 lg:flex-none lg:pl-6">
-                        <div class="font-bold text-base lg:text-[20px] leading-tight text-slate-800">串接Line整合<br>助力品牌行銷</div>
-                    </div>
-                </div>
-                
-                <div class="hidden lg:flex justify-center lg:justify-start">
-                    <button onclick="openLineModal()" class="bg-[#2563EB] text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300 text-lg shadow-lg shadow-blue-500/20">
-                        LINE馬上體驗
-                    </button>
-                </div>
+      <!-- Background decorative blur -->
+      <div
+        class="absolute top-0 right-0 -z-10 h-full w-2/3 bg-gradient-to-bl from-blue-50 via-transparent to-transparent opacity-60"
+      ></div>
+      <div
+        class="relative z-10 mx-auto grid h-full max-w-7xl grid-cols-1 content-start gap-3 px-4 lg:grid-cols-2 lg:content-start lg:gap-8 lg:px-12"
+      >
+        <!-- Left: Text -->
+        <div class="relative z-20 w-full text-center lg:text-left">
+          <h1 class="mb-2 text-5xl leading-[1.2] font-extrabold tracking-tight text-slate-900 lg:mb-8 lg:text-[64px]">
+            <div class="mb-2 flex items-center justify-center gap-3 lg:justify-start">
+              <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">玩轉回憶</span>
             </div>
-            
-            <!-- Right: Visual -->
-            <div class="relative w-full flex justify-center lg:justify-end mt-1 lg:mt-0 mb-8 lg:mb-0">
-                <div class="absolute -top-6 left-6 z-20 animate-pop-tl origin-bottom-right drop-shadow-md"><i data-lucide="camera" class="w-8 h-8 icon-gradient-stroke"></i></div>
-                <div class="absolute -top-8 right-10 z-20 animate-pop-tr origin-bottom-left animation-delay-500 drop-shadow-md"><i data-lucide="sparkles" class="w-8 h-8 icon-gradient-stroke"></i></div>
-                
-                <div class="relative z-10 w-full max-w-[90%] lg:max-w-lg rounded-[2rem] overflow-hidden shadow-2xl group cursor-pointer border-4 border-white ring-1 ring-slate-900/5 bg-black">
-                    <div class="aspect-[4/3] relative">
-                         <img src="https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500" alt="Young Korean style female selfie">
-                         <div class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors duration-300">
-                             <div class="w-16 h-16 lg:w-20 lg:h-20 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/50 shadow-lg">
-                                 <div class="w-10 h-10 lg:w-14 lg:h-14 bg-white rounded-full flex items-center justify-center pl-1 shadow-md">
-                                     <i data-lucide="play" class="w-5 h-5 lg:w-6 lg:h-6 text-slate-900 fill-slate-900"></i>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
-                             <div class="flex justify-between text-white text-xs font-medium mb-2 drop-shadow-md">
-                                 <span>0:00</span>
-                                 <span>0:15</span>
-                             </div>
-                             <div class="w-full h-1.5 bg-white/30 rounded-full overflow-hidden backdrop-blur-sm">
-                                 <div class="w-1/3 h-full bg-white rounded-full"></div>
-                             </div>
-                         </div>
-                    </div>
-                </div>
+            <span class="block text-slate-900">創造有效互動</span>
+          </h1>
+
+          <div class="mb-4 flex items-start justify-between gap-4 px-2 lg:mb-10 lg:justify-start lg:gap-6 lg:px-0">
+            <div class="flex-1 border-slate-300 lg:flex-none lg:border-r-2 lg:pr-6">
+              <div class="text-base leading-tight font-bold text-slate-800 lg:text-[20px]">實體機台<br />即拍即印</div>
             </div>
+            <div class="flex-1 border-slate-300 lg:flex-none lg:border-r-2 lg:px-6">
+              <div class="text-base leading-tight font-bold text-slate-800 lg:text-[20px]">
+                客製專屬<br />AI百變風格
+              </div>
+            </div>
+            <div class="flex-1 lg:flex-none lg:pl-6">
+              <div class="text-base leading-tight font-bold text-slate-800 lg:text-[20px]">
+                串接Line整合<br />助力品牌行銷
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden justify-center lg:flex lg:justify-start">
+            <button
+              onclick="openLineModal()"
+              class="rounded-full bg-[#2563EB] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30"
+            >
+              LINE馬上體驗
+            </button>
+          </div>
         </div>
-        
-        <div class="absolute bottom-12 lg:bottom-8 left-0 w-full flex justify-center z-20 pointer-events-none">
-            <div class="flex flex-col items-center gap-2 animate-bounce opacity-70">
-                <span class="text-lg lg:text-base font-medium text-slate-500 tracking-wide">查看產品特色</span>
-                <i data-lucide="chevron-down" class="w-10 h-10 lg:w-8 lg:h-8 text-slate-400"></i>
+
+        <!-- Right: Visual -->
+        <div class="relative mt-1 mb-8 flex w-full justify-center lg:mt-0 lg:mb-0 lg:justify-end">
+          <div class="animate-pop-tl absolute -top-6 left-6 z-20 origin-bottom-right drop-shadow-md">
+            <i data-lucide="camera" class="icon-gradient-stroke h-8 w-8"></i>
+          </div>
+          <div
+            class="animate-pop-tr animation-delay-500 absolute -top-8 right-10 z-20 origin-bottom-left drop-shadow-md"
+          >
+            <i data-lucide="sparkles" class="icon-gradient-stroke h-8 w-8"></i>
+          </div>
+
+          <div
+            class="group relative z-10 w-full max-w-[90%] cursor-pointer overflow-hidden rounded-[2rem] border-4 border-white bg-black shadow-2xl ring-1 ring-slate-900/5 lg:max-w-lg"
+          >
+            <div class="relative aspect-[4/3]">
+              <img
+                src="https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?auto=format&fit=crop&q=80&w=800"
+                class="h-full w-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+                alt="Young Korean style female selfie"
+              />
+              <div
+                class="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors duration-300 group-hover:bg-black/20"
+              >
+                <div
+                  class="flex h-16 w-16 items-center justify-center rounded-full border border-white/50 bg-white/30 shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 lg:h-20 lg:w-20"
+                >
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white pl-1 shadow-md lg:h-14 lg:w-14"
+                  >
+                    <i data-lucide="play" class="h-5 w-5 fill-slate-900 text-slate-900 lg:h-6 lg:w-6"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute right-4 bottom-4 left-4 lg:right-6 lg:bottom-6 lg:left-6">
+                <div class="mb-2 flex justify-between text-xs font-medium text-white drop-shadow-md">
+                  <span>0:00</span>
+                  <span>0:15</span>
+                </div>
+                <div class="h-1.5 w-full overflow-hidden rounded-full bg-white/30 backdrop-blur-sm">
+                  <div class="h-full w-1/3 rounded-full bg-white"></div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <div class="pointer-events-none absolute bottom-12 left-0 z-20 flex w-full justify-center lg:bottom-8">
+        <div class="flex animate-bounce flex-col items-center gap-2 opacity-70">
+          <span class="text-lg font-medium tracking-wide text-slate-500 lg:text-base">查看產品特色</span>
+          <i data-lucide="chevron-down" class="h-10 w-10 text-slate-400 lg:h-8 lg:w-8"></i>
+        </div>
+      </div>
     </section>
 
     <!-- Section 2: Sticky Interactive Process -->
     <div id="sticky-stage">
-        
-        <div id="text-container-wrapper">
-            <div id="text-1" class="text-overlay active">
-                <h2 class="text-xs md:text-sm font-bold text-blue-600 tracking-widest uppercase mb-1">AI STYLE</h2>
-                <h1 class="text-2xl md:text-4xl font-bold text-slate-900 leading-tight">現場轉換AI百變造型</h1>
-                <p class="text-xs md:text-base text-gray-500 mt-1">客製化活動需求，現場拍照後立即呈現</p>
-            </div>
-            <div id="text-2" class="text-overlay">
-                <h2 class="text-xs md:text-sm font-bold text-purple-600 tracking-widest uppercase mb-1">LAYOUTS</h2>
-                <h1 class="text-2xl md:text-4xl font-bold text-slate-900 leading-tight">創意版面隨心搭配</h1>
-                <p class="text-xs md:text-base text-gray-500 mt-1">多種尺寸多格拍攝，皆可選擇</p>
-            </div>
-            <div id="text-3" class="text-overlay">
-                <h2 class="text-xs md:text-sm font-bold text-orange-600 tracking-widest uppercase mb-1">DECORATION</h2>
-                <h1 class="text-2xl md:text-4xl font-bold text-slate-900 leading-tight">活動主題專屬相框</h1>
-                <p class="text-xs md:text-base text-gray-500 mt-1">專屬設計相框，加深活動辨識度</p>
-            </div>
-            <div id="text-4" class="text-overlay">
-                <h2 class="text-xs md:text-sm font-bold text-green-600 tracking-widest uppercase mb-1">SHARE & PRINT</h2>
-                <h1 class="text-2xl md:text-4xl font-bold text-slate-900 leading-tight">成果立即呈現</h1>
-                <div class="segment-control">
-                    <div class="segment-indicator" id="segment-indicator"></div>
-                    <button class="segment-btn active" data-mode="wall">照片牆</button>
-                    <button class="segment-btn" data-mode="print">即拍即印</button>
-                </div>
-            </div>
+      <div id="text-container-wrapper">
+        <div id="text-1" class="text-overlay active">
+          <h2 class="mb-1 text-xs font-bold tracking-widest text-blue-600 uppercase md:text-sm">AI STYLE</h2>
+          <h1 class="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">現場轉換AI百變造型</h1>
+          <p class="mt-1 text-xs text-gray-500 md:text-base">客製化活動需求，現場拍照後立即呈現</p>
+        </div>
+        <div id="text-2" class="text-overlay">
+          <h2 class="mb-1 text-xs font-bold tracking-widest text-purple-600 uppercase md:text-sm">LAYOUTS</h2>
+          <h1 class="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">創意版面隨心搭配</h1>
+          <p class="mt-1 text-xs text-gray-500 md:text-base">多種尺寸多格拍攝，皆可選擇</p>
+        </div>
+        <div id="text-3" class="text-overlay">
+          <h2 class="mb-1 text-xs font-bold tracking-widest text-orange-600 uppercase md:text-sm">DECORATION</h2>
+          <h1 class="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">活動主題專屬相框</h1>
+          <p class="mt-1 text-xs text-gray-500 md:text-base">專屬設計相框，加深活動辨識度</p>
+        </div>
+        <div id="text-4" class="text-overlay">
+          <h2 class="mb-1 text-xs font-bold tracking-widest text-green-600 uppercase md:text-sm">SHARE & PRINT</h2>
+          <h1 class="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">成果立即呈現</h1>
+          <div class="segment-control">
+            <div class="segment-indicator" id="segment-indicator"></div>
+            <button class="segment-btn active" data-mode="wall">照片牆</button>
+            <button class="segment-btn" data-mode="print">即拍即印</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="canvas-wrapper">
+        <div id="main-canvas-container">
+          <div
+            class="photo-layer img-original"
+            id="layer-original"
+            style="
+              background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600');
+            "
+          ></div>
+          <div class="photo-layer img-ai" id="layer-ai">
+            <div
+              class="img-ai-inner"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600');
+              "
+            ></div>
+            <span class="absolute top-4 right-4 z-10 font-mono text-xs font-bold text-white opacity-80 shadow-sm"
+              >AI ART</span
+            >
+          </div>
+          <div id="comparison-slider">
+            <div id="comparison-handle"><i class="fa-solid fa-arrows-left-right text-xs"></i></div>
+          </div>
+          <div id="printer-device" class="hidden">
+            <div class="printer-body"><div class="printer-light"></div></div>
+          </div>
+          <div id="final-result-display" class="absolute inset-0 z-20 hidden bg-white"></div>
         </div>
 
-        <div id="canvas-wrapper">
-            <div id="main-canvas-container">
-                <div class="photo-layer img-original" id="layer-original" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600');"></div>
-                <div class="photo-layer img-ai" id="layer-ai">
-                    <div class="img-ai-inner" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600');"></div>
-                    <span class="absolute top-4 right-4 text-white font-mono text-xs font-bold shadow-sm z-10 opacity-80">AI ART</span>
-                </div>
-                <div id="comparison-slider">
-                    <div id="comparison-handle"><i class="fa-solid fa-arrows-left-right text-xs"></i></div>
-                </div>
-                <div id="printer-device" class="hidden">
-                    <div class="printer-body"><div class="printer-light"></div></div>
-                </div>
-                <div id="final-result-display" class="hidden absolute inset-0 z-20 bg-white"></div>
-            </div>
+        <div id="frame-carousel-wrapper">
+          <div id="frame-track"></div>
+        </div>
+      </div>
 
-            <div id="frame-carousel-wrapper">
-                <div id="frame-track"></div>
+      <div id="ui-controls-wrapper">
+        <div
+          id="ctrl-s1"
+          class="control-group flex max-w-[90vw] gap-4 overflow-x-auto rounded-2xl border border-white/40 bg-white/90 p-3 shadow-2xl backdrop-blur-md"
+        >
+          <div class="ai-style-item" data-filter="none">
+            <div class="ai-thumb flex items-center justify-center border-2 border-gray-300 bg-gray-100">
+              <i class="fa-solid fa-ban text-gray-400"></i>
             </div>
+            <span class="ai-label">無</span>
+          </div>
+          <div class="ai-style-item active" data-filter="contrast(1.1) saturate(1.2) brightness(1.05)">
+            <div
+              class="ai-thumb"
+              style="background-image: url('https://images.unsplash.com/photo-1512413914633-b5043f4041ea?w=100&q=80')"
+            ></div>
+            <span class="ai-label">韓系</span>
+          </div>
+          <div class="ai-style-item" data-filter="contrast(1.4) saturate(2.5) hue-rotate(-10deg) brightness(1.1)">
+            <div
+              class="ai-thumb"
+              style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=100&q=80')"
+            ></div>
+            <span class="ai-label">動漫</span>
+          </div>
+          <div class="ai-style-item" data-filter="grayscale(1) contrast(1.5) brightness(1.2)">
+            <div
+              class="ai-thumb"
+              style="background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=100&q=80')"
+            ></div>
+            <span class="ai-label">素描</span>
+          </div>
+          <div class="ai-style-item" data-filter="contrast(1.2) saturate(0.8) sepia(0.2) brightness(0.9)">
+            <div
+              class="ai-thumb"
+              style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&q=80')"
+            ></div>
+            <span class="ai-label">3D</span>
+          </div>
+          <div class="ai-style-item" data-filter="sepia(0.6) contrast(1.1) brightness(0.9)">
+            <div
+              class="ai-thumb"
+              style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=100&q=80')"
+            ></div>
+            <span class="ai-label">復古</span>
+          </div>
         </div>
 
-        <div id="ui-controls-wrapper">
-            <div id="ctrl-s1" class="control-group bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-2xl border border-white/40 flex gap-4 overflow-x-auto max-w-[90vw]">
-                <div class="ai-style-item" data-filter="none">
-                    <div class="ai-thumb bg-gray-100 flex items-center justify-center border-gray-300 border-2">
-                        <i class="fa-solid fa-ban text-gray-400"></i>
-                    </div>
-                    <span class="ai-label">無</span>
-                </div>
-                <div class="ai-style-item active" data-filter="contrast(1.1) saturate(1.2) brightness(1.05)">
-                    <div class="ai-thumb" style="background-image: url('https://images.unsplash.com/photo-1512413914633-b5043f4041ea?w=100&q=80');"></div>
-                    <span class="ai-label">韓系</span>
-                </div>
-                <div class="ai-style-item" data-filter="contrast(1.4) saturate(2.5) hue-rotate(-10deg) brightness(1.1)">
-                    <div class="ai-thumb" style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=100&q=80');"></div>
-                    <span class="ai-label">動漫</span>
-                </div>
-                <div class="ai-style-item" data-filter="grayscale(1) contrast(1.5) brightness(1.2)">
-                    <div class="ai-thumb" style="background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=100&q=80');"></div>
-                    <span class="ai-label">素描</span>
-                </div>
-                <div class="ai-style-item" data-filter="contrast(1.2) saturate(0.8) sepia(0.2) brightness(0.9)">
-                    <div class="ai-thumb" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&q=80');"></div>
-                    <span class="ai-label">3D</span>
-                </div>
-                <div class="ai-style-item" data-filter="sepia(0.6) contrast(1.1) brightness(0.9)">
-                    <div class="ai-thumb" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=100&q=80');"></div>
-                    <span class="ai-label">復古</span>
-                </div>
+        <div
+          id="ctrl-s2"
+          class="control-group flex items-center gap-4 rounded-2xl border border-white/40 bg-white/90 px-6 py-3 shadow-2xl backdrop-blur-md"
+        >
+          <button class="layout-btn active" data-ratio="default">
+            <div class="layout-icon-box h-4 w-3 rounded-sm border-2 border-current"></div>
+            <span class="mt-1 text-[10px] font-bold">預設</span>
+          </button>
+          <button class="layout-btn" data-ratio="1:1">
+            <div class="layout-icon-box h-4 w-4 rounded-sm"></div>
+            <span class="mt-1 text-[10px] font-bold">1:1</span>
+          </button>
+          <button class="layout-btn" data-ratio="4:3">
+            <div class="layout-icon-box h-4 w-5 rounded-sm"></div>
+            <span class="mt-1 text-[10px] font-bold">4:3</span>
+          </button>
+          <button class="layout-btn" data-ratio="1:2">
+            <div class="layout-icon-box h-4 w-2 rounded-sm"></div>
+            <span class="mt-1 text-[10px] font-bold">1:2</span>
+          </button>
+          <button class="layout-btn" data-ratio="1:4">
+            <div class="flex gap-[2px]">
+              <div class="layout-icon-box h-4 w-2 rounded-[1px]"></div>
+              <div class="layout-icon-box h-4 w-2 rounded-[1px]"></div>
             </div>
-
-            <div id="ctrl-s2" class="control-group bg-white/90 backdrop-blur-md px-6 py-3 rounded-2xl shadow-2xl border border-white/40 flex items-center gap-4">
-                <button class="layout-btn active" data-ratio="default">
-                    <div class="layout-icon-box w-3 h-4 rounded-sm border-2 border-current"></div>
-                    <span class="text-[10px] font-bold mt-1">預設</span>
-                </button>
-                <button class="layout-btn" data-ratio="1:1">
-                    <div class="layout-icon-box w-4 h-4 rounded-sm"></div>
-                    <span class="text-[10px] font-bold mt-1">1:1</span>
-                </button>
-                <button class="layout-btn" data-ratio="4:3">
-                    <div class="layout-icon-box w-5 h-4 rounded-sm"></div>
-                    <span class="text-[10px] font-bold mt-1">4:3</span>
-                </button>
-                <button class="layout-btn" data-ratio="1:2">
-                    <div class="layout-icon-box w-2 h-4 rounded-sm"></div>
-                    <span class="text-[10px] font-bold mt-1">1:2</span>
-                </button>
-                <button class="layout-btn" data-ratio="1:4">
-                    <div class="flex gap-[2px]">
-                        <div class="layout-icon-box w-2 h-4 rounded-[1px]"></div>
-                        <div class="layout-icon-box w-2 h-4 rounded-[1px]"></div>
-                    </div>
-                    <span class="text-[10px] font-bold mt-1">Strip</span>
-                </button>
-            </div>
+            <span class="mt-1 text-[10px] font-bold">Strip</span>
+          </button>
         </div>
-
+      </div>
     </div>
 
     <!-- UI Elements for Process -->
     <div id="step-indicator">
-        <div class="step-dot active" data-index="0"></div>
-        <div class="step-dot" data-index="1"></div>
-        <div class="step-dot" data-index="2"></div>
-        <div class="step-dot" data-index="3"></div>
+      <div class="step-dot active" data-index="0"></div>
+      <div class="step-dot" data-index="1"></div>
+      <div class="step-dot" data-index="2"></div>
+      <div class="step-dot" data-index="3"></div>
     </div>
     <div id="nav-controls">
-        <button id="btn-prev"><i class="fa-solid fa-chevron-up text-sm"></i></button>
-        <button id="btn-next"><i class="fa-solid fa-chevron-down text-sm"></i></button>
+      <button id="btn-prev"><i class="fa-solid fa-chevron-up text-sm"></i></button>
+      <button id="btn-next"><i class="fa-solid fa-chevron-down text-sm"></i></button>
     </div>
 
     <!-- Scroll Triggers for Sticky Section -->
@@ -644,400 +1239,549 @@
 
     <!-- Section 3: Post-Process Marketing -->
     <div id="marketing-sections">
-        
-        <!-- Scenarios Section -->
-        <section id="scenarios" class="py-20 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-10 text-center tracking-tight">
-                    滿足多樣化的活動場景
-                </h2>
-                <div id="scenarios-container" class="flex gap-5 overflow-x-auto pb-6 hide-scrollbar cursor-grab select-none">
-                    <!-- Cards ... -->
-                    <div class="w-[260px] md:w-[300px] flex-shrink-0 group relative h-[360px] md:h-[400px] rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-lg hover:shadow-blue-900/10 transition-all duration-500 border border-slate-200 bg-white">
-                        <div class="absolute inset-0 bg-slate-100 group-hover:scale-105 transition-transform duration-700">
-                            <!-- 知識型互動體驗: 博物館/展覽觀看 -->
-                            <img src="https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-90 pointer-events-none">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6 flex flex-col justify-end">
-                            <div class="mb-2"><i data-lucide="book-open" class="text-blue-400 w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2 leading-tight">知識型互動體驗</h3>
-                            <p class="text-slate-200 text-sm leading-relaxed font-light">博物館、藝術展、主題展覽。自由組合帶有文字資訊的素材。</p>
-                        </div>
-                    </div>
-                    <div class="w-[260px] md:w-[300px] flex-shrink-0 group relative h-[360px] md:h-[400px] rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-lg hover:shadow-blue-900/10 transition-all duration-500 border border-slate-200 bg-white">
-                        <div class="absolute inset-0 bg-slate-100 group-hover:scale-105 transition-transform duration-700">
-                            <!-- 婚禮與派對: 婚禮歡樂場景 -->
-                            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-90 pointer-events-none">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6 flex flex-col justify-end">
-                            <div class="mb-2"><i data-lucide="heart" class="text-blue-400 w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2 leading-tight">婚禮與派對慶典</h3>
-                            <p class="text-slate-200 text-sm leading-relaxed font-light">婚禮、生日、抓周、聚會。相框、AI 功能等創意素材妝點回憶。</p>
-                        </div>
-                    </div>
-                     <div class="w-[260px] md:w-[300px] flex-shrink-0 group relative h-[360px] md:h-[400px] rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-lg hover:shadow-blue-900/10 transition-all duration-500 border border-slate-200 bg-white">
-                        <div class="absolute inset-0 bg-slate-100 group-hover:scale-105 transition-transform duration-700">
-                            <!-- 公開展覽: 熱鬧的活動現場 -->
-                            <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-90 pointer-events-none">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6 flex flex-col justify-end">
-                            <div class="mb-2"><i data-lucide="briefcase" class="text-blue-400 w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2 leading-tight">各式公開展覽</h3>
-                            <p class="text-slate-200 text-sm leading-relaxed font-light">展覽會、品牌快閃店、招商活動。活動現場吸引人潮體驗酷拍活動。</p>
-                        </div>
-                    </div>
-                    <div class="w-[260px] md:w-[300px] flex-shrink-0 group relative h-[360px] md:h-[400px] rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-lg hover:shadow-blue-900/10 transition-all duration-500 border border-slate-200 bg-white">
-                        <div class="absolute inset-0 bg-slate-100 group-hover:scale-105 transition-transform duration-700">
-                            <!-- 企業活動: 宴會交流 -->
-                            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-90 pointer-events-none">
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6 flex flex-col justify-end">
-                            <div class="mb-2"><i data-lucide="users" class="text-blue-400 w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2 leading-tight">企業活動與內部交流</h3>
-                            <p class="text-slate-200 text-sm leading-relaxed font-light">年會、尾牙、員工日。拍照結合品牌自訂素材，加強品牌溝通力道。</p>
-                        </div>
-                    </div>
-                </div>
+      <!-- Scenarios Section -->
+      <section id="scenarios" class="bg-slate-50 py-20">
+        <div class="mx-auto max-w-7xl px-6 lg:px-12">
+          <h2 class="mb-10 text-center text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+            滿足多樣化的活動場景
+          </h2>
+          <div id="scenarios-container" class="hide-scrollbar flex cursor-grab gap-5 overflow-x-auto pb-6 select-none">
+            <!-- Cards ... -->
+            <div
+              class="group relative h-[360px] w-[260px] flex-shrink-0 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-md transition-all duration-500 hover:shadow-lg hover:shadow-blue-900/10 md:h-[400px] md:w-[300px]"
+            >
+              <div class="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                <!-- 知識型互動體驗: 博物館/展覽觀看 -->
+                <img
+                  src="https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=600&q=80"
+                  class="pointer-events-none h-full w-full object-cover opacity-90"
+                />
+              </div>
+              <div
+                class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6"
+              >
+                <div class="mb-2"><i data-lucide="book-open" class="h-6 w-6 text-blue-400"></i></div>
+                <h3 class="mb-2 text-xl leading-tight font-bold text-white">知識型互動體驗</h3>
+                <p class="text-sm leading-relaxed font-light text-slate-200">
+                  博物館、藝術展、主題展覽。自由組合帶有文字資訊的素材。
+                </p>
+              </div>
             </div>
-        </section>
-
-        <!-- Business Value Section (Redesigned) -->
-        <section id="business-value" class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12">
-                <div class="text-center max-w-3xl mx-auto mb-10 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                        串接 LINE 官方帳號<br>
-                        <span class="text-blue-600">啟動高效獲客引擎</span>
-                    </h2>
-                    <p class="text-slate-500 text-lg">
-                        拍照即加好友，將線下人流轉化為品牌資產，建立長期顧客關係。
-                    </p>
-                </div>
-
-                <!-- Modified Grid/Flex Container for Mobile Scroll -->
-                <div class="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto pb-8 md:pb-0 hide-scrollbar snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0">
-                    <!-- Card 1 -->
-                    <div class="flex-shrink-0 w-[65vw] md:w-auto aspect-square md:aspect-auto snap-center flex flex-col justify-center items-center p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 text-center group">
-                        <div class="w-16 h-16 md:w-14 md:h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 md:mb-4 group-hover:scale-110 transition-transform">
-                            <i data-lucide="user-plus" class="w-8 h-8 md:w-7 md:h-7"></i>
-                        </div>
-                        <h3 class="text-xl md:text-xl font-bold text-slate-900 mb-3 md:mb-2">低門檻無痛導流</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">
-                            用戶掃描 QR Code 領取照片時，即可引導加入 LINE 官方帳號。相比傳統填表或純按讚，轉化率大幅提升。
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="flex-shrink-0 w-[65vw] md:w-auto aspect-square md:aspect-auto snap-center flex flex-col justify-center items-center p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 text-center group">
-                        <div class="w-16 h-16 md:w-14 md:h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6 md:mb-4 group-hover:scale-110 transition-transform">
-                            <i data-lucide="tags" class="w-8 h-8 md:w-7 md:h-7"></i>
-                        </div>
-                        <h3 class="text-xl md:text-xl font-bold text-slate-900 mb-3 md:mb-2">活動數據標籤化</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">
-                            後台可綁定活動標籤 (UID Tagging)，清楚記錄好友來源與參與場次，為未來的精準分眾行銷打下基礎。
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="flex-shrink-0 w-[65vw] md:w-auto aspect-square md:aspect-auto snap-center flex flex-col justify-center items-center p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition-all duration-300 text-center group">
-                        <div class="w-16 h-16 md:w-14 md:h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 md:mb-4 group-hover:scale-110 transition-transform">
-                            <i data-lucide="message-circle" class="w-8 h-8 md:w-7 md:h-7"></i>
-                        </div>
-                        <h3 class="text-xl md:text-xl font-bold text-slate-900 mb-3 md:mb-2">延續互動熱度</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">
-                            活動後可透過 LINE 推播感謝訊息、優惠券或活動花絮，不僅限於當下互動，更創造長尾行銷效益。
-                        </p>
-                    </div>
-                </div>
+            <div
+              class="group relative h-[360px] w-[260px] flex-shrink-0 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-md transition-all duration-500 hover:shadow-lg hover:shadow-blue-900/10 md:h-[400px] md:w-[300px]"
+            >
+              <div class="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                <!-- 婚禮與派對: 婚禮歡樂場景 -->
+                <img
+                  src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80"
+                  class="pointer-events-none h-full w-full object-cover opacity-90"
+                />
+              </div>
+              <div
+                class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6"
+              >
+                <div class="mb-2"><i data-lucide="heart" class="h-6 w-6 text-blue-400"></i></div>
+                <h3 class="mb-2 text-xl leading-tight font-bold text-white">婚禮與派對慶典</h3>
+                <p class="text-sm leading-relaxed font-light text-slate-200">
+                  婚禮、生日、抓周、聚會。相框、AI 功能等創意素材妝點回憶。
+                </p>
+              </div>
             </div>
-        </section>
-
-        <!-- FAQ Section (Modified bg-color) -->
-        <section id="faq-section" class="py-24 bg-slate-50">
-            <div class="max-w-3xl mx-auto px-6 lg:px-12">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">常見問題</h2>
-                    <p class="text-slate-500 text-lg">關於 Snapdog 的服務細節，這裡有您想知道的答案</p>
-                </div>
-                <div class="space-y-4" id="faq-container"></div>
+            <div
+              class="group relative h-[360px] w-[260px] flex-shrink-0 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-md transition-all duration-500 hover:shadow-lg hover:shadow-blue-900/10 md:h-[400px] md:w-[300px]"
+            >
+              <div class="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                <!-- 公開展覽: 熱鬧的活動現場 -->
+                <img
+                  src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=600&q=80"
+                  class="pointer-events-none h-full w-full object-cover opacity-90"
+                />
+              </div>
+              <div
+                class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6"
+              >
+                <div class="mb-2"><i data-lucide="briefcase" class="h-6 w-6 text-blue-400"></i></div>
+                <h3 class="mb-2 text-xl leading-tight font-bold text-white">各式公開展覽</h3>
+                <p class="text-sm leading-relaxed font-light text-slate-200">
+                  展覽會、品牌快閃店、招商活動。活動現場吸引人潮體驗酷拍活動。
+                </p>
+              </div>
             </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="bg-slate-900 text-white py-24 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-                <div class="flex flex-col-reverse lg:flex-row gap-16 lg:gap-24">
-                    <div class="lg:w-1/3 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center gap-2 mb-6">
-                                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">S</div>
-                                <span class="text-2xl font-bold tracking-tight text-white">Snapdog</span>
-                            </div>
-                            <h2 class="text-3xl md:text-4xl font-bold leading-tight mb-4">一起玩轉回憶，<br />創造有效互動！</h2>
-                            <p class="text-slate-400 text-lg mb-8">立即聯絡我們，打造專屬的照片互動體驗</p>
-                            
-                            <div class="space-y-4 mb-10">
-                                <div class="flex items-center gap-4 text-white">
-                                    <i data-lucide="phone" class="text-blue-500 w-5 h-5"></i>
-                                    <span class="text-lg font-medium">02-2772-5579</span>
-                                </div>
-                                <div class="flex items-center gap-4 text-white">
-                                    <i data-lucide="mail" class="text-blue-500 w-5 h-5"></i>
-                                    <span class="text-lg font-medium">service@hypermex.io</span>
-                                </div>
-                                <div class="flex items-center gap-4 text-white">
-                                    <i data-lucide="star" class="text-blue-500 w-5 h-5 fill-blue-500"></i>
-                                    <span class="text-lg font-medium text-slate-300">不定時上線節慶素材免費加入體驗</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Line Button Card -->
-                        <div onclick="openLineModal()" class="cursor-pointer group bg-slate-800/50 hover:bg-slate-800 border border-slate-700 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300">
-                            <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center border border-green-500/20">
-                                <i data-lucide="qr-code" class="text-green-500 w-6 h-6"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="text-slate-400 text-xs mb-0.5">點擊顯示 QR Code</div>
-                                <div class="text-white font-bold text-lg group-hover:text-green-400 transition-colors">加入 LINE 官方帳號</div>
-                            </div>
-                            <i data-lucide="chevron-right" class="text-slate-500 w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                        </div>
-                    </div>
-                    <div class="lg:w-2/3 bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-xl border border-slate-700">
-                        <h3 class="text-2xl font-bold mb-6">聯絡我們</h3>
-                        <div id="contact-success-message" class="hidden bg-green-500/10 border border-green-400 text-green-200 p-4 rounded-xl mb-6 flex items-center gap-3 animate-fade-in-down">
-                            <i data-lucide="check-circle" class="w-5 h-5"></i><span>感謝您的詢問，我們會盡快與您聯繫！</span>
-                        </div>
-                        <form class="space-y-5" onsubmit="handleFormSubmit(event)">
-                            <!-- Name -->
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-slate-400 mb-1">姓名</label>
-                                <input type="text" id="name" class="w-full bg-slate-900/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-all" placeholder="姓名" required>
-                            </div>
-
-                            <!-- Company -->
-                            <div>
-                                <label for="company" class="block text-sm font-medium text-slate-400 mb-1">公司</label>
-                                <input type="text" id="company" class="w-full bg-slate-900/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-all" placeholder="公司名稱">
-                            </div>
-
-                            <!-- Activity Type -->
-                            <div>
-                                <label for="activity-type" class="block text-sm font-medium text-slate-400 mb-1">活動類型</label>
-                                <div class="relative">
-                                    <select id="activity-type" class="w-full bg-slate-900/50 border border-slate-600 rounded-lg px-4 py-3 text-white appearance-none focus:outline-none focus:border-blue-500 transition-all">
-                                        <option value="" disabled selected>請選擇活動類型</option>
-                                        <option value="corporate">企業活動</option>
-                                        <option value="brand">品牌推廣</option>
-                                        <option value="wedding">婚禮/私人派對</option>
-                                        <option value="exhibition">展覽</option>
-                                        <option value="other">其他</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
-                                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Date & Contact Row -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div>
-                                    <label for="date" class="block text-sm font-medium text-slate-400 mb-1">活動日期</label>
-                                    <input type="date" id="date" class="w-full bg-slate-900/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-all [color-scheme:dark]">
-                                </div>
-                                <div>
-                                    <label for="contact-method" class="block text-sm font-medium text-slate-400 mb-1">聯絡方式</label>
-                                    <input type="text" id="contact-method" class="w-full bg-slate-900/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-all" placeholder="電話或 Email" required>
-                                </div>
-                            </div>
-
-                            <!-- Captcha Placeholder -->
-                            <div class="w-full h-16 bg-slate-900/50 border border-slate-600 rounded-lg flex items-center justify-center text-slate-500 text-sm">
-                                [ reCAPTCHA v2 / 隱藏式驗證碼 ]
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-500 transition-all duration-300 text-lg shadow-lg shadow-blue-600/30 mt-2">提交</button>
-                            
-                            <!-- Footer Text -->
-                            <p class="text-xs text-slate-400 text-center mt-4">
-                                提交表單後，我們將盡快與您聯繫，協助您進行專案細節規劃與提供執行建議。
-                            </p>
-                        </form>
-                    </div>
-                </div>
+            <div
+              class="group relative h-[360px] w-[260px] flex-shrink-0 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-md transition-all duration-500 hover:shadow-lg hover:shadow-blue-900/10 md:h-[400px] md:w-[300px]"
+            >
+              <div class="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                <!-- 企業活動: 宴會交流 -->
+                <img
+                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80"
+                  class="pointer-events-none h-full w-full object-cover opacity-90"
+                />
+              </div>
+              <div
+                class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent p-5 md:p-6"
+              >
+                <div class="mb-2"><i data-lucide="users" class="h-6 w-6 text-blue-400"></i></div>
+                <h3 class="mb-2 text-xl leading-tight font-bold text-white">企業活動與內部交流</h3>
+                <p class="text-sm leading-relaxed font-light text-slate-200">
+                  年會、尾牙、員工日。拍照結合品牌自訂素材，加強品牌溝通力道。
+                </p>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <footer class="bg-slate-950 py-8 text-center text-slate-600 text-sm">
-            <div class="max-w-7xl mx-auto px-6">&copy; 2024 Snapdog. All rights reserved.</div>
-        </footer>
+      <!-- Business Value Section (Redesigned) -->
+      <section id="business-value" class="bg-white py-20">
+        <div class="mx-auto max-w-7xl px-6 lg:px-12">
+          <div class="mx-auto mb-10 max-w-3xl text-center md:mb-16">
+            <h2 class="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">
+              串接 LINE 官方帳號<br />
+              <span class="text-blue-600">啟動高效獲客引擎</span>
+            </h2>
+            <p class="text-lg text-slate-500">拍照即加好友，將線下人流轉化為品牌資產，建立長期顧客關係。</p>
+          </div>
+
+          <!-- Modified Grid/Flex Container for Mobile Scroll -->
+          <div
+            class="hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-8 md:mx-0 md:grid md:grid-cols-3 md:gap-8 md:px-0 md:pb-0"
+          >
+            <!-- Card 1 -->
+            <div
+              class="group flex aspect-square w-[65vw] flex-shrink-0 snap-center flex-col items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center transition-all duration-300 hover:shadow-lg md:aspect-auto md:w-auto"
+            >
+              <div
+                class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 transition-transform group-hover:scale-110 md:mb-4 md:h-14 md:w-14"
+              >
+                <i data-lucide="user-plus" class="h-8 w-8 md:h-7 md:w-7"></i>
+              </div>
+              <h3 class="mb-3 text-xl font-bold text-slate-900 md:mb-2 md:text-xl">低門檻無痛導流</h3>
+              <p class="text-sm leading-relaxed text-slate-500">
+                用戶掃描 QR Code 領取照片時，即可引導加入 LINE 官方帳號。相比傳統填表或純按讚，轉化率大幅提升。
+              </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="group flex aspect-square w-[65vw] flex-shrink-0 snap-center flex-col items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center transition-all duration-300 hover:shadow-lg md:aspect-auto md:w-auto"
+            >
+              <div
+                class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-100 text-purple-600 transition-transform group-hover:scale-110 md:mb-4 md:h-14 md:w-14"
+              >
+                <i data-lucide="tags" class="h-8 w-8 md:h-7 md:w-7"></i>
+              </div>
+              <h3 class="mb-3 text-xl font-bold text-slate-900 md:mb-2 md:text-xl">活動數據標籤化</h3>
+              <p class="text-sm leading-relaxed text-slate-500">
+                後台可綁定活動標籤 (UID Tagging)，清楚記錄好友來源與參與場次，為未來的精準分眾行銷打下基礎。
+              </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="group flex aspect-square w-[65vw] flex-shrink-0 snap-center flex-col items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center transition-all duration-300 hover:shadow-lg md:aspect-auto md:w-auto"
+            >
+              <div
+                class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-green-600 transition-transform group-hover:scale-110 md:mb-4 md:h-14 md:w-14"
+              >
+                <i data-lucide="message-circle" class="h-8 w-8 md:h-7 md:w-7"></i>
+              </div>
+              <h3 class="mb-3 text-xl font-bold text-slate-900 md:mb-2 md:text-xl">延續互動熱度</h3>
+              <p class="text-sm leading-relaxed text-slate-500">
+                活動後可透過 LINE 推播感謝訊息、優惠券或活動花絮，不僅限於當下互動，更創造長尾行銷效益。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section (Modified bg-color) -->
+      <section id="faq-section" class="bg-slate-50 py-24">
+        <div class="mx-auto max-w-3xl px-6 lg:px-12">
+          <div class="mb-16 text-center">
+            <h2 class="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">常見問題</h2>
+            <p class="text-lg text-slate-500">關於 Snapdog 的服務細節，這裡有您想知道的答案</p>
+          </div>
+          <div class="space-y-4" id="faq-container"></div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="relative overflow-hidden bg-slate-900 py-24 text-white">
+        <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
+          <div class="flex flex-col-reverse gap-16 lg:flex-row lg:gap-24">
+            <div class="flex flex-col justify-between lg:w-1/3">
+              <div>
+                <div class="mb-6 flex items-center gap-2">
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold text-white shadow-md"
+                  >
+                    S
+                  </div>
+                  <span class="text-2xl font-bold tracking-tight text-white">Snapdog</span>
+                </div>
+                <h2 class="mb-4 text-3xl leading-tight font-bold md:text-4xl">一起玩轉回憶，<br />創造有效互動！</h2>
+                <p class="mb-8 text-lg text-slate-400">立即聯絡我們，打造專屬的照片互動體驗</p>
+
+                <div class="mb-10 space-y-4">
+                  <div class="flex items-center gap-4 text-white">
+                    <i data-lucide="phone" class="h-5 w-5 text-blue-500"></i>
+                    <span class="text-lg font-medium">02-2772-5579</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-white">
+                    <i data-lucide="mail" class="h-5 w-5 text-blue-500"></i>
+                    <span class="text-lg font-medium">service@hypermex.io</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-white">
+                    <i data-lucide="star" class="h-5 w-5 fill-blue-500 text-blue-500"></i>
+                    <span class="text-lg font-medium text-slate-300">不定時上線節慶素材免費加入體驗</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Line Button Card -->
+              <div
+                onclick="openLineModal()"
+                class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 transition-all duration-300 hover:bg-slate-800"
+              >
+                <div
+                  class="flex h-12 w-12 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10"
+                >
+                  <i data-lucide="qr-code" class="h-6 w-6 text-green-500"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="mb-0.5 text-xs text-slate-400">點擊顯示 QR Code</div>
+                  <div class="text-lg font-bold text-white transition-colors group-hover:text-green-400">
+                    加入 LINE 官方帳號
+                  </div>
+                </div>
+                <i
+                  data-lucide="chevron-right"
+                  class="h-5 w-5 text-slate-500 transition-transform group-hover:translate-x-1"
+                ></i>
+              </div>
+            </div>
+            <div class="rounded-[2rem] border border-slate-700 bg-slate-800 p-8 shadow-xl md:p-10 lg:w-2/3">
+              <h3 class="mb-6 text-2xl font-bold">聯絡我們</h3>
+              <div
+                id="contact-success-message"
+                class="animate-fade-in-down mb-6 flex hidden items-center gap-3 rounded-xl border border-green-400 bg-green-500/10 p-4 text-green-200"
+              >
+                <i data-lucide="check-circle" class="h-5 w-5"></i><span>感謝您的詢問，我們會盡快與您聯繫！</span>
+              </div>
+              <form class="space-y-5" onsubmit="handleFormSubmit(event)">
+                <!-- Name -->
+                <div>
+                  <label for="name" class="mb-1 block text-sm font-medium text-slate-400">姓名</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full rounded-lg border border-slate-600 bg-slate-900/50 px-4 py-3 text-white transition-all placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+                    placeholder="姓名"
+                    required
+                  />
+                </div>
+
+                <!-- Company -->
+                <div>
+                  <label for="company" class="mb-1 block text-sm font-medium text-slate-400">公司</label>
+                  <input
+                    type="text"
+                    id="company"
+                    class="w-full rounded-lg border border-slate-600 bg-slate-900/50 px-4 py-3 text-white transition-all placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+                    placeholder="公司名稱"
+                  />
+                </div>
+
+                <!-- Activity Type -->
+                <div>
+                  <label for="activity-type" class="mb-1 block text-sm font-medium text-slate-400">活動類型</label>
+                  <div class="relative">
+                    <select
+                      id="activity-type"
+                      class="w-full appearance-none rounded-lg border border-slate-600 bg-slate-900/50 px-4 py-3 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    >
+                      <option value="" disabled selected>請選擇活動類型</option>
+                      <option value="corporate">企業活動</option>
+                      <option value="brand">品牌推廣</option>
+                      <option value="wedding">婚禮/私人派對</option>
+                      <option value="exhibition">展覽</option>
+                      <option value="other">其他</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Date & Contact Row -->
+                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  <div>
+                    <label for="date" class="mb-1 block text-sm font-medium text-slate-400">活動日期</label>
+                    <input
+                      type="date"
+                      id="date"
+                      class="w-full rounded-lg border border-slate-600 bg-slate-900/50 px-4 py-3 text-white [color-scheme:dark] transition-all placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label for="contact-method" class="mb-1 block text-sm font-medium text-slate-400">聯絡方式</label>
+                    <input
+                      type="text"
+                      id="contact-method"
+                      class="w-full rounded-lg border border-slate-600 bg-slate-900/50 px-4 py-3 text-white transition-all placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+                      placeholder="電話或 Email"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- Captcha Placeholder -->
+                <div
+                  class="flex h-16 w-full items-center justify-center rounded-lg border border-slate-600 bg-slate-900/50 text-sm text-slate-500"
+                >
+                  [ reCAPTCHA v2 / 隱藏式驗證碼 ]
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                  type="submit"
+                  class="mt-2 w-full rounded-xl bg-blue-600 py-4 text-lg font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:bg-blue-500"
+                >
+                  提交
+                </button>
+
+                <!-- Footer Text -->
+                <p class="mt-4 text-center text-xs text-slate-400">
+                  提交表單後，我們將盡快與您聯繫，協助您進行專案細節規劃與提供執行建議。
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="bg-slate-950 py-8 text-center text-sm text-slate-600">
+        <div class="mx-auto max-w-7xl px-6">&copy; 2024 Snapdog. All rights reserved.</div>
+      </footer>
     </div>
 
     <!-- LINE Modal -->
-    <div id="line-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300">
-        <div id="line-modal-box" class="bg-white rounded-[2.5rem] w-[90%] max-w-[360px] p-8 relative flex flex-col items-center transform scale-95 transition-transform duration-300 shadow-2xl">
-            <button onclick="closeLineModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <div class="w-16 h-16 bg-[#06C755] rounded-[1.2rem] flex items-center justify-center mb-6 shadow-lg shadow-green-500/20">
-                <i class="fa-brands fa-line text-white text-3xl"></i>
-            </div>
-            
-            <h3 class="text-2xl font-bold text-slate-900 mb-2 text-center">立即體驗 Snapdog</h3>
-            <p class="text-slate-500 text-sm mb-1 text-center">掃描 QR Code 加入官方帳號</p>
-            <a href="#" class="text-blue-600 font-bold text-sm mb-6 hover:underline">解鎖您的專屬 AI 風格</a>
-            
-            <div class="bg-white p-3 rounded-2xl border-2 border-slate-100 mb-8 shadow-inner">
-                <!-- Using a placeholder QR code -->
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://line.me/R/ti/p/@snapdog&color=1e293b" alt="LINE QR Code" class="w-40 h-40 rounded-lg">
-            </div>
-            
-            <a href="#" class="flex items-center justify-center gap-2 w-full py-3.5 rounded-full border border-slate-200 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-300 transition-all text-sm group">
-                <i data-lucide="smartphone" class="w-4 h-4"></i>
-                <span>手機無法掃描？點擊加入</span>
-                <i data-lucide="chevron-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
-            </a>
+    <div
+      id="line-modal"
+      class="fixed inset-0 z-[200] flex hidden items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        id="line-modal-box"
+        class="relative flex w-[90%] max-w-[360px] scale-95 transform flex-col items-center rounded-[2.5rem] bg-white p-8 shadow-2xl transition-transform duration-300"
+      >
+        <button
+          onclick="closeLineModal()"
+          class="absolute top-6 right-6 text-gray-400 transition-colors hover:text-gray-600"
+        >
+          <i data-lucide="x" class="h-6 w-6"></i>
+        </button>
+
+        <div
+          class="mb-6 flex h-16 w-16 items-center justify-center rounded-[1.2rem] bg-[#06C755] shadow-lg shadow-green-500/20"
+        >
+          <i class="fa-brands fa-line text-3xl text-white"></i>
         </div>
+
+        <h3 class="mb-2 text-center text-2xl font-bold text-slate-900">立即體驗 Snapdog</h3>
+        <p class="mb-1 text-center text-sm text-slate-500">掃描 QR Code 加入官方帳號</p>
+        <a href="#" class="mb-6 text-sm font-bold text-blue-600 hover:underline">解鎖您的專屬 AI 風格</a>
+
+        <div class="mb-8 rounded-2xl border-2 border-slate-100 bg-white p-3 shadow-inner">
+          <!-- Using a placeholder QR code -->
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://line.me/R/ti/p/@snapdog&color=1e293b"
+            alt="LINE QR Code"
+            class="h-40 w-40 rounded-lg"
+          />
+        </div>
+
+        <a
+          href="#"
+          class="group flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 py-3.5 text-sm font-medium text-slate-600 transition-all hover:border-slate-300 hover:bg-slate-50"
+        >
+          <i data-lucide="smartphone" class="h-4 w-4"></i>
+          <span>手機無法掃描？點擊加入</span>
+          <i data-lucide="chevron-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+        </a>
+      </div>
     </div>
 
     <script>
-        const DOM = {
-            bgDots: document.getElementById('parallax-bg'),
-            marquee: document.getElementById('marquee-bg'),
-            stage: document.getElementById('sticky-stage'),
-            canvasWrapper: document.getElementById('canvas-wrapper'),
-            canvas: document.getElementById('main-canvas-container'),
-            layerAi: document.getElementById('layer-ai'),
-            layerAiInner: document.querySelector('.img-ai-inner'),
-            slider: document.getElementById('comparison-slider'),
-            sliderHandle: document.getElementById('comparison-handle'),
-            texts: Array.from(document.querySelectorAll('.text-overlay')),
-            controls: { s1: document.getElementById('ctrl-s1'), s2: document.getElementById('ctrl-s2') },
-            carousel: { wrapper: document.getElementById('frame-carousel-wrapper'), track: document.getElementById('frame-track') },
-            result: { printer: document.getElementById('printer-device'), display: document.getElementById('final-result-display') },
-            nav: { prev: document.getElementById('btn-prev'), next: document.getElementById('btn-next') },
-            stepIndicator: document.getElementById('step-indicator'),
-            navControls: document.getElementById('nav-controls'),
-            dots: document.querySelectorAll('.step-dot'),
-            sections: document.querySelectorAll('.scroll-section'),
-            segmentControl: document.querySelector('.segment-control'),
-            navbar: document.getElementById('navbar'),
-            logoBg: document.getElementById('logo-bg'),
-            logoText: document.getElementById('logo-text'),
-            mobileMenu: document.getElementById('mobile-menu'),
-            menuBtn: document.getElementById('mobile-menu-btn'),
-            heroSection: document.getElementById('hero-section'),
-            lineModal: document.getElementById('line-modal'),
-            lineModalBox: document.getElementById('line-modal-box')
-        };
+      const DOM = {
+        bgDots: document.getElementById('parallax-bg'),
+        marquee: document.getElementById('marquee-bg'),
+        stage: document.getElementById('sticky-stage'),
+        canvasWrapper: document.getElementById('canvas-wrapper'),
+        canvas: document.getElementById('main-canvas-container'),
+        layerAi: document.getElementById('layer-ai'),
+        layerAiInner: document.querySelector('.img-ai-inner'),
+        slider: document.getElementById('comparison-slider'),
+        sliderHandle: document.getElementById('comparison-handle'),
+        texts: Array.from(document.querySelectorAll('.text-overlay')),
+        controls: { s1: document.getElementById('ctrl-s1'), s2: document.getElementById('ctrl-s2') },
+        carousel: {
+          wrapper: document.getElementById('frame-carousel-wrapper'),
+          track: document.getElementById('frame-track')
+        },
+        result: {
+          printer: document.getElementById('printer-device'),
+          display: document.getElementById('final-result-display')
+        },
+        nav: { prev: document.getElementById('btn-prev'), next: document.getElementById('btn-next') },
+        stepIndicator: document.getElementById('step-indicator'),
+        navControls: document.getElementById('nav-controls'),
+        dots: document.querySelectorAll('.step-dot'),
+        sections: document.querySelectorAll('.scroll-section'),
+        segmentControl: document.querySelector('.segment-control'),
+        navbar: document.getElementById('navbar'),
+        logoBg: document.getElementById('logo-bg'),
+        logoText: document.getElementById('logo-text'),
+        mobileMenu: document.getElementById('mobile-menu'),
+        menuBtn: document.getElementById('mobile-menu-btn'),
+        heroSection: document.getElementById('hero-section'),
+        lineModal: document.getElementById('line-modal'),
+        lineModalBox: document.getElementById('line-modal-box')
+      };
 
-        const State = {
-            activeIndex: -1, // Start at Hero (-1)
-            isMobile: false,
-            aspectRatio: 2/3,
-            mode: 'wall',
-            frameIndex: 0,
-            sliderDragging: false,
-            isScrollLocked: false,
-            isProgrammaticScroll: false, // New flag
-            scrollTimeout: null
-        };
+      const State = {
+        activeIndex: -1, // Start at Hero (-1)
+        isMobile: false,
+        aspectRatio: 2 / 3,
+        mode: 'wall',
+        frameIndex: 0,
+        sliderDragging: false,
+        isScrollLocked: false,
+        isProgrammaticScroll: false, // New flag
+        scrollTimeout: null
+      };
 
-        // --- Constants & Data ---
-        const FRAMES_DATA = [
-            { id: 'none', class: 'frame-none', label: '無框' },
-            { id: 'yellow', class: 'frame-yellow', label: '活力黃' },
-            { id: 'pink', class: 'frame-pink', label: '甜心粉' },
-            { id: 'gradient', class: 'frame-gradient', label: '流光' },
-            { id: 'neon', class: 'frame-neon', label: '霓虹' },
-            { id: 'polaroid', class: 'frame-polaroid', label: '拍立得', hasInner: true }
-        ];
-        
-        const MARQUEE_IMAGES = [
-            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=60',
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=60',
-            'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=60',
-            'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=60',
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=60'
-        ];
+      // --- Constants & Data ---
+      const FRAMES_DATA = [
+        { id: 'none', class: 'frame-none', label: '無框' },
+        { id: 'yellow', class: 'frame-yellow', label: '活力黃' },
+        { id: 'pink', class: 'frame-pink', label: '甜心粉' },
+        { id: 'gradient', class: 'frame-gradient', label: '流光' },
+        { id: 'neon', class: 'frame-neon', label: '霓虹' },
+        { id: 'polaroid', class: 'frame-polaroid', label: '拍立得', hasInner: true }
+      ];
 
-        var faqs = [
-            { q: "除了現場機台外，使用者需要下載 App 嗎？", a: "不需要，除了機台模式外，可透過串接LINE 官方帳號或掃描 QR Code 開啟編輯頁面，無須額外安裝 App。" },
-            { q: "使用者有哪些選項可以編輯照片？", a: "可依活動需求擴充功能，包括貼圖、邊框、主題相框與 AI 風格，打造專屬互動體驗。" },
-            { q: "我的活動可以客製素材嗎？", a: "當然可以！Snapdog 提供高度客製化服務，從專屬相框、品牌貼圖到 AI 風格模型訓練，都能依照您的品牌識別 (VI) 量身打造。" },
-            { q: "租賃方案包含現場工作人員嗎？", a: "是的，我們的企業方案皆包含專業的現場技術支援人員。他們將負責設備架設、系統測試以及活動期間的操作引導。" },
-            { q: "活動結束後，如何獲得數據成效報告？", a: "活動結束後 3 個工作天內，我們將提供完整的結案報告，內容包含：互動人數、生成張數、列印數量與社群效益分析。" }
-        ];
+      const MARQUEE_IMAGES = [
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=60',
+        'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=60',
+        'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=60',
+        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=60',
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=60'
+      ];
 
-        // --- Initialization ---
-        function init() {
-            initMarquee();
-            initCarousel();
-            checkMobile();
-            fitCanvas();
-            bindEvents();
-            renderFaqs();
-            lucide.createIcons();
-            
-            // Initial check to set correct state
-            const initialIndex = getActiveIndex(window.scrollY);
-            updateUIState(initialIndex);
+      var faqs = [
+        {
+          q: '除了現場機台外，使用者需要下載 App 嗎？',
+          a: '不需要，除了機台模式外，可透過串接LINE 官方帳號或掃描 QR Code 開啟編輯頁面，無須額外安裝 App。'
+        },
+        {
+          q: '使用者有哪些選項可以編輯照片？',
+          a: '可依活動需求擴充功能，包括貼圖、邊框、主題相框與 AI 風格，打造專屬互動體驗。'
+        },
+        {
+          q: '我的活動可以客製素材嗎？',
+          a: '當然可以！Snapdog 提供高度客製化服務，從專屬相框、品牌貼圖到 AI 風格模型訓練，都能依照您的品牌識別 (VI) 量身打造。'
+        },
+        {
+          q: '租賃方案包含現場工作人員嗎？',
+          a: '是的，我們的企業方案皆包含專業的現場技術支援人員。他們將負責設備架設、系統測試以及活動期間的操作引導。'
+        },
+        {
+          q: '活動結束後，如何獲得數據成效報告？',
+          a: '活動結束後 3 個工作天內，我們將提供完整的結案報告，內容包含：互動人數、生成張數、列印數量與社群效益分析。'
         }
+      ];
 
-        // --- Helper Function for Smooth Scroll ---
-        function performSmoothScroll(top) {
-            State.isProgrammaticScroll = true;
-            window.scrollTo({ top: top, behavior: 'smooth' });
-            
-            // Clear flag after animation (approx 1000ms is usually safe for long scrolls)
-            if (State.scrollTimeout) clearTimeout(State.scrollTimeout);
-            State.scrollTimeout = setTimeout(() => {
-                State.isProgrammaticScroll = false;
-            }, 1000);
+      // --- Initialization ---
+      function init() {
+        initMarquee();
+        initCarousel();
+        checkMobile();
+        fitCanvas();
+        bindEvents();
+        renderFaqs();
+        lucide.createIcons();
+
+        // Initial check to set correct state
+        const initialIndex = getActiveIndex(window.scrollY);
+        updateUIState(initialIndex);
+      }
+
+      // --- Helper Function for Smooth Scroll ---
+      function performSmoothScroll(top) {
+        State.isProgrammaticScroll = true;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+
+        // Clear flag after animation (approx 1000ms is usually safe for long scrolls)
+        if (State.scrollTimeout) clearTimeout(State.scrollTimeout);
+        State.scrollTimeout = setTimeout(() => {
+          State.isProgrammaticScroll = false;
+        }, 1000);
+      }
+
+      // --- Core Helpers ---
+      function initMarquee() {
+        if (!DOM.marquee) return;
+        DOM.marquee.innerHTML = '';
+        for (let row = 0; row < 3; row++) {
+          const rowDiv = document.createElement('div');
+          rowDiv.className = `marquee-row ${row % 2 === 0 ? 'marquee-move-left' : 'marquee-move-right'}`;
+          for (let i = 0; i < 15; i++) {
+            const item = document.createElement('div');
+            item.className = 'marquee-item';
+            item.style.backgroundImage = `url('${MARQUEE_IMAGES[i % MARQUEE_IMAGES.length]}')`;
+            rowDiv.appendChild(item);
+          }
+          DOM.marquee.appendChild(rowDiv);
         }
+      }
 
-        // --- Core Helpers ---
-        function initMarquee() {
-            if(!DOM.marquee) return;
-            DOM.marquee.innerHTML = '';
-            for(let row=0; row<3; row++) {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = `marquee-row ${row % 2 === 0 ? 'marquee-move-left' : 'marquee-move-right'}`;
-                for(let i=0; i<15; i++) {
-                    const item = document.createElement('div');
-                    item.className = 'marquee-item';
-                    item.style.backgroundImage = `url('${MARQUEE_IMAGES[i % MARQUEE_IMAGES.length]}')`;
-                    rowDiv.appendChild(item);
-                }
-                DOM.marquee.appendChild(rowDiv);
+      function initCarousel() {
+        if (!DOM.carousel.track) return;
+        DOM.carousel.track.innerHTML = '';
+        FRAMES_DATA.forEach((f, i) => {
+          const d = document.createElement('div');
+          d.className = 'frame-slide';
+          const it = document.createElement('div');
+          it.className = `frame-item ${f.class}`;
+          if (f.hasInner) {
+            const inr = document.createElement('div');
+            inr.className = 'frame-polaroid-inner';
+            it.appendChild(inr);
+          }
+          const lbl = document.createElement('div');
+          lbl.className = 'frame-label';
+          lbl.innerText = f.label;
+          d.appendChild(it);
+          d.appendChild(lbl);
+          d.addEventListener('click', () => {
+            if (!cState.drag) {
+              State.frameIndex = i;
+              updateCarouselLayout();
             }
-        }
+          });
+          DOM.carousel.track.appendChild(d);
+        });
+        bindCarouselEvents();
+      }
 
-        function initCarousel() {
-            if(!DOM.carousel.track) return;
-            DOM.carousel.track.innerHTML = '';
-            FRAMES_DATA.forEach((f, i) => {
-                const d = document.createElement('div'); d.className = 'frame-slide';
-                const it = document.createElement('div'); it.className = `frame-item ${f.class}`;
-                if(f.hasInner) { const inr = document.createElement('div'); inr.className = 'frame-polaroid-inner'; it.appendChild(inr); }
-                const lbl = document.createElement('div'); lbl.className = 'frame-label'; lbl.innerText = f.label;
-                d.appendChild(it); d.appendChild(lbl);
-                d.addEventListener('click', () => { if(!cState.drag) { State.frameIndex = i; updateCarouselLayout(); }});
-                DOM.carousel.track.appendChild(d);
-            });
-            bindCarouselEvents();
-        }
-
-        function renderFaqs() {
-            const faqContainer = document.getElementById('faq-container');
-            if(!faqContainer) return;
-            faqs.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = "border border-slate-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-blue-200 hover:shadow-sm bg-slate-50/50";
-                div.innerHTML = `
+      function renderFaqs() {
+        const faqContainer = document.getElementById('faq-container');
+        if (!faqContainer) return;
+        faqs.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className =
+            'border border-slate-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-blue-200 hover:shadow-sm bg-slate-50/50';
+          div.innerHTML = `
                     <button onclick="toggleFaq(${index})" class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
                         <span id="faq-q-${index}" class="text-lg font-bold transition-colors text-slate-800">${item.q}</span>
                         <i id="faq-icon-${index}" data-lucide="chevron-down" class="text-slate-400 transition-transform duration-300"></i>
@@ -1046,575 +1790,656 @@
                         <p class="p-6 pt-0 text-slate-600 leading-relaxed border-t border-slate-100/50">${item.a}</p>
                     </div>
                 `;
-                faqContainer.appendChild(div);
-            });
-        }
-        
-        window.toggleFaq = function(index) {
-            const answer = document.getElementById(`faq-a-${index}`);
-            const icon = document.getElementById(`faq-icon-${index}`);
-            const question = document.getElementById(`faq-q-${index}`);
-            
-            const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+          faqContainer.appendChild(div);
+        });
+      }
 
-            for(let i=0; i<faqs.length; i++) {
-                document.getElementById(`faq-a-${i}`).style.maxHeight = null;
-                document.getElementById(`faq-icon-${i}`).style.transform = 'rotate(0deg)';
-                document.getElementById(`faq-icon-${i}`).classList.remove('text-blue-600');
-                document.getElementById(`faq-q-${i}`).classList.remove('text-blue-600');
-            }
+      window.toggleFaq = function (index) {
+        const answer = document.getElementById(`faq-a-${index}`);
+        const icon = document.getElementById(`faq-icon-${index}`);
+        const question = document.getElementById(`faq-q-${index}`);
 
-            if (!isOpen) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-                icon.style.transform = 'rotate(180deg)';
-                icon.classList.add('text-blue-600');
-                question.classList.add('text-blue-600');
-            }
+        const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+        for (let i = 0; i < faqs.length; i++) {
+          document.getElementById(`faq-a-${i}`).style.maxHeight = null;
+          document.getElementById(`faq-icon-${i}`).style.transform = 'rotate(0deg)';
+          document.getElementById(`faq-icon-${i}`).classList.remove('text-blue-600');
+          document.getElementById(`faq-q-${i}`).classList.remove('text-blue-600');
         }
 
-        window.handleFormSubmit = function(event) {
-            event.preventDefault();
-            const messageDiv = document.getElementById('contact-success-message');
-            if (messageDiv) {
-                messageDiv.classList.remove('hidden');
-                setTimeout(() => { messageDiv.classList.add('hidden'); }, 5000);
-            }
-            event.target.reset();
+        if (!isOpen) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          icon.style.transform = 'rotate(180deg)';
+          icon.classList.add('text-blue-600');
+          question.classList.add('text-blue-600');
         }
+      };
 
-        // --- Modal Logic ---
-        window.openLineModal = function() {
-            if (DOM.lineModal && DOM.lineModalBox) {
-                DOM.lineModal.classList.remove('hidden');
-                // Small timeout to allow browser to render 'block' before changing opacity for transition
-                setTimeout(() => {
-                    DOM.lineModal.classList.remove('opacity-0');
-                    DOM.lineModalBox.classList.remove('scale-95');
-                    DOM.lineModalBox.classList.add('scale-100');
-                }, 10);
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            }
+      window.handleFormSubmit = function (event) {
+        event.preventDefault();
+        const messageDiv = document.getElementById('contact-success-message');
+        if (messageDiv) {
+          messageDiv.classList.remove('hidden');
+          setTimeout(() => {
+            messageDiv.classList.add('hidden');
+          }, 5000);
         }
+        event.target.reset();
+      };
 
-        window.closeLineModal = function() {
-            if (DOM.lineModal && DOM.lineModalBox) {
-                DOM.lineModal.classList.add('opacity-0');
-                DOM.lineModalBox.classList.remove('scale-100');
-                DOM.lineModalBox.classList.add('scale-95');
-                setTimeout(() => {
-                    DOM.lineModal.classList.add('hidden');
-                    document.body.style.overflow = ''; // Restore scrolling
-                }, 300); // Match transition duration
-            }
+      // --- Modal Logic ---
+      window.openLineModal = function () {
+        if (DOM.lineModal && DOM.lineModalBox) {
+          DOM.lineModal.classList.remove('hidden');
+          // Small timeout to allow browser to render 'block' before changing opacity for transition
+          setTimeout(() => {
+            DOM.lineModal.classList.remove('opacity-0');
+            DOM.lineModalBox.classList.remove('scale-95');
+            DOM.lineModalBox.classList.add('scale-100');
+          }, 10);
+          document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
+      };
 
-        // Close modal when clicking outside
-        if (DOM.lineModal) {
-            DOM.lineModal.addEventListener('click', (e) => {
-                if (e.target === DOM.lineModal) {
-                    closeLineModal();
-                }
-            });
+      window.closeLineModal = function () {
+        if (DOM.lineModal && DOM.lineModalBox) {
+          DOM.lineModal.classList.add('opacity-0');
+          DOM.lineModalBox.classList.remove('scale-100');
+          DOM.lineModalBox.classList.add('scale-95');
+          setTimeout(() => {
+            DOM.lineModal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+          }, 300); // Match transition duration
         }
+      };
 
-        // --- Layout Logic ---
-        function checkMobile() {
-            State.isMobile = window.innerWidth <= 768 || window.innerHeight <= 700;
+      // Close modal when clicking outside
+      if (DOM.lineModal) {
+        DOM.lineModal.addEventListener('click', (e) => {
+          if (e.target === DOM.lineModal) {
+            closeLineModal();
+          }
+        });
+      }
+
+      // --- Layout Logic ---
+      function checkMobile() {
+        State.isMobile = window.innerWidth <= 768 || window.innerHeight <= 700;
+      }
+
+      function fitCanvas() {
+        if (State.isMobile) {
+          const maxW = window.innerWidth * 0.9;
+          const maxH = window.innerHeight * 0.52;
+          let finalH = maxH;
+          let finalW = finalH * State.aspectRatio;
+          if (finalW > maxW) {
+            finalW = maxW;
+            finalH = finalW / State.aspectRatio;
+          }
+          if (DOM.canvas) {
+            DOM.canvas.style.width = `${finalW}px`;
+            DOM.canvas.style.height = `${finalH}px`;
+            DOM.canvas.style.aspectRatio = `${State.aspectRatio}`;
+          }
+        } else {
+          if (DOM.canvas) {
+            DOM.canvas.style.width = 'auto';
+            DOM.canvas.style.height = '60vh';
+            DOM.canvas.style.aspectRatio = `${State.aspectRatio}`;
+          }
         }
+        setTimeout(updateCarouselLayout, 100);
+      }
 
-        function fitCanvas() {
-            if (State.isMobile) {
-                const maxW = window.innerWidth * 0.90;
-                const maxH = window.innerHeight * 0.52; 
-                let finalH = maxH;
-                let finalW = finalH * State.aspectRatio;
-                if (finalW > maxW) { finalW = maxW; finalH = finalW / State.aspectRatio; }
-                if (DOM.canvas) {
-                    DOM.canvas.style.width = `${finalW}px`;
-                    DOM.canvas.style.height = `${finalH}px`;
-                    DOM.canvas.style.aspectRatio = `${State.aspectRatio}`;
-                }
-            } else {
-                if (DOM.canvas) {
-                    DOM.canvas.style.width = 'auto';
-                    DOM.canvas.style.height = '60vh'; 
-                    DOM.canvas.style.aspectRatio = `${State.aspectRatio}`;
-                }
-            }
-            setTimeout(updateCarouselLayout, 100);
-        }
+      // --- Step & Scroll Logic ---
+      function getActiveIndex(scrollTop) {
+        const h = window.innerHeight;
+        const scrollCenter = scrollTop + h / 2;
+        let index = -1; // Default to Hero
 
-        // --- Step & Scroll Logic ---
-        function getActiveIndex(scrollTop) {
-            const h = window.innerHeight;
-            const scrollCenter = scrollTop + h / 2;
-            let index = -1; // Default to Hero
-            
-            // Check if we are past the hero section
-            DOM.sections.forEach((sec, i) => {
-                if (scrollCenter >= sec.offsetTop && scrollCenter < sec.offsetTop + sec.offsetHeight) {
-                    index = i;
-                }
-            });
-
-            // Handle bottom marketing section (State 4)
-            // 當滾動超過最後一個互動區塊 (sec-4) 時，進入狀態 4 (行銷區)
-            const lastSection = DOM.sections[3];
-            if (lastSection && scrollTop > lastSection.offsetTop + lastSection.offsetHeight - 10) {
-                index = 4; // State 4: Marketing Section
-            }
-            
-            // If we are high up (in Hero area), force index -1
-            if (scrollTop < h * 0.5) {
-                index = -1;
-            }
-
-            return index;
-        }
-
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            
-            // Navbar Logic
-            if (DOM.navbar && DOM.logoBg && DOM.logoText) {
-                if (scrollTop > 20) {
-                    DOM.navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-2');
-                    DOM.navbar.classList.remove('bg-transparent', 'py-5');
-                    DOM.logoBg.classList.replace('w-10', 'w-7');
-                    DOM.logoBg.classList.replace('h-10', 'h-7');
-                    DOM.logoBg.classList.replace('text-xl', 'text-base');
-                    DOM.logoText.classList.replace('text-2xl', 'text-lg');
-                } else {
-                    DOM.navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-2');
-                    DOM.navbar.classList.add('bg-transparent', 'py-5');
-                    DOM.logoBg.classList.replace('w-7', 'w-10');
-                    DOM.logoBg.classList.replace('h-7', 'h-10');
-                    DOM.logoBg.classList.replace('text-base', 'text-xl');
-                    DOM.logoText.classList.replace('text-lg', 'text-2xl');
-                }
-            }
-
-            if (DOM.bgDots) {
-                DOM.bgDots.style.backgroundPositionY = `-${scrollTop * 0.15}px`;
-            }
-
-            const index = getActiveIndex(scrollTop);
-
-            if (index !== State.activeIndex) {
-                State.activeIndex = index;
-                updateUIState(index);
-
-                // Lock scroll only between steps 0-3 to ensure snapping
-                // Do NOT lock if in Hero (-1) or Marketing (4)
-                // Also check if we are performing a programmatic scroll
-                if (index >= 0 && index <= 3 && !State.isScrollLocked && !State.isProgrammaticScroll) {
-                    State.isScrollLocked = true;
-                    document.body.style.overflow = 'hidden';
-                    
-                    if (DOM.sections[index]) {
-                        DOM.sections[index].scrollIntoView({ behavior: 'smooth' });
-                    }
-
-                    setTimeout(() => {
-                        document.body.style.overflow = '';
-                        State.isScrollLocked = false;
-                    }, 400); 
-                }
-            }
-            
-            // Keep Stage Fixed
-            if (DOM.stage) DOM.stage.style.transform = `translateY(0)`;
+        // Check if we are past the hero section
+        DOM.sections.forEach((sec, i) => {
+          if (scrollCenter >= sec.offsetTop && scrollCenter < sec.offsetTop + sec.offsetHeight) {
+            index = i;
+          }
         });
 
-        function updateUIState(index) {
-            // Stage Visibility: Hide in Hero (-1), Show in Steps (0-3)
-            // 當 Index 為 4 (行銷區) 時，保持舞台顯示但隱藏導航控制項，創造乾淨的閱讀體驗
-            if (index === -1) {
-                DOM.stage?.classList.remove('stage-visible');
-                DOM.stepIndicator?.classList.remove('active');
-                DOM.navControls?.classList.remove('active');
-            } else if (index === 4) {
-                DOM.stage?.classList.add('stage-visible');
-                DOM.stepIndicator?.classList.remove('active'); // Hide dots in marketing section
-                DOM.navControls?.classList.remove('active');   // Hide arrows in marketing section
-            } else {
-                DOM.stage?.classList.add('stage-visible');
-                DOM.stepIndicator?.classList.add('active');
-                DOM.navControls?.classList.add('active');
-            }
-
-            // Text Overlays
-            const textIndex = index === 4 ? 3 : index;
-            DOM.texts.forEach((text, i) => {
-                if (i === textIndex) text.classList.add('active'); else text.classList.remove('active');
-            });
-
-            // Dots
-            DOM.dots.forEach((dot, i) => {
-                if (i === index) dot.classList.add('active'); else dot.classList.remove('active');
-            });
-            
-            // Nav Button States
-            if (DOM.nav.prev) DOM.nav.prev.disabled = index <= 0;
-            if (DOM.nav.next) DOM.nav.next.disabled = index >= 3;
-
-            const hideDown = 'translateY(50vh)';
-            
-            // Common Reset
-            DOM.canvas?.classList.remove('transparent-mode'); 
-            if(DOM.canvas) DOM.canvas.style.transform = 'scale(1)';
-            DOM.result.display?.classList.add('hidden');
-            DOM.result.printer?.classList.add('hidden');
-            if(DOM.marquee) DOM.marquee.style.opacity = '0';
-            if(DOM.canvasWrapper) DOM.canvasWrapper.style.marginTop = '0'; 
-            DOM.stage?.classList.remove('step-4-layout');
-
-            if (index === -1) {
-                // Hero State: Ensure tools are hidden
-                setTool(DOM.controls.s1, false, hideDown);
-                setTool(DOM.controls.s2, false, hideDown);
-                setCarousel(false);
-                setSlider(false);
-                return;
-            }
-
-            switch (index) {
-                case 0: // Style
-                    setTool(DOM.controls.s1, true);
-                    setTool(DOM.controls.s2, false, hideDown);
-                    setCarousel(false);
-                    setSlider(true);
-                    break;
-                case 1: // Layout
-                    setTool(DOM.controls.s1, false, hideDown);
-                    setTool(DOM.controls.s2, true);
-                    setCarousel(false);
-                    setSlider(false);
-                    break;
-                case 2: // Frame
-                    setTool(DOM.controls.s2, false, hideDown);
-                    setCarousel(true);
-                    if(DOM.canvas) DOM.canvas.style.transform = 'scale(0.7)'; 
-                    setSlider(false);
-                    break;
-                case 3: // Result
-                case 4: // Marketing
-                    setCarousel(false);
-                    setTool(DOM.controls.s2, false, hideDown);
-                    DOM.canvas?.classList.add('transparent-mode');
-                    
-                    if(State.isMobile) {
-                        DOM.stage?.classList.add('step-4-layout');
-                        if(DOM.canvasWrapper) DOM.canvasWrapper.style.marginTop = '30px';
-                    }
-                    
-                    renderFinalResult();
-                    break;
-            }
+        // Handle bottom marketing section (State 4)
+        // 當滾動超過最後一個互動區塊 (sec-4) 時，進入狀態 4 (行銷區)
+        const lastSection = DOM.sections[3];
+        if (lastSection && scrollTop > lastSection.offsetTop + lastSection.offsetHeight - 10) {
+          index = 4; // State 4: Marketing Section
         }
 
-        function setTool(el, visible, hiddenTrans) {
-            if(!el) return;
-            el.style.transform = visible ? 'translateY(0)' : (hiddenTrans || 'translateY(20vh)');
-            el.style.opacity = visible ? '1' : '0';
-            el.style.pointerEvents = visible ? 'auto' : 'none';
-        }
-        function setSlider(visible) {
-            if(DOM.slider) {
-                DOM.slider.style.opacity = visible ? '1' : '0';
-                DOM.slider.style.pointerEvents = visible ? 'auto' : 'none';
-                if(visible) DOM.slider.style.left = '50%';
-            }
-            if(DOM.sliderHandle) {
-                DOM.sliderHandle.style.pointerEvents = visible ? 'auto' : 'none';
-            }
-            
-            if(DOM.layerAi) {
-                if(visible) {
-                    DOM.layerAi.style.clipPath = 'inset(0 50% 0 0)';
-                } else {
-                    DOM.layerAi.style.clipPath = 'inset(0 0 0 0)';
-                }
-            }
-        }
-        function setCarousel(visible) {
-            if(DOM.carousel.wrapper) {
-                DOM.carousel.wrapper.style.opacity = visible ? '1' : '0';
-                DOM.carousel.wrapper.style.pointerEvents = visible ? 'auto' : 'none';
-            }
-            if(visible) setTimeout(updateCarouselLayout, 550);
+        // If we are high up (in Hero area), force index -1
+        if (scrollTop < h * 0.5) {
+          index = -1;
         }
 
-        window.scrollToSection = function(index) {
-            const targetSection = DOM.sections[index];
-            if (targetSection) {
-                performSmoothScroll(targetSection.offsetTop);
-            }
-        }
-        
-        window.scrollToStickyStart = function() {
-            if (DOM.sections[0]) {
-                performSmoothScroll(DOM.sections[0].offsetTop);
-            }
+        return index;
+      }
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+
+        // Navbar Logic
+        if (DOM.navbar && DOM.logoBg && DOM.logoText) {
+          if (scrollTop > 20) {
+            DOM.navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-2');
+            DOM.navbar.classList.remove('bg-transparent', 'py-5');
+            DOM.logoBg.classList.replace('w-10', 'w-7');
+            DOM.logoBg.classList.replace('h-10', 'h-7');
+            DOM.logoBg.classList.replace('text-xl', 'text-base');
+            DOM.logoText.classList.replace('text-2xl', 'text-lg');
+          } else {
+            DOM.navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-2');
+            DOM.navbar.classList.add('bg-transparent', 'py-5');
+            DOM.logoBg.classList.replace('w-7', 'w-10');
+            DOM.logoBg.classList.replace('h-7', 'h-10');
+            DOM.logoBg.classList.replace('text-base', 'text-xl');
+            DOM.logoText.classList.replace('text-lg', 'text-2xl');
+          }
         }
 
-        window.handleLogoClick = function() {
-            performSmoothScroll(0);
+        if (DOM.bgDots) {
+          DOM.bgDots.style.backgroundPositionY = `-${scrollTop * 0.15}px`;
         }
-        
-        // --- Mobile Link Handler with Offset ---
-        window.handleMobileLinkClick = function(event, targetId) {
-            event.preventDefault();
-            if(DOM.mobileMenu) DOM.mobileMenu.classList.add('hidden');
-            
-            // Fix navbar style
-            if (window.scrollY > 20 && DOM.navbar) {
-                DOM.navbar.classList.add('bg-white');
+
+        const index = getActiveIndex(scrollTop);
+
+        if (index !== State.activeIndex) {
+          State.activeIndex = index;
+          updateUIState(index);
+
+          // Lock scroll only between steps 0-3 to ensure snapping
+          // Do NOT lock if in Hero (-1) or Marketing (4)
+          // Also check if we are performing a programmatic scroll
+          if (index >= 0 && index <= 3 && !State.isScrollLocked && !State.isProgrammaticScroll) {
+            State.isScrollLocked = true;
+            document.body.style.overflow = 'hidden';
+
+            if (DOM.sections[index]) {
+              DOM.sections[index].scrollIntoView({ behavior: 'smooth' });
             }
 
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                State.isScrollLocked = false;
-                document.body.style.overflow = '';
-                
-                const headerOffset = 80; // Navbar height offset
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - headerOffset;
+            setTimeout(() => {
+              document.body.style.overflow = '';
+              State.isScrollLocked = false;
+            }, 400);
+          }
+        }
 
-                performSmoothScroll(offsetPosition);
+        // Keep Stage Fixed
+        if (DOM.stage) DOM.stage.style.transform = `translateY(0)`;
+      });
+
+      function updateUIState(index) {
+        // Stage Visibility: Hide in Hero (-1), Show in Steps (0-3)
+        // 當 Index 為 4 (行銷區) 時，保持舞台顯示但隱藏導航控制項，創造乾淨的閱讀體驗
+        if (index === -1) {
+          DOM.stage?.classList.remove('stage-visible');
+          DOM.stepIndicator?.classList.remove('active');
+          DOM.navControls?.classList.remove('active');
+        } else if (index === 4) {
+          DOM.stage?.classList.add('stage-visible');
+          DOM.stepIndicator?.classList.remove('active'); // Hide dots in marketing section
+          DOM.navControls?.classList.remove('active'); // Hide arrows in marketing section
+        } else {
+          DOM.stage?.classList.add('stage-visible');
+          DOM.stepIndicator?.classList.add('active');
+          DOM.navControls?.classList.add('active');
+        }
+
+        // Text Overlays
+        const textIndex = index === 4 ? 3 : index;
+        DOM.texts.forEach((text, i) => {
+          if (i === textIndex) text.classList.add('active');
+          else text.classList.remove('active');
+        });
+
+        // Dots
+        DOM.dots.forEach((dot, i) => {
+          if (i === index) dot.classList.add('active');
+          else dot.classList.remove('active');
+        });
+
+        // Nav Button States
+        if (DOM.nav.prev) DOM.nav.prev.disabled = index <= 0;
+        if (DOM.nav.next) DOM.nav.next.disabled = index >= 3;
+
+        const hideDown = 'translateY(50vh)';
+
+        // Common Reset
+        DOM.canvas?.classList.remove('transparent-mode');
+        if (DOM.canvas) DOM.canvas.style.transform = 'scale(1)';
+        DOM.result.display?.classList.add('hidden');
+        DOM.result.printer?.classList.add('hidden');
+        if (DOM.marquee) DOM.marquee.style.opacity = '0';
+        if (DOM.canvasWrapper) DOM.canvasWrapper.style.marginTop = '0';
+        DOM.stage?.classList.remove('step-4-layout');
+
+        if (index === -1) {
+          // Hero State: Ensure tools are hidden
+          setTool(DOM.controls.s1, false, hideDown);
+          setTool(DOM.controls.s2, false, hideDown);
+          setCarousel(false);
+          setSlider(false);
+          return;
+        }
+
+        switch (index) {
+          case 0: // Style
+            setTool(DOM.controls.s1, true);
+            setTool(DOM.controls.s2, false, hideDown);
+            setCarousel(false);
+            setSlider(true);
+            break;
+          case 1: // Layout
+            setTool(DOM.controls.s1, false, hideDown);
+            setTool(DOM.controls.s2, true);
+            setCarousel(false);
+            setSlider(false);
+            break;
+          case 2: // Frame
+            setTool(DOM.controls.s2, false, hideDown);
+            setCarousel(true);
+            if (DOM.canvas) DOM.canvas.style.transform = 'scale(0.7)';
+            setSlider(false);
+            break;
+          case 3: // Result
+          case 4: // Marketing
+            setCarousel(false);
+            setTool(DOM.controls.s2, false, hideDown);
+            DOM.canvas?.classList.add('transparent-mode');
+
+            if (State.isMobile) {
+              DOM.stage?.classList.add('step-4-layout');
+              if (DOM.canvasWrapper) DOM.canvasWrapper.style.marginTop = '30px';
             }
+
+            renderFinalResult();
+            break;
+        }
+      }
+
+      function setTool(el, visible, hiddenTrans) {
+        if (!el) return;
+        el.style.transform = visible ? 'translateY(0)' : hiddenTrans || 'translateY(20vh)';
+        el.style.opacity = visible ? '1' : '0';
+        el.style.pointerEvents = visible ? 'auto' : 'none';
+      }
+      function setSlider(visible) {
+        if (DOM.slider) {
+          DOM.slider.style.opacity = visible ? '1' : '0';
+          DOM.slider.style.pointerEvents = visible ? 'auto' : 'none';
+          if (visible) DOM.slider.style.left = '50%';
+        }
+        if (DOM.sliderHandle) {
+          DOM.sliderHandle.style.pointerEvents = visible ? 'auto' : 'none';
+        }
+
+        if (DOM.layerAi) {
+          if (visible) {
+            DOM.layerAi.style.clipPath = 'inset(0 50% 0 0)';
+          } else {
+            DOM.layerAi.style.clipPath = 'inset(0 0 0 0)';
+          }
+        }
+      }
+      function setCarousel(visible) {
+        if (DOM.carousel.wrapper) {
+          DOM.carousel.wrapper.style.opacity = visible ? '1' : '0';
+          DOM.carousel.wrapper.style.pointerEvents = visible ? 'auto' : 'none';
+        }
+        if (visible) setTimeout(updateCarouselLayout, 550);
+      }
+
+      window.scrollToSection = function (index) {
+        const targetSection = DOM.sections[index];
+        if (targetSection) {
+          performSmoothScroll(targetSection.offsetTop);
+        }
+      };
+
+      window.scrollToStickyStart = function () {
+        if (DOM.sections[0]) {
+          performSmoothScroll(DOM.sections[0].offsetTop);
+        }
+      };
+
+      window.handleLogoClick = function () {
+        performSmoothScroll(0);
+      };
+
+      // --- Mobile Link Handler with Offset ---
+      window.handleMobileLinkClick = function (event, targetId) {
+        event.preventDefault();
+        if (DOM.mobileMenu) DOM.mobileMenu.classList.add('hidden');
+
+        // Fix navbar style
+        if (window.scrollY > 20 && DOM.navbar) {
+          DOM.navbar.classList.add('bg-white');
+        }
+
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          State.isScrollLocked = false;
+          document.body.style.overflow = '';
+
+          const headerOffset = 80; // Navbar height offset
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          performSmoothScroll(offsetPosition);
+        }
+      };
+
+      function addSwipeLogic(element, onSwipeLeft, onSwipeRight) {
+        if (!element) return;
+        let startX = 0;
+        let startY = 0;
+        let isHorizontal = false;
+        let isVertical = false;
+        const start = (e) => {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          isHorizontal = false;
+          isVertical = false;
+        };
+        const move = (e) => {
+          if (!startX || isVertical) return;
+          const x = e.touches[0].clientX;
+          const y = e.touches[0].clientY;
+          const diffX = Math.abs(x - startX);
+          const diffY = Math.abs(y - startY);
+          if (!isHorizontal && !isVertical) {
+            if (diffX > 5 && diffX > diffY) {
+              isHorizontal = true;
+            } else if (diffY > 5) {
+              isVertical = true;
+            }
+          }
+          if (isHorizontal) {
+            if (e.cancelable) e.preventDefault();
+          }
+        };
+        const end = (e) => {
+          if (!startX || !isHorizontal) return;
+          const endX = e.changedTouches[0].clientX;
+          const diffX = startX - endX;
+          if (Math.abs(diffX) > 50) {
+            if (diffX > 0) onSwipeLeft();
+            else onSwipeRight();
+          }
+          startX = 0;
+          startY = 0;
+          isHorizontal = false;
+          isVertical = false;
+        };
+        element.addEventListener('touchstart', start, { passive: true });
+        element.addEventListener('touchmove', move, { passive: false });
+        element.addEventListener('touchend', end);
+      }
+
+      function bindEvents() {
+        window.addEventListener('resize', () => {
+          checkMobile();
+          fitCanvas();
+        });
+
+        if (DOM.nav.prev) DOM.nav.prev.addEventListener('click', () => scrollToSection(State.activeIndex - 1));
+        if (DOM.nav.next) DOM.nav.next.addEventListener('click', () => scrollToSection(State.activeIndex + 1));
+        DOM.dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToSection(i)));
+
+        if (DOM.menuBtn) {
+          DOM.menuBtn.addEventListener('click', () => {
+            DOM.mobileMenu.classList.toggle('hidden');
+            if (!DOM.mobileMenu.classList.contains('hidden')) {
+              DOM.navbar.classList.add('bg-white');
+              DOM.navbar.classList.remove('bg-transparent', 'backdrop-blur-md');
+            } else if (window.scrollY <= 20) {
+              DOM.navbar.classList.remove('bg-white');
+              DOM.navbar.classList.add('bg-transparent');
+            }
+          });
+        }
+
+        // Intercept all hash links for smooth scroll handling (Safety mechanism)
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+              const headerOffset = 80;
+              const elementPosition = target.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+              // Close mobile menu if open
+              if (DOM.mobileMenu && !DOM.mobileMenu.classList.contains('hidden')) {
+                DOM.mobileMenu.classList.add('hidden');
+              }
+
+              performSmoothScroll(offsetPosition);
+            }
+          });
+        });
+
+        // Slider Logic
+        const drag = (e) => {
+          if (!State.sliderDragging || !DOM.canvas || !DOM.slider || !DOM.layerAi) return;
+          const rect = DOM.canvas.getBoundingClientRect();
+          let x = (e.clientX || e.touches[0].clientX) - rect.left;
+          x = Math.max(0, Math.min(x, rect.width));
+          const p = (x / rect.width) * 100;
+          DOM.slider.style.left = `${p}%`;
+          DOM.layerAi.style.clipPath = `inset(0 ${100 - p}% 0 0)`;
+        };
+        const startDrag = (e) => {
+          State.sliderDragging = true;
+          e.stopPropagation();
+          if (e.cancelable) e.preventDefault();
+        };
+        const stopDrag = () => {
+          State.sliderDragging = false;
         };
 
-        function addSwipeLogic(element, onSwipeLeft, onSwipeRight) {
-            if (!element) return;
-            let startX = 0; let startY = 0; let isHorizontal = false; let isVertical = false;
-            const start = (e) => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; isHorizontal = false; isVertical = false; };
-            const move = (e) => {
-                if (!startX || isVertical) return; 
-                const x = e.touches[0].clientX; const y = e.touches[0].clientY;
-                const diffX = Math.abs(x - startX); const diffY = Math.abs(y - startY);
-                if (!isHorizontal && !isVertical) { if (diffX > 5 && diffX > diffY) { isHorizontal = true; } else if (diffY > 5) { isVertical = true; } }
-                if (isHorizontal) { if (e.cancelable) e.preventDefault(); }
-            };
-            const end = (e) => {
-                if (!startX || !isHorizontal) return;
-                const endX = e.changedTouches[0].clientX; const diffX = startX - endX;
-                if (Math.abs(diffX) > 50) { if (diffX > 0) onSwipeLeft(); else onSwipeRight(); }
-                startX = 0; startY = 0; isHorizontal = false; isVertical = false;
-            };
-            element.addEventListener('touchstart', start, {passive: true});
-            element.addEventListener('touchmove', move, {passive: false});
-            element.addEventListener('touchend', end);
+        if (DOM.slider) {
+          DOM.slider.addEventListener('mousedown', startDrag);
+          DOM.slider.addEventListener('touchstart', startDrag, { passive: false });
         }
+        if (DOM.sliderHandle) {
+          DOM.sliderHandle.addEventListener('mousedown', startDrag);
+          DOM.sliderHandle.addEventListener('touchstart', startDrag, { passive: false });
+        }
+        window.addEventListener('mouseup', stopDrag);
+        window.addEventListener('touchend', stopDrag);
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('touchmove', drag, { passive: false });
 
-        function bindEvents() {
-            window.addEventListener('resize', () => { checkMobile(); fitCanvas(); });
-            
-            if(DOM.nav.prev) DOM.nav.prev.addEventListener('click', () => scrollToSection(State.activeIndex - 1));
-            if(DOM.nav.next) DOM.nav.next.addEventListener('click', () => scrollToSection(State.activeIndex + 1));
-            DOM.dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToSection(i)));
-            
-            if(DOM.menuBtn) {
-                DOM.menuBtn.addEventListener('click', () => {
-                    DOM.mobileMenu.classList.toggle('hidden');
-                    if (!DOM.mobileMenu.classList.contains('hidden')) {
-                        DOM.navbar.classList.add('bg-white');
-                        DOM.navbar.classList.remove('bg-transparent', 'backdrop-blur-md');
-                    } else if (window.scrollY <= 20) {
-                        DOM.navbar.classList.remove('bg-white');
-                        DOM.navbar.classList.add('bg-transparent');
-                    }
-                });
+        document.querySelectorAll('.ai-style-item').forEach((item) => {
+          item.addEventListener('click', function () {
+            document.querySelectorAll('.ai-style-item').forEach((b) => b.classList.remove('active'));
+            this.classList.add('active');
+            if (DOM.layerAiInner) DOM.layerAiInner.style.filter = this.dataset.filter;
+          });
+        });
+
+        document.querySelectorAll('.layout-btn').forEach((btn) => {
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('.layout-btn').forEach((b) => b.classList.remove('active'));
+            this.classList.add('active');
+            const r = this.dataset.ratio;
+            if (r === 'default') {
+              State.aspectRatio = 2 / 3;
+            } else if (r === '1:1') {
+              State.aspectRatio = 1;
+            } else if (r === '4:3') {
+              State.aspectRatio = 4 / 3;
+            } else if (r === '1:2') {
+              State.aspectRatio = 0.5;
+            } else if (r === '1:4') {
+              State.aspectRatio = 9 / 22;
             }
-            
-            // Intercept all hash links for smooth scroll handling (Safety mechanism)
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const target = document.getElementById(targetId);
-                    if (target) {
-                        const headerOffset = 80; 
-                        const elementPosition = target.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
-                        
-                        // Close mobile menu if open
-                        if(DOM.mobileMenu && !DOM.mobileMenu.classList.contains('hidden')) {
-                             DOM.mobileMenu.classList.add('hidden');
-                        }
+            fitCanvas();
+          });
+        });
+        document.querySelectorAll('.segment-btn').forEach((btn) => {
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('.segment-btn').forEach((b) => b.classList.remove('active'));
+            this.classList.add('active');
+            State.mode = this.dataset.mode;
+            const ind = document.getElementById('segment-indicator');
+            if (ind) ind.style.transform = State.mode === 'print' ? 'translateX(100%)' : 'translateX(0)';
+            renderFinalResult();
+          });
+        });
 
-                        performSmoothScroll(offsetPosition);
-                    }
-                });
-            });
-
-            // Slider Logic
-            const drag = (e) => {
-                if (!State.sliderDragging || !DOM.canvas || !DOM.slider || !DOM.layerAi) return;
-                const rect = DOM.canvas.getBoundingClientRect();
-                let x = (e.clientX || e.touches[0].clientX) - rect.left;
-                x = Math.max(0, Math.min(x, rect.width));
-                const p = (x / rect.width) * 100;
-                DOM.slider.style.left = `${p}%`;
-                DOM.layerAi.style.clipPath = `inset(0 ${100 - p}% 0 0)`;
-            };
-            const startDrag = (e) => { State.sliderDragging = true; e.stopPropagation(); if (e.cancelable) e.preventDefault(); };
-            const stopDrag = () => { State.sliderDragging = false; };
-            
-            if(DOM.slider) {
-                DOM.slider.addEventListener('mousedown', startDrag);
-                DOM.slider.addEventListener('touchstart', startDrag, {passive:false});
+        addSwipeLogic(
+          DOM.canvasWrapper,
+          () => {
+            // Swipe Left (Next)
+            if (State.activeIndex === 1) {
+              const activeBtn = document.querySelector('.layout-btn.active');
+              if (activeBtn && activeBtn.nextElementSibling) activeBtn.nextElementSibling.click();
+            } else if (State.activeIndex === 3) {
+              const printBtn = document.querySelector('.segment-btn[data-mode="print"]');
+              if (printBtn) printBtn.click();
             }
-            if(DOM.sliderHandle) {
-                DOM.sliderHandle.addEventListener('mousedown', startDrag);
-                DOM.sliderHandle.addEventListener('touchstart', startDrag, {passive:false});
+          },
+          () => {
+            // Swipe Right (Prev)
+            if (State.activeIndex === 1) {
+              const activeBtn = document.querySelector('.layout-btn.active');
+              if (activeBtn && activeBtn.previousElementSibling) activeBtn.previousElementSibling.click();
+            } else if (State.activeIndex === 3) {
+              const wallBtn = document.querySelector('.segment-btn[data-mode="wall"]');
+              if (wallBtn) wallBtn.click();
             }
-            window.addEventListener('mouseup', stopDrag);
-            window.addEventListener('touchend', stopDrag);
-            window.addEventListener('mousemove', drag);
-            window.addEventListener('touchmove', drag, {passive:false});
+          }
+        );
+      }
 
-            document.querySelectorAll('.ai-style-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.ai-style-item').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    if(DOM.layerAiInner) DOM.layerAiInner.style.filter = this.dataset.filter;
-                });
-            });
+      // --- Carousel Module ---
+      let cState = { drag: false, x: 0, curr: 0, prev: 0, raf: 0 };
+      function bindCarouselEvents() {
+        const wrap = DOM.carousel.wrapper;
+        if (!wrap) return;
+        let startY = 0;
+        let isLocked = false;
 
-            document.querySelectorAll('.layout-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    const r = this.dataset.ratio;
-                    if(r==='default') { State.aspectRatio=2/3; }
-                    else if(r==='1:1'){ State.aspectRatio=1; }
-                    else if(r==='4:3'){ State.aspectRatio=4/3; }
-                    else if(r==='1:2'){ State.aspectRatio=0.5; }
-                    else if(r==='1:4'){ State.aspectRatio=9/22; }
-                    fitCanvas();
-                });
-            });
-            document.querySelectorAll('.segment-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    State.mode = this.dataset.mode;
-                    const ind = document.getElementById('segment-indicator');
-                    if(ind) ind.style.transform = State.mode === 'print' ? 'translateX(100%)' : 'translateX(0)';
-                    renderFinalResult();
-                });
-            });
-            
-            addSwipeLogic(DOM.canvasWrapper, 
-                () => { // Swipe Left (Next)
-                    if (State.activeIndex === 1) { 
-                        const activeBtn = document.querySelector('.layout-btn.active');
-                        if(activeBtn && activeBtn.nextElementSibling) activeBtn.nextElementSibling.click();
-                    } else if (State.activeIndex === 3) { 
-                        const printBtn = document.querySelector('.segment-btn[data-mode="print"]');
-                        if (printBtn) printBtn.click();
-                    }
-                },
-                () => { // Swipe Right (Prev)
-                    if (State.activeIndex === 1) { 
-                        const activeBtn = document.querySelector('.layout-btn.active');
-                        if(activeBtn && activeBtn.previousElementSibling) activeBtn.previousElementSibling.click();
-                    } else if (State.activeIndex === 3) { 
-                        const wallBtn = document.querySelector('.segment-btn[data-mode="wall"]');
-                        if (wallBtn) wallBtn.click();
-                    }
-                }
-            );
-        }
-
-        // --- Carousel Module ---
-        let cState = { drag: false, x: 0, curr: 0, prev: 0, raf: 0 };
-        function bindCarouselEvents() {
-            const wrap = DOM.carousel.wrapper;
-            if(!wrap) return;
-            let startY = 0; let isLocked = false;
-            
-            const start = (e) => { 
-                if(State.activeIndex!==2)return; cState.drag=true; 
-                cState.x = e.type.includes('mouse')?e.pageX:e.touches[0].clientX; 
-                startY = e.type.includes('mouse')?e.pageY:e.touches[0].clientY;
-                isLocked = false;
-                if(DOM.carousel.track) DOM.carousel.track.style.transition='none'; 
-                requestAnimationFrame(cAnim); document.body.style.cursor='grabbing'; 
-            };
-            const end = () => { 
-                if(!cState.drag)return; cState.drag=false; cancelAnimationFrame(cState.raf); document.body.style.cursor='default'; 
-                const m = cState.curr - cState.prev; 
-                if(m<-40 && State.frameIndex<FRAMES_DATA.length-1)State.frameIndex++; else if(m>40 && State.frameIndex>0)State.frameIndex--; 
-                if(DOM.carousel.track) DOM.carousel.track.style.transition='transform 0.4s ease'; 
-                updateCarouselLayout(); 
-            };
-            const move = (e) => { 
-                if(cState.drag) { 
-                    const cx = e.type.includes('mouse')?e.pageX:e.touches[0].clientX; 
-                    const cy = e.type.includes('mouse')?e.pageY:e.touches[0].clientY; 
-                    const diffX = Math.abs(cx - cState.x); const diffY = Math.abs(cy - startY);
-                    if (!isLocked) { if (diffX > 5 && diffX > diffY) isLocked = true; }
-                    if (isLocked && e.cancelable) e.preventDefault();
-                    cState.curr = cState.prev + (cx - cState.x); 
-                }
-            };
-            wrap.addEventListener('mousedown', start); wrap.addEventListener('touchstart', start, {passive:false});
-            window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
-            window.addEventListener('mousemove', move); window.addEventListener('touchmove', move, {passive:false});
-        }
-        function cAnim() { 
-            if(DOM.carousel.track) DOM.carousel.track.style.transform = `translateX(${cState.curr}px)`; 
-            if(cState.drag) cState.raf = requestAnimationFrame(cAnim); 
-        }
-        function updateCarouselLayout() {
-            if(!DOM.canvas || !DOM.carousel.wrapper) return;
-            const r = DOM.canvas.getBoundingClientRect(); const w=r.width||200; const h=r.height||300; const g=20;
-            document.querySelectorAll('.frame-slide').forEach((s,i) => {
-                s.style.width=`${w}px`; s.style.marginRight=`${g}px`;
-                s.classList.toggle('active-frame', i===State.frameIndex);
-                const item = s.querySelector('.frame-item'); if(item) item.style.height = `${h}px`;
-            });
-            const ww = DOM.carousel.wrapper.offsetWidth || window.innerWidth;
-            cState.curr = (ww/2) - (w/2) - (State.frameIndex * (w+g)); cState.prev = cState.curr;
-            if(DOM.carousel.track) DOM.carousel.track.style.transform = `translateX(${cState.curr}px)`;
-        }
-        
-        function renderFinalResult() {
-            if(!DOM.result.display) return;
-            DOM.result.display.innerHTML = '';
-            DOM.result.display.className = 'hidden absolute inset-0 z-20 bg-white'; 
-            const bgUrl = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600';
-            const activeStyleItem = document.querySelector('.ai-style-item.active');
-            const currentFilter = activeStyleItem ? activeStyleItem.dataset.filter : 'none';
-            const imgDiv = document.createElement('div');
-            imgDiv.style.width = '100%'; imgDiv.style.height = '100%';
-            imgDiv.style.backgroundImage = `url('${bgUrl}')`;
-            imgDiv.style.backgroundSize = 'cover'; imgDiv.style.backgroundPosition = 'center';
-            imgDiv.style.filter = currentFilter;
-            const ft = FRAMES_DATA[State.frameIndex];
-            const fd = document.createElement('div'); fd.className = `absolute inset-0 z-10 pointer-events-none ${ft.class}`;
-            if(ft.hasInner) { const inr = document.createElement('div'); inr.className = 'frame-polaroid-inner'; fd.appendChild(inr); }
-            const c = document.createElement('div'); c.className = 'relative w-full h-full final-result-container';
-            c.appendChild(imgDiv); c.appendChild(fd);
-            DOM.result.display.appendChild(c);
-            DOM.result.display.classList.remove('hidden');
-            
-            if (State.mode === 'print') {
-                c.classList.add('printing-animation'); c.classList.remove('wall-animation');
-                if(DOM.result.printer) DOM.result.printer.classList.remove('hidden'); 
-                if(DOM.marquee) DOM.marquee.style.opacity = '0'; 
-                if(DOM.canvas) DOM.canvas.style.transform = 'scale(0.9)';
-            } else {
-                c.classList.add('wall-animation'); c.classList.remove('printing-animation');
-                if(DOM.result.printer) DOM.result.printer.classList.add('hidden'); 
-                if(DOM.marquee) DOM.marquee.style.opacity = '1'; 
-                if(DOM.canvas) DOM.canvas.style.transform = 'scale(1)'; 
+        const start = (e) => {
+          if (State.activeIndex !== 2) return;
+          cState.drag = true;
+          cState.x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+          startY = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+          isLocked = false;
+          if (DOM.carousel.track) DOM.carousel.track.style.transition = 'none';
+          requestAnimationFrame(cAnim);
+          document.body.style.cursor = 'grabbing';
+        };
+        const end = () => {
+          if (!cState.drag) return;
+          cState.drag = false;
+          cancelAnimationFrame(cState.raf);
+          document.body.style.cursor = 'default';
+          const m = cState.curr - cState.prev;
+          if (m < -40 && State.frameIndex < FRAMES_DATA.length - 1) State.frameIndex++;
+          else if (m > 40 && State.frameIndex > 0) State.frameIndex--;
+          if (DOM.carousel.track) DOM.carousel.track.style.transition = 'transform 0.4s ease';
+          updateCarouselLayout();
+        };
+        const move = (e) => {
+          if (cState.drag) {
+            const cx = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const cy = e.type.includes('mouse') ? e.pageY : e.touches[0].clientY;
+            const diffX = Math.abs(cx - cState.x);
+            const diffY = Math.abs(cy - startY);
+            if (!isLocked) {
+              if (diffX > 5 && diffX > diffY) isLocked = true;
             }
-        }
+            if (isLocked && e.cancelable) e.preventDefault();
+            cState.curr = cState.prev + (cx - cState.x);
+          }
+        };
+        wrap.addEventListener('mousedown', start);
+        wrap.addEventListener('touchstart', start, { passive: false });
+        window.addEventListener('mouseup', end);
+        window.addEventListener('touchend', end);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move, { passive: false });
+      }
+      function cAnim() {
+        if (DOM.carousel.track) DOM.carousel.track.style.transform = `translateX(${cState.curr}px)`;
+        if (cState.drag) cState.raf = requestAnimationFrame(cAnim);
+      }
+      function updateCarouselLayout() {
+        if (!DOM.canvas || !DOM.carousel.wrapper) return;
+        const r = DOM.canvas.getBoundingClientRect();
+        const w = r.width || 200;
+        const h = r.height || 300;
+        const g = 20;
+        document.querySelectorAll('.frame-slide').forEach((s, i) => {
+          s.style.width = `${w}px`;
+          s.style.marginRight = `${g}px`;
+          s.classList.toggle('active-frame', i === State.frameIndex);
+          const item = s.querySelector('.frame-item');
+          if (item) item.style.height = `${h}px`;
+        });
+        const ww = DOM.carousel.wrapper.offsetWidth || window.innerWidth;
+        cState.curr = ww / 2 - w / 2 - State.frameIndex * (w + g);
+        cState.prev = cState.curr;
+        if (DOM.carousel.track) DOM.carousel.track.style.transform = `translateX(${cState.curr}px)`;
+      }
 
-        init();
+      function renderFinalResult() {
+        if (!DOM.result.display) return;
+        DOM.result.display.innerHTML = '';
+        DOM.result.display.className = 'hidden absolute inset-0 z-20 bg-white';
+        const bgUrl =
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600';
+        const activeStyleItem = document.querySelector('.ai-style-item.active');
+        const currentFilter = activeStyleItem ? activeStyleItem.dataset.filter : 'none';
+        const imgDiv = document.createElement('div');
+        imgDiv.style.width = '100%';
+        imgDiv.style.height = '100%';
+        imgDiv.style.backgroundImage = `url('${bgUrl}')`;
+        imgDiv.style.backgroundSize = 'cover';
+        imgDiv.style.backgroundPosition = 'center';
+        imgDiv.style.filter = currentFilter;
+        const ft = FRAMES_DATA[State.frameIndex];
+        const fd = document.createElement('div');
+        fd.className = `absolute inset-0 z-10 pointer-events-none ${ft.class}`;
+        if (ft.hasInner) {
+          const inr = document.createElement('div');
+          inr.className = 'frame-polaroid-inner';
+          fd.appendChild(inr);
+        }
+        const c = document.createElement('div');
+        c.className = 'relative w-full h-full final-result-container';
+        c.appendChild(imgDiv);
+        c.appendChild(fd);
+        DOM.result.display.appendChild(c);
+        DOM.result.display.classList.remove('hidden');
+
+        if (State.mode === 'print') {
+          c.classList.add('printing-animation');
+          c.classList.remove('wall-animation');
+          if (DOM.result.printer) DOM.result.printer.classList.remove('hidden');
+          if (DOM.marquee) DOM.marquee.style.opacity = '0';
+          if (DOM.canvas) DOM.canvas.style.transform = 'scale(0.9)';
+        } else {
+          c.classList.add('wall-animation');
+          c.classList.remove('printing-animation');
+          if (DOM.result.printer) DOM.result.printer.classList.add('hidden');
+          if (DOM.marquee) DOM.marquee.style.opacity = '1';
+          if (DOM.canvas) DOM.canvas.style.transform = 'scale(1)';
+        }
+      }
+
+      init();
     </script>
-</body>
+  </body>
 </html>

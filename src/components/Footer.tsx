@@ -1,8 +1,8 @@
 const Footer: React.FC = () => {
   return (
-      <footer className="bg-slate-900 border-t border-slate-800 py-10 px-6 text-center">
-        <p className="text-slate-500 text-sm">© 2025 Snapdog Inc. All rights reserved.</p>
-      </footer>
+    <footer className="border-t border-slate-800 bg-slate-900 px-6 py-10 text-center">
+      <p className="text-sm text-slate-500">© 2025 Snapdog Inc. All rights reserved.</p>
+    </footer>
   );
 };
 

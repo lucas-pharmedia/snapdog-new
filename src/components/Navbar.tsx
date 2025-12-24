@@ -19,52 +19,52 @@ const Navbar: React.FC = () => {
     { label: '產品特色', href: '#sec-1' },
     { label: '應用場景', href: '#scenarios' },
     { label: '商業價值', href: '#business-value' },
-    { label: '常見問題', href: '#faq-section' },
+    { label: '常見問題', href: '#faq-section' }
   ];
 
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 w-full z-100 transition-all duration-300 ease-in-out bg-white',
-        isScrolled ? 'backdrop-blur-md shadow-sm py-2' : 'py-5',
+        'fixed top-0 left-0 z-100 w-full bg-white transition-all duration-300 ease-in-out',
+        isScrolled ? 'py-2 shadow-sm backdrop-blur-md' : 'py-5'
       )}
     >
-      <div className="mx-auto px-6 flex justify-between items-center max-w-300 md:px-0">
-        <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <img 
-            src="/logo.png" 
-            alt="Snapdog Logo" 
+      <div className="mx-auto flex max-w-300 items-center justify-between px-6 md:px-0">
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <img
+            src="/logo.png"
+            alt="Snapdog Logo"
             className={cn(
-              "w-[195px] h-auto object-contain transition-transform duration-300 origin-left",
-              isScrolled && "scale-[0.7]"
+              'h-auto w-[195px] origin-left object-contain transition-transform duration-300',
+              isScrolled && 'scale-[0.7]'
             )}
           />
         </div>
 
-        <div className="hidden md:flex items-center md:gap-8 lg:gap-10">
+        <div className="hidden items-center md:flex md:gap-8 lg:gap-10">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-[#4A5565] hover:text-blue-600 font-medium transition-colors text-base"
+              className="text-base font-medium text-[#4A5565] transition-colors hover:text-blue-600"
             >
               {link.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="bg-slate-900 text-white rounded-full font-medium hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3 text-[15px] group"
+            className="group flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
           >
             <span>立即規劃</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
         </div>
 
-        <button
-          className="md:hidden text-slate-900 p-1 z-50"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        <button className="z-50 p-1 text-slate-900 md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
@@ -74,13 +74,13 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-xl py-6 px-6 flex flex-col gap-6"
+            className="absolute top-full left-0 flex w-full flex-col gap-6 border-t border-slate-100 bg-white px-6 py-6 shadow-xl md:hidden"
           >
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-lg font-medium text-slate-700 text-left"
+                className="text-left text-lg font-medium text-slate-700"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="bg-blue-600 text-white py-4 rounded-xl font-bold w-full shadow-lg shadow-blue-200"
+              className="w-full rounded-xl bg-blue-600 py-4 font-bold text-white shadow-lg shadow-blue-200"
             >
               立即規劃
             </button>

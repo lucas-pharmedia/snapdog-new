@@ -12,9 +12,9 @@ function App() {
   return (
     <div className={`relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
       {/* Background Elements */}
-      <div id="parallax-bg" className="fixed inset-0 pointer-events-none" />
+      <div id="parallax-bg" className="pointer-events-none fixed inset-0" />
       {/* <MarqueeBackground isVisible={isStageVisible} /> */}
-      
+
       {/* Navbar */}
       <Navbar />
 
@@ -24,7 +24,7 @@ function App() {
 
         {/* Section 2: Interactive Stage */}
         <InteractiveStage onVisibilityChange={setIsStageVisible} />
-    {/* <div className='h-dvh'></div>
+        {/* <div className='h-dvh'></div>
     <div className='h-dvh'></div>
     <div className='h-dvh'></div>
     <div className='h-dvh'></div> */}
