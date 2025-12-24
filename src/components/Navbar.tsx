@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
         isScrolled ? 'py-2 shadow-sm backdrop-blur-md' : 'py-5'
       )}
     >
-      <div className="mx-auto flex max-w-300 items-center justify-between px-6 md:px-0">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-12">
         <div
           className="flex cursor-pointer items-center"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

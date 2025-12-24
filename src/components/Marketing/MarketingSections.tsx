@@ -1,36 +1,62 @@
-import React from 'react';
-import { BookOpen, Heart, Briefcase, Users, Phone, Mail, Star, QrCode, ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { BookOpen, Heart, Briefcase, Users, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
-
+import { motion, useAnimationControls } from 'framer-motion';
 const Scenarios: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const controls = useAnimationControls();
+  const [constraints, setConstraints] = useState({ left: 0, right: 0 });
   const tags = ['展場', '活動', '快閃品牌'];
   const cards = [
     {
-      icon: <BookOpen className="h-6 w-6 text-blue-400" />,
+      icon: <BookOpen className="h-6 w-6 text-[#5CB6FF]" />,
       title: '知識型互動體驗',
       desc: '博物館、藝術展、主題展覽。自由組合帶有文字資訊的素材。',
       img: 'https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Heart className="h-6 w-6 text-blue-400" />,
+      icon: <Heart className="h-6 w-6 text-[#5CB6FF]" />,
       title: '婚禮與派對慶典',
       desc: '婚禮、生日、抓周、聚會。相框、AI 功能等創意素材妝點回憶。',
       img: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Briefcase className="h-6 w-6 text-blue-400" />,
+      icon: <Briefcase className="h-6 w-6 text-[#5CB6FF]" />,
       title: '各式公開展覽',
       desc: '展覽會、品牌快閃店、招商活動。活動現場吸引人潮體驗酷拍活動。',
       img: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Users className="h-6 w-6 text-blue-400" />,
+      icon: <Users className="h-6 w-6 text-[#5CB6FF]" />,
       title: '企業活動與內部交流',
       desc: '年會、尾牙、員工日。拍照結合品牌自訂素材，加強品牌溝通力道。',
       img: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80'
     }
   ];
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        // 1. 用 JS 重置位移 (瞬間歸零，不拖泥帶水)
+        controls.set({ x: 0 });
+
+        // 2. 重新計算邊界
+        const containerWidth = containerRef.current.offsetWidth;
+        const contentWidth = containerRef.current.scrollWidth;
+
+        setConstraints({
+          left: containerWidth - contentWidth,
+          right: 0
+        });
+      }
+    };
+
+    // 初始執行一次
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [controls]);
   return (
     <section id="scenarios" className="py-15">
       <div className="mx-auto px-5 md:max-w-480 md:px-0">
@@ -47,27 +73,36 @@ const Scenarios: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="hide-scrollbar flex cursor-grab gap-2 overflow-x-auto pb-6 select-none">
-          {cards.map((item, i) => (
-            <div
-              key={i}
-              className={cn(
-                'group relative h-[400px] w-[285px] shrink-0 overflow-hidden rounded-[1.25rem] border border-slate-200 shadow-md transition-all duration-500 hover:shadow-xl',
-                'md:aspect-[1.185] md:h-auto md:grow md:rounded-none'
-              )}
-            >
-              <div className="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
-                <img src={item.img} className="h-full w-full object-cover opacity-90" alt={item.title} />
-              </div>
-              <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-slate-900/95 via-slate-900/50 to-transparent px-5 py-6 text-white">
-                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-black/20">
-                  {item.icon}
+        <div className="overflow-hidden" ref={containerRef}>
+          <motion.div
+            drag={constraints.left < 0 ? 'x' : false}
+            dragConstraints={constraints}
+            className={cn(
+              'hide-scrollbar flex cursor-grab gap-2 active:cursor-grabbing md:w-auto',
+              constraints.left < 0 ? 'w-max' : 'w-full'
+            )}
+          >
+            {cards.map((item, i) => (
+              <div
+                key={i}
+                className={cn(
+                  'group relative h-[400px] w-[285px] shrink-0 overflow-hidden rounded-[1.25rem] border border-slate-200 shadow-md transition-all duration-500 hover:shadow-xl',
+                  'md:aspect-[1.185] md:h-auto md:grow md:rounded-none'
+                )}
+              >
+                <div className="absolute inset-0 bg-slate-100 transition-transform duration-700 group-hover:scale-105">
+                  <img src={item.img} className="h-full w-full object-cover opacity-90" alt={item.title} />
                 </div>
-                <h3 className="mb-2 text-2xl leading-tight font-bold">{item.title}</h3>
-                <p className="text-base">{item.desc}</p>
+                <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-slate-900/95 via-slate-900/50 to-transparent px-5 py-6 text-white">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-black/20">
+                    {item.icon}
+                  </div>
+                  <h3 className="mb-2 text-2xl leading-tight font-bold">{item.title}</h3>
+                  <p className="text-base">{item.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>
@@ -95,13 +130,13 @@ const BusinessValue: React.FC = () => {
 
   return (
     <section id="business-value" className="py-15">
-      <div className="mx-auto max-w-312 px-6">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto mb-5 text-center md:mb-10">
           <h2 className="mb-3 text-center text-[1.75rem] leading-tight font-extrabold text-[#0F172B] md:text-[2.25rem]">
             串接 <span className="text-[#2563EB]">LINE 官方帳號</span>
             <br className="md:hidden" /> 啟動高效獲客引擎
           </h2>
-          <p className="hidden text-xl text-[#45556C] md:block">
+          <p className="hidden text-xl text-slate-500 md:block">
             拍照即加好友，將線下人流轉化為品牌資產，建立長期顧客關係。
           </p>
         </div>
@@ -125,129 +160,88 @@ const BusinessValue: React.FC = () => {
   );
 };
 
+const FAQItem: React.FC<{ q: string; a: string; isOpen: boolean; onClick: () => void }> = ({
+  q,
+  a,
+  isOpen,
+  onClick
+}) => {
+  return (
+    <div className={cn('overflow-hidden rounded-2xl border border-slate-200 transition-all duration-300')}>
+      <button
+        onClick={onClick}
+        className="flex w-full cursor-pointer items-center justify-between px-6 py-5 text-left transition-colors hover:bg-slate-50/50"
+      >
+        <span className={'text-lg font-bold text-[#1E293B]'}>{q}</span>
+        <ChevronDown
+          className={cn('text-[1.5rem] text-slate-800 transition-transform duration-300', isOpen && 'rotate-180')}
+        />
+      </button>
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-in-out',
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="px-6 pb-6 text-base leading-relaxed text-slate-600">{a}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const FAQ: React.FC = () => {
+  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+
   const faqs = [
     {
-      q: '租賃費用包含什麼？',
-      a: '費用包含機台租借、專人到場安裝與撤場、AI 濾鏡客製化、相框設計以及雲端相簿 QR Code 分享功能。'
+      question: '除了現場機台外，使用者需要下載 App 嗎？',
+      answer: '不需要，除了機台模式外，可透過串接LINE 官方帳號或掃描 QR Code 開啟編輯頁面，無須額外安裝 App。'
     },
     {
-      q: 'AI 濾鏡可以完全客製嗎？',
-      a: '可以，我們會根據您的品牌調性、活動主題需求，專屬訓練適合的風格模型，確保每個拍出的畫面都獨一無二。'
+      question: '使用者有哪些選項可以編輯照片？',
+      answer: '可依活動需求擴充功能，包括 貼圖、邊框、主題相框 與 AI 風格，打造專屬互動體驗。'
     },
     {
-      q: '活動現場需要網路嗎？',
-      a: '是的，機台運行及其雲端 QR Code 功能需穩定網路環境。我們也可以提供 4G/5G 行動網路租借方案。'
+      question: '我的活動可以客製素材嗎？',
+      answer: '當然可以！SnapDog 提供多款預設素材，亦可根據活動屬性量身設計相框、貼圖與AI風格主題。'
+    },
+    {
+      question: 'Snapdog 只能製作照片嗎？',
+      answer: '我們可依照活動屬性，規劃帶有文字資訊的素材，透過使用者自由組合帶有文字資訊的素材，營造知識型的互動體驗。'
+    },
+    {
+      question: 'SnapDog 有限制體驗人數嗎？',
+      answer: '如使用 AI 風格，建議單人拍攝效果最佳，可視需求支援2~3人，其他功能則無人數限制。'
+    },
+    {
+      question: 'AI 影像生成需要多久的時間？',
+      answer: '依模型複雜程度不同，基本風格約30~50秒內即可完成。'
+    },
+    {
+      question: '只有實體活動能使用SnapDog嗎？',
+      answer: '不一定！SnapDog 支援「實體互動機台」與「線上拍貼」服務，靈活應用於各種活動場景。'
     }
   ];
 
   return (
-    <section id="faq-section" className="py-15">
-      <div className="mx-auto max-w-3xl px-6 md:px-12">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">常見問題</h2>
-          <p className="text-[#45556C]">關於 Snapdog 的服務細節，這裡有您想知道的答案</p>
+    <section id="faq" className="py-15">
+      <div className="mx-auto max-w-3xl px-6">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-[2rem] font-extrabold text-[#0F172B] md:text-[2.5rem]">常見問題</h2>
+          <p className="text-lg text-slate-500">關於 Snapdog 的服務細節，這裡有您想知道的答案</p>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
-              <h4 className="mb-2 font-bold text-slate-900">{faq.q}</h4>
-              <p className="text-sm leading-relaxed text-slate-500">{faq.a}</p>
-            </div>
+            <FAQItem
+              key={i}
+              q={faq.question}
+              a={faq.answer}
+              isOpen={openIndex === i}
+              onClick={() => setOpenIndex(openIndex === i ? null : i)}
+            />
           ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Contact: React.FC = () => {
-  return (
-    <section id="contact" className="relative overflow-hidden bg-slate-900 py-24 text-white">
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
-        <div className="flex flex-col gap-16 md:flex-row md:gap-24">
-          <div className="flex flex-col justify-between md:w-1/3">
-            <div>
-              <div className="mb-6 flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold text-white shadow-md">
-                  S
-                </div>
-                <span className="text-2xl font-bold tracking-tight text-white">Snapdog</span>
-              </div>
-              <h2 className="mb-4 text-3xl leading-tight font-bold md:text-4xl">
-                一起玩轉回憶，
-                <br />
-                創造有效互動！
-              </h2>
-              <p className="mb-8 text-lg text-slate-400">立即聯絡我們，打造專屬的照片互動體驗</p>
-
-              <div className="mb-10 space-y-4 text-white">
-                <div className="flex items-center gap-4">
-                  <Phone className="h-5 w-5 text-blue-500" />
-                  <span className="text-lg font-medium">02-2772-5579</span>
-                </div>
-                <div className="flex items-center gap-4 text-white">
-                  <Mail className="h-5 w-5 text-blue-500" />
-                  <span className="text-lg font-medium">service@hypermex.io</span>
-                </div>
-                <div className="flex items-center gap-4 text-white">
-                  <Star className="h-5 w-5 fill-blue-500 text-blue-500" />
-                  <span className="text-lg font-medium text-slate-300">不定時上線節慶素材免費加入體驗</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 transition-all duration-300 hover:bg-slate-800">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10">
-                <QrCode className="h-6 w-6 text-green-500" />
-              </div>
-              <div className="flex-1">
-                <div className="mb-0.5 text-sm font-bold text-white">LINE 線上諮詢</div>
-                <div className="text-xs text-slate-400">專人一對一服務規劃</div>
-              </div>
-              <ArrowRight className="h-5 w-5 text-slate-600 transition-colors group-hover:text-white" />
-            </div>
-          </div>
-
-          <div className="rounded-4xl border border-white/5 bg-slate-800/30 p-8 backdrop-blur-sm md:w-2/3 md:p-12">
-            <form className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="space-y-2">
-                <label className="ml-1 text-sm font-medium text-slate-400">您的姓名 *</label>
-                <input
-                  type="text"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-4 py-3 text-white transition-all focus:ring-2 focus:ring-blue-500/50 focus:outline-hidden"
-                  placeholder="王小明"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="ml-1 text-sm font-medium text-slate-400">聯絡電話 *</label>
-                <input
-                  type="text"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-4 py-3 text-white transition-all focus:ring-2 focus:ring-blue-500/50 focus:outline-hidden"
-                  placeholder="0912-345-678"
-                />
-              </div>
-              <div className="space-y-2 md:col-span-2">
-                <label className="ml-1 text-sm font-medium text-slate-400">電子郵件 *</label>
-                <input
-                  type="email"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-4 py-3 text-white transition-all focus:ring-2 focus:ring-blue-500/50 focus:outline-hidden"
-                  placeholder="service@example.com"
-                />
-              </div>
-              <div className="space-y-2 md:col-span-2">
-                <label className="ml-1 text-sm font-medium text-slate-400">活動需求描述</label>
-                <textarea
-                  className="h-32 w-full resize-none rounded-xl border border-slate-700 bg-slate-900/50 px-4 py-3 text-white transition-all focus:ring-2 focus:ring-blue-500/50 focus:outline-hidden"
-                  placeholder="請簡述您的活動類型、日期與預估人數..."
-                ></textarea>
-              </div>
-              <button className="group mt-4 flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-4 font-bold text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-blue-500 md:col-span-2">
-                <span>送出規劃需求</span>
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </button>
-            </form>
-          </div>
         </div>
       </div>
     </section>
@@ -260,7 +254,6 @@ const MarketingSections: React.FC = () => {
       <Scenarios />
       <BusinessValue />
       <FAQ />
-      <Contact />
     </section>
   );
 };

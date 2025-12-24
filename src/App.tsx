@@ -5,6 +5,7 @@ import InteractiveStage from './components/InteractiveStage/InteractiveStage';
 import MarketingSections from './components/Marketing/MarketingSections';
 import MarqueeBackground from './components/MarqueeBackground';
 import Footer from './components/Footer';
+import Contact from './components/Contact';
 
 function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
@@ -30,6 +31,7 @@ function App() {
     <div className='h-dvh'></div> */}
         {/* Section 3: Marketing Content */}
         <MarketingSections />
+        <Contact />
       </main>
       <Footer />
       {/* SVG Gradients for Icons */}
