@@ -1,11 +1,8 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../utils';
-import Male from '../../assets/male.svg?react';
-import Female from '../../assets/female.svg?react';
-import Animal from '../../assets/animal.svg?react';
 import type { PhotoConfig } from '../../types';
 import { Character } from '../../constans';
+import AIStyleSelector from './AIStyleSelector';
+import { AnimatePresence, motion } from 'framer-motion';
 interface CanvasAreaProps {
   isInView: boolean;
   currentStep: number;
@@ -13,46 +10,40 @@ interface CanvasAreaProps {
   onCharacterClick: (character: Character) => void;
 }
 
-const CHARACTERS = [
-  { icon: <Male />, value: Character.Male },
-  { icon: <Female />, value: Character.Female },
-  { icon: <Animal />, value: Character.Animal }
-];
 const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: CanvasAreaProps) => {
-  const imageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
   return (
     <>
-      <div className={cn('flex grow transition-opacity duration-800', isInView ? 'opacity-100' : 'opacity-0')}>
-        <div className="relative">
-          <div className="overflow-hidden rounded-[1.25rem] shadow-lg">
-            <img src={imageUrl} alt="" className="h-full" />
-          </div>
-          <div
-            className={cn(
-              'absolute top-0 left-0 -translate-x-[calc(100%+20px)] rounded-[0.625rem] bg-white p-2.5 shadow-lg',
-              'flex gap-2.5 md:flex-col'
-            )}
+      <div
+        className={cn(
+          'flex grow overflow-hidden transition-opacity duration-800',
+          isInView ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep} // 這裡一定要給 key，Framer Motion 才知道這是不同元件
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            {CHARACTERS.map((character, index) => {
-              const isSelected = photoConfig.character === character.value;
-              return (
-                <div
-                  key={index}
-                  className={cn(
-                    'flex h-15 w-15 cursor-pointer items-center justify-center rounded-[0.625rem]',
-                    isSelected ? 'bg-blue-600 text-white' : 'bg-white text-[#45556C]'
-                  )}
-                  onClick={() => onCharacterClick(character.value)}
-                >
-                  {character.icon}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+            {currentStep === 0 && (
+              <>
+                <AIStyleSelector photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+              </>
+            )}
+            {currentStep === 1 && (
+              <>
+                <AIStyleSelector photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+              </>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </>
   );
+
+  // -----------------------------------以前的code-----------------------------
   // return (
   //   <div className="perspective-1000 pointer-events-auto relative z-30 flex w-full grow items-center justify-center transition-[margin-top] duration-400">
   //     <AnimatePresence mode="wait">
