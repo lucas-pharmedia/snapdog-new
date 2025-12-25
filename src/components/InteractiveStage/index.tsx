@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
 import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import { cn } from '../../utils';
+import StepIndicator from './StepIndicator';
+import NavControls from './NavControls';
 import { SectionId } from '../../constans';
-
-export type StepIdx = 0 | 1 | 2 | 3;
 
 const STEPS = [
   {
@@ -137,53 +135,22 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
         />
       </div>
 
-      {/* Nav Controls */}
-      <div
-        className={cn(
-          `fixed top-[50%] right-5 flex -translate-y-1/2 flex-col gap-3 transition-opacity duration-300`,
-          isInView ? 'opacity-100' : 'opacity-0'
-        )}
-      >
-        <button
-          onClick={handlePrev}
-          disabled={currentStep === 0}
-          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-black/5 bg-white/80 shadow-md backdrop-blur-sm transition-all active:scale-95 disabled:opacity-0"
-        >
-          <ChevronUp className="text-[15px] text-slate-700" />
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={currentStep === 3}
-          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-black/5 bg-white/80 shadow-md backdrop-blur-sm transition-all active:scale-95 disabled:opacity-0"
-        >
-          <ChevronDown className="text-[15px] text-slate-700" />
-        </button>
-      </div>
+      <NavControls
+        currentStep={currentStep}
+        totalSteps={STEPS.length}
+        onNextClick={handleNext}
+        onPrevClick={handlePrev}
+        isInView={isInView}
+      />
 
-      {/* Step Indicator */}
-      <div
-        className={cn(
-          `fixed top-1/2 left-6 flex -translate-y-1/2 flex-col rounded-full border border-white/50 bg-white/60 py-1.5 shadow-lg backdrop-blur-md transition-opacity duration-300`,
-          isInView ? 'opacity-100' : 'opacity-0'
-        )}
-      >
-        {STEPS.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => scrollToStepSection(idx)}
-            className="flex cursor-pointer items-center justify-center px-2.5 py-2.5"
-          >
-            <span
-              className={`w-1 cursor-pointer rounded-full transition-all duration-400 ${
-                currentStep === idx ? 'h-6 bg-slate-900 opacity-100' : 'h-1 bg-slate-400 opacity-60'
-              }`}
-            />
-          </button>
-        ))}
-      </div>
+      <StepIndicator
+        currentStep={currentStep}
+        totalSteps={STEPS.length}
+        onStepClick={scrollToStepSection}
+        isInView={isInView}
+      />
 
       {/* Scroll Sections */}
-
       {STEPS.map((step, idx) => (
         <div key={idx} className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-dvh" id={step.id}></div>
       ))}

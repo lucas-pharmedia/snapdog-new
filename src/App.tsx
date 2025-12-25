@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import InteractiveStage from './components/InteractiveStage/InteractiveStage';
+import InteractiveStage from './components/InteractiveStage';
 import MarketingSections from './components/Marketing/MarketingSections';
 import MarqueeBackground from './components/MarqueeBackground';
 import Footer from './components/Footer';
