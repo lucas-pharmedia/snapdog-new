@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
 
@@ -10,7 +9,7 @@ interface NavControlsProps {
   isInView: boolean;
 }
 
-const NavControls: React.FC<NavControlsProps> = ({ currentStep, totalSteps, onNextClick, onPrevClick, isInView }) => {
+const NavControls = ({ currentStep, totalSteps, onNextClick, onPrevClick, isInView }: NavControlsProps) => {
   return (
     <div
       className={cn(

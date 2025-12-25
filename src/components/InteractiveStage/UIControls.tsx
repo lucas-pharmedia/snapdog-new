@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../utils';
 import { AI_STYLE_OPTIONS, AIStyle } from '../../constans';
 import type { PhotoConfig } from '../../types';
@@ -11,7 +10,7 @@ interface UIControlsProps {
   onStyleClick: (style: AIStyle) => void;
 }
 
-const UIControls: React.FC<UIControlsProps> = ({ isInView, currentStep, photoConfig, onStyleClick }) => {
+const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick }: UIControlsProps) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div

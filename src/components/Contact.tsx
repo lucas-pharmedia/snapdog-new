@@ -1,7 +1,7 @@
 import { Phone, Mail, Star, QrCode, ChevronRight, ChevronDown } from 'lucide-react';
 import { SectionId } from '../constans';
 
-const Contact: React.FC = () => {
+const Contact = () => {
   return (
     <section
       id={SectionId.Contact}

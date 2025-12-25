@@ -1,4 +1,4 @@
-import React from 'react';
+import { motion } from 'framer-motion';
 
 const images = [
   'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200',
@@ -9,7 +9,7 @@ const images = [
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=200'
 ];
 
-const MarqueeRow: React.FC<{ direction: 'left' | 'right' }> = ({ direction }) => {
+const MarqueeRow = ({ direction }: { direction: 'left' | 'right' }) => {
   const animationClass =
     direction === 'left' ? 'animate-[marquee_30s_linear_infinite]' : 'animate-[marquee-rev_35s_linear_infinite]';
   return (
@@ -36,7 +36,7 @@ const MarqueeRow: React.FC<{ direction: 'left' | 'right' }> = ({ direction }) =>
   );
 };
 
-const MarqueeBackground: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
+const MarqueeBackground = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div
       className={`pointer-events-none fixed inset-0 z-10 flex h-dvh w-full scale-110 -rotate-3 flex-col justify-center gap-8 overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-20' : 'opacity-0'}`}

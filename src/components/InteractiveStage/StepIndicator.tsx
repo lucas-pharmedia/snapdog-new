@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../utils';
 
 interface StepIndicatorProps {
@@ -8,7 +7,7 @@ interface StepIndicatorProps {
   isInView: boolean;
 }
 
-const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, totalSteps, onStepClick, isInView }) => {
+const StepIndicator = ({ currentStep, totalSteps, onStepClick, isInView }: StepIndicatorProps) => {
   return (
     <div
       className={cn(

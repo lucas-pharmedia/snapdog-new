@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils';
 import { SectionId } from '../constans';
 
-const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = ({ setNavBarScrolling }) => {
+const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolean) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

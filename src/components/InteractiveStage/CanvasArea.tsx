@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../utils';
 import Male from '../../assets/male.svg?react';
@@ -18,7 +18,7 @@ const CHARACTERS = [
   { icon: <Female />, value: Character.Female },
   { icon: <Animal />, value: Character.Animal }
 ];
-const CanvasArea: React.FC<CanvasAreaProps> = ({ isInView, currentStep, photoConfig, onCharacterClick }) => {
+const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: CanvasAreaProps) => {
   const imageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
   return (
     <>

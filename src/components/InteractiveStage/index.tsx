@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
 import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
@@ -39,7 +39,7 @@ const STEPS = [
   }
 ];
 
-const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarScrolling }) => {
+const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean }) => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
   const [currentStep, setCurrentStep] = useState(0);

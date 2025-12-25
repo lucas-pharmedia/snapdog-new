@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BookOpen, Heart, Briefcase, Users, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
 import { motion, useAnimationControls } from 'framer-motion';
 import { SectionId } from '../../constans';
-const Scenarios: React.FC = () => {
+const Scenarios = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
@@ -110,7 +110,7 @@ const Scenarios: React.FC = () => {
   );
 };
 
-const BusinessValue: React.FC = () => {
+const BusinessValue = () => {
   const cards = [
     {
       icon: <img src="/business-value-icon-1.jpg" />,
@@ -161,12 +161,7 @@ const BusinessValue: React.FC = () => {
   );
 };
 
-const FAQItem: React.FC<{ q: string; a: string; isOpen: boolean; onClick: () => void }> = ({
-  q,
-  a,
-  isOpen,
-  onClick
-}) => {
+const FAQItem = ({ q, a, isOpen, onClick }: { q: string; a: string; isOpen: boolean; onClick: () => void }) => {
   return (
     <div className={cn('overflow-hidden rounded-2xl border border-slate-200 transition-all duration-300')}>
       <button
@@ -192,8 +187,8 @@ const FAQItem: React.FC<{ q: string; a: string; isOpen: boolean; onClick: () => 
   );
 };
 
-const FAQ: React.FC = () => {
-  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
@@ -249,7 +244,7 @@ const FAQ: React.FC = () => {
   );
 };
 
-const MarketingSections: React.FC = () => {
+const MarketingSections = () => {
   return (
     <section className="relative z-5 bg-[#F8FAFC] shadow-[0_-20px_40px_rgba(0,0,0,0.05)]">
       <Scenarios />

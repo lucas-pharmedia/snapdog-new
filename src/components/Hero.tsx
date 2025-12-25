@@ -2,7 +2,7 @@ import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SectionId } from '../constans';
 
-const Hero: React.FC = () => {
+const Hero = () => {
   return (
     <section className="relative z-5 flex w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:h-dvh">
       {/* Background Image - Visible only on Desktop */}
