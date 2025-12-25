@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils';
+import { SECTION_ID } from '../constans';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,11 +17,26 @@ const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { label: '產品特色', href: '#sec-1' },
-    { label: '應用場景', href: '#scenarios' },
-    { label: '商業價值', href: '#business-value' },
-    { label: '常見問題', href: '#faq-section' }
+    { label: '產品特色', sectionId: SECTION_ID.INTERACTIVE_STAGE },
+    { label: '應用場景', sectionId: SECTION_ID.SCENARIOS },
+    { label: '商業價值', sectionId: SECTION_ID.BUSINESS_VALUE },
+    { label: '常見問題', sectionId: SECTION_ID.FAQ }
   ];
+
+  const scrollToSection = (sectionId: string, offset: number = 0) => {
+    const targetElement = document.getElementById(sectionId);
+
+    if (targetElement) {
+      const elementPosition = targetElement.getBoundingClientRect().top;
+
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <nav
@@ -46,21 +62,25 @@ const Navbar: React.FC = () => {
 
         <div className="hidden items-center md:flex md:gap-8 lg:gap-10">
           {navLinks.map((link) => (
-            <a
+            <button
               key={link.label}
-              href={link.href}
-              className="text-base font-medium text-[#4A5565] transition-colors hover:text-blue-600"
+              onClick={() => {
+                scrollToSection(link.sectionId, 50);
+              }}
+              className="cursor-pointer text-base font-medium text-[#4A5565] transition-colors hover:text-blue-600"
             >
               {link.label}
-            </a>
+            </button>
           ))}
-          <a
-            href="#contact"
-            className="group flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
+          <button
+            onClick={() => {
+              scrollToSection(SECTION_ID.CONTACT, 50);
+            }}
+            className="group flex cursor-pointer items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
           >
             <span>立即規劃</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </button>
         </div>
 
         <button className="z-50 p-1 text-slate-900 md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -77,14 +97,16 @@ const Navbar: React.FC = () => {
             className="absolute top-full left-0 flex w-full flex-col gap-6 border-t border-slate-100 bg-white px-6 py-6 shadow-xl md:hidden"
           >
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
+                onClick={() => {
+                  scrollToSection(link.sectionId);
+                  setIsMobileMenuOpen(false);
+                }}
                 className="text-left text-lg font-medium text-slate-700"
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
-              </a>
+              </button>
             ))}
             <button
               onClick={() => {

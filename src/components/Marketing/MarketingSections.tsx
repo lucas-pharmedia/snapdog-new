@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BookOpen, Heart, Briefcase, Users, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
 import { motion, useAnimationControls } from 'framer-motion';
+import { SECTION_ID } from '../../constans';
 const Scenarios: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
@@ -58,7 +59,7 @@ const Scenarios: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [controls]);
   return (
-    <section id="scenarios" className="py-15">
+    <section id={SECTION_ID.SCENARIOS} className="py-15">
       <div className="mx-auto px-5 md:max-w-480 md:px-0">
         <h2 className="mb-3 text-center text-[1.75rem] font-extrabold text-slate-900 md:text-[2.25rem]">
           滿足多樣化的活動場景
@@ -129,7 +130,7 @@ const BusinessValue: React.FC = () => {
   ];
 
   return (
-    <section id="business-value" className="py-15">
+    <section id={SECTION_ID.BUSINESS_VALUE} className="py-15">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto mb-5 text-center md:mb-10">
           <h2 className="mb-3 text-center text-[1.75rem] leading-tight font-extrabold text-slate-900 md:text-[2.25rem]">
@@ -226,7 +227,7 @@ const FAQ: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-15">
+    <section id={SECTION_ID.FAQ} className="py-15">
       <div className="mx-auto max-w-3xl px-6">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-[2rem] font-extrabold text-[#0F172B] md:text-[2.5rem]">常見問題</h2>
@@ -250,7 +251,7 @@ const FAQ: React.FC = () => {
 
 const MarketingSections: React.FC = () => {
   return (
-    <section id="marketing-sections" className="relative z-5 bg-[#F8FAFC] shadow-[0_-20px_40px_rgba(0,0,0,0.05)]">
+    <section className="relative z-5 bg-[#F8FAFC] shadow-[0_-20px_40px_rgba(0,0,0,0.05)]">
       <Scenarios />
       <BusinessValue />
       <FAQ />

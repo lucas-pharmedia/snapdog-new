@@ -3,6 +3,5 @@ export const SECTION_ID = {
   SCENARIOS: 'scenarios',
   BUSINESS_VALUE: 'business-value',
   FAQ: 'faq',
-  MARKETING: 'marketing-sections',
   CONTACT: 'contact'
 };

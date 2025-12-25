@@ -1,8 +1,12 @@
 import { Phone, Mail, Star, QrCode, ChevronRight, ChevronDown } from 'lucide-react';
+import { SECTION_ID } from '../constans';
 
 const Contact: React.FC = () => {
   return (
-    <section id="contact" className="relative overflow-hidden bg-slate-900 pt-10 pb-20 text-white lg:pt-20 lg:pb-24">
+    <section
+      id={SECTION_ID.CONTACT}
+      className="relative overflow-hidden bg-slate-900 pt-10 pb-20 text-white lg:pt-20 lg:pb-24"
+    >
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-12">
         <div className="flex flex-col-reverse gap-16 lg:flex-row lg:gap-24">
           <div className="flex flex-col justify-between lg:w-1/3">

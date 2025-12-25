@@ -4,33 +4,34 @@ import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
+import { SECTION_ID } from '../../constans';
 
 export type StepIdx = 0 | 1 | 2 | 3;
 
-const steps = [
+const STEPS = [
   {
-    id: 'text-1',
+    id: 'step-1',
     label: 'AI STYLE',
     title: '現場轉換百變造型',
     description: '客製化活動視覺，現場即時生成風格',
     bgColor: '#2563EB'
   },
   {
-    id: 'text-2',
+    id: 'step-2',
     label: 'LAYOUTS',
     title: '創意版面隨心搭配',
     description: '多種尺寸多格拍攝，皆可選擇',
     bgColor: '#873AE2'
   },
   {
-    id: 'text-3',
+    id: 'step-3',
     label: 'DECORATION',
     title: '活動主題相框',
     description: '客製化品牌相框與貼圖，加深活動辨識度',
     bgColor: '#F46C2E'
   },
   {
-    id: 'text-4',
+    id: 'step-4',
     label: 'SHARE & PRINT',
     title: '成果立即呈現',
     description: '',
@@ -48,7 +49,7 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
     target: containerRef,
     offset: ['start start', 'end end']
   });
-  const stepProgress = useTransform(scrollYProgress, [0, 1], [0, steps.length - 1]);
+  const stepProgress = useTransform(scrollYProgress, [0, 1], [0, STEPS.length - 1]);
   useMotionValueEvent(stepProgress, 'change', (latest) => {
     const step = Math.round(latest);
     setCurrentStep(step);
@@ -57,16 +58,15 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
   useEffect(() => {
     if (isInView) {
       console.log('scroll to section', currentStep);
-      scrollToSection(currentStep);
+      scrollToStepSection(currentStep);
     }
   }, [isInView]);
 
-  const scrollToSection = (section: number) => {
-    const targetElement = document.getElementById(`sec-${section}`);
-    console.log(`targetElement`, targetElement);
-    if (!targetElement) return;
-    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const scrollToStepSection = (step: number) => {
+    const targetElement = document.getElementById(STEPS[step].id);
+    targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
   console.log(`currentStep`, currentStep);
   // const [isVisible, setIsVisible] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -83,15 +83,15 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
   const [printMode, setPrintMode] = useState<'wall' | 'print'>('wall');
 
   const handleNext = () => {
-    if (currentStep < steps.length - 1) scrollToSection(currentStep + 1);
+    if (currentStep < STEPS.length - 1) scrollToStepSection(currentStep + 1);
   };
 
   const handlePrev = () => {
-    if (currentStep > 0) scrollToSection(currentStep - 1);
+    if (currentStep > 0) scrollToStepSection(currentStep - 1);
   };
 
   return (
-    <section id="interactive-stage-section" className="relative" ref={containerRef}>
+    <section id={SECTION_ID.INTERACTIVE_STAGE} className="relative" ref={containerRef}>
       {/* Sticky Stage */}
       <div
         ref={stageRef}
@@ -112,16 +112,16 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
               <h2
                 className={`mb-1 px-3 text-[15px] font-medium tracking-wider text-white md:text-[18px] md:font-bold`}
                 style={{
-                  backgroundColor: steps[currentStep].bgColor
+                  backgroundColor: STEPS[currentStep].bgColor
                 }}
               >
-                {steps[currentStep].label}
+                {STEPS[currentStep].label}
               </h2>
               <h1 className="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">
-                {steps[currentStep].title}
+                {STEPS[currentStep].title}
               </h1>
-              {steps[currentStep].description && (
-                <p className="mt-1 text-xs text-gray-500 md:text-base">{steps[currentStep].description}</p>
+              {STEPS[currentStep].description && (
+                <p className="mt-1 text-xs text-gray-500 md:text-base">{STEPS[currentStep].description}</p>
               )}
             </motion.div>
           </AnimatePresence>
@@ -178,10 +178,10 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
           isInView ? 'opacity-100' : 'opacity-0'
         )}
       >
-        {steps.map((_, idx) => (
+        {STEPS.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => scrollToSection(idx)}
+            onClick={() => scrollToStepSection(idx)}
             className="flex cursor-pointer items-center justify-center px-2.5 py-2.5"
           >
             <span
@@ -195,14 +195,8 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
 
       {/* Scroll Sections */}
 
-      {steps.map((_, idx) => (
-        <div
-          key={idx}
-          className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-dvh"
-          id={`sec-${idx}`}
-          data-index={idx}
-          // style={{ background: step.bgColor }}
-        ></div>
+      {STEPS.map((step, idx) => (
+        <div key={idx} className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-dvh" id={step.id}></div>
       ))}
     </section>
   );
