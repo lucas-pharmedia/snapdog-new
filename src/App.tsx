@@ -6,7 +6,7 @@ import MarketingSections from './components/Marketing/MarketingSections';
 import MarqueeBackground from './components/MarqueeBackground';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
-import { useRef } from 'react';
+import { AIStyle, Character } from './constans';
 
 function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
@@ -23,13 +23,28 @@ function App() {
       <main>
         {/* Section 1: Hero */}
         <Hero />
-
         {/* Section 2: Interactive Stage */}
         <InteractiveStage isNavBarScrolling={isNavBarScrolling} />
-
         {/* Section 3: Marketing Content */}
         <MarketingSections />
         <Contact />
+        {/* <div className="relative z-100">
+          {Object.values(Character).map((character) => {
+            return (
+              <>
+                {['01', '02', '03'].map((index) => {
+                  return (
+                    <div className="flex">
+                      {Object.values(AIStyle).map((style) => {
+                        return <img src={`ai/${character}/${index}/${style}.jpg`} alt="" className="w-[100px]" />;
+                      })}
+                    </div>
+                  );
+                })}
+              </>
+            );
+          })}
+        </div> */}
       </main>
       <Footer />
     </div>

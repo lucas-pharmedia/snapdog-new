@@ -42,7 +42,6 @@ const STEPS = [
 const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarScrolling }) => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
-  console.log(`isInView`, isInView);
   const [currentStep, setCurrentStep] = useState(0);
 
   const { scrollYProgress } = useScroll({
@@ -65,7 +64,6 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
     targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  console.log(`currentStep`, currentStep);
   const stageRef = useRef<HTMLDivElement>(null);
 
   const [selectedFilter, setSelectedFilter] = useState('contrast(1.1) saturate(1.2) brightness(1.05)');
