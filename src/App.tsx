@@ -12,7 +12,7 @@ function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
   const [isNavBarScrolling, setIsNavBarScrolling] = useState(false);
   return (
-    <div className={`relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
+    <div className={`hide-scrollbar relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
       {/* Background Elements */}
       <div id="parallax-bg" className="pointer-events-none fixed inset-0" />
       {/* <MarqueeBackground isVisible={isStageVisible} /> */}

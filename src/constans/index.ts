@@ -1,5 +1,5 @@
 export enum SectionId {
-  InteractiveStage = 'interactive-stage-section',
+  InteractiveStage = 'interactive-stage',
   Scenarios = 'scenarios',
   BusinessValue = 'business-value',
   FAQ = 'faq',
@@ -27,17 +27,51 @@ export enum AIStyle {
   SoutheastAsiaTravel = 'southeast-asia-travel'
 }
 
-export const AI_STYLE_LABEL: Record<AIStyle, string> = {
-  [AIStyle.None]: '無',
-  [AIStyle.Anim3D]: '3D動畫',
-  [AIStyle.Korean3D]: '3D韓風',
-  [AIStyle.GameIllustration]: '遊戲插畫',
-  [AIStyle.Cartoon2D]: '2D卡通',
-  [AIStyle.Cyber]: ' Cyber',
-  [AIStyle.Job]: '職業',
-  [AIStyle.Scene]: '場景',
-  [AIStyle.Xmas]: '聖誕節',
-  [AIStyle.Halloween]: '萬聖節',
-  [AIStyle.JapanTravel]: '日本旅遊',
-  [AIStyle.SoutheastAsiaTravel]: '東南亞旅遊'
-};
+export const AI_STYLE_OPTIONS = [
+  { value: AIStyle.None, label: '無' },
+  { value: AIStyle.Anim3D, label: '3D動畫' },
+  { value: AIStyle.Korean3D, label: '3D韓風' },
+  { value: AIStyle.GameIllustration, label: '遊戲插畫' },
+  { value: AIStyle.Cartoon2D, label: '2D卡通' },
+  { value: AIStyle.Cyber, label: ' Cyber' },
+  { value: AIStyle.Job, label: '職業' },
+  { value: AIStyle.Scene, label: '場景' },
+  { value: AIStyle.Xmas, label: '聖誕節' },
+  { value: AIStyle.Halloween, label: '萬聖節' },
+  { value: AIStyle.JapanTravel, label: '日本旅遊' },
+  { value: AIStyle.SoutheastAsiaTravel, label: '東南亞旅遊' }
+];
+
+export enum Layout {
+  Portrait = 'portrait',
+  Landscape = 'landscape',
+  Classic = 'classic',
+  MuiltiGrid = 'muilti-grid',
+  Calendar = 'calendar'
+}
+
+export const LAYOUT_OPTIONS = [
+  { value: Layout.Portrait, label: '直式' },
+  { value: Layout.Landscape, label: '橫式' },
+  { value: Layout.Classic, label: '經典' },
+  { value: Layout.MuiltiGrid, label: '多格佈局' },
+  { value: Layout.Calendar, label: '月曆' }
+];
+
+export enum Frame {
+  None = 'none',
+  Snapdog = 'snapdog',
+  Bear = 'bear',
+  Y2K = 'y2k',
+  ScienceFiction = 'science-fiction',
+  Vacation = 'vacation'
+}
+
+export const FRAME_OPTIONS = [
+  { value: Frame.None, label: '無' },
+  { value: Frame.Snapdog, label: 'Snapdog' },
+  { value: Frame.Bear, label: '熊可愛' },
+  { value: Frame.Y2K, label: 'Y2K' },
+  { value: Frame.ScienceFiction, label: '科幻未來' },
+  { value: Frame.Vacation, label: '渡假時間' }
+];

@@ -4,7 +4,9 @@ import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
 import StepIndicator from './StepIndicator';
 import NavControls from './NavControls';
-import { SectionId } from '../../constans';
+import { AIStyle, Character, Frame, Layout, SectionId } from '../../constans';
+import type { PhotoConfig } from '../../types';
+import { cn } from '../../utils';
 
 const STEPS = [
   {
@@ -41,7 +43,12 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
   const [currentStep, setCurrentStep] = useState(0);
-
+  const [photoConfig, setPhotoConfig] = useState<PhotoConfig>({
+    character: Character.Male,
+    style: AIStyle.None,
+    layout: Layout.Portrait,
+    frame: Frame.None
+  });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end']
@@ -61,12 +68,6 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
     const targetElement = document.getElementById(STEPS[step].id);
     targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  const stageRef = useRef<HTMLDivElement>(null);
-
-  const [selectedFilter, setSelectedFilter] = useState('contrast(1.1) saturate(1.2) brightness(1.05)');
-  const [selectedRatio, setSelectedRatio] = useState('default');
-  const [selectedFrame, setSelectedFrame] = useState('none');
   const [printMode, setPrintMode] = useState<'wall' | 'print'>('wall');
 
   const handleNext = () => {
@@ -81,12 +82,17 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
     <section id={SectionId.InteractiveStage} className="relative" ref={containerRef}>
       {/* Sticky Stage */}
       <div
-        ref={stageRef}
-        className={`pointer-events-none fixed top-0 left-0 flex h-dvh w-full flex-col items-center justify-center transition-opacity duration-500 ${
-          isInView ? 'opacity-100' : 'opacity-0'
-        } pt-[calc(100px+env(safe-area-inset-top))] pb-[calc(90px+env(safe-area-inset-bottom))] md:justify-center md:pt-[calc(100px+env(safe-area-inset-top))]`}
+        className={cn(
+          `fixed top-0 left-0 flex h-dvh w-full flex-col items-center justify-center`,
+          `pt-[100px] pb-[20px]`
+        )}
       >
-        <div className="pointer-events-none relative mb-2 flex h-[15vh] min-h-[100px] w-full shrink-0 items-end justify-center">
+        <div
+          className={cn(
+            'relative mb-4 flex w-full shrink-0 items-end justify-center transition-opacity duration-1200',
+            isInView ? 'opacity-100' : 'opacity-0'
+          )}
+        >
           <AnimatePresence mode="popLayout">
             <motion.div
               key={currentStep}
@@ -115,23 +121,20 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
         </div>
 
         <CanvasArea
+          isInView={isInView}
           currentStep={currentStep}
-          selectedFilter={selectedFilter}
-          selectedRatio={selectedRatio}
-          selectedFrame={selectedFrame}
-          printMode={printMode}
+          photoConfig={photoConfig}
+          onCharacterClick={(character) => setPhotoConfig({ ...photoConfig, character })}
         />
 
         <UIControls
+          isInView={isInView}
           currentStep={currentStep}
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-          selectedRatio={selectedRatio}
-          setSelectedRatio={setSelectedRatio}
-          selectedFrame={selectedFrame}
-          setSelectedFrame={setSelectedFrame}
-          printMode={printMode}
-          setPrintMode={setPrintMode}
+          photoConfig={photoConfig}
+          onStyleClick={(style) => {
+            console.log(style);
+            setPhotoConfig({ ...photoConfig, style });
+          }}
         />
       </div>
 
