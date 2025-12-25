@@ -4,7 +4,7 @@ import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils';
-import { SECTION_ID } from '../../constans';
+import { SectionId } from '../../constans';
 
 export type StepIdx = 0 | 1 | 2 | 3;
 
@@ -82,7 +82,7 @@ const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarSc
   };
 
   return (
-    <section id={SECTION_ID.INTERACTIVE_STAGE} className="relative" ref={containerRef}>
+    <section id={SectionId.InteractiveStage} className="relative" ref={containerRef}>
       {/* Sticky Stage */}
       <div
         ref={stageRef}

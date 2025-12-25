@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils';
-import { SECTION_ID } from '../constans';
+import { SectionId } from '../constans';
 
 const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = ({ setNavBarScrolling }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,13 +17,14 @@ const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = (
   }, []);
 
   const navLinks = [
-    { label: '產品特色', sectionId: SECTION_ID.INTERACTIVE_STAGE },
-    { label: '應用場景', sectionId: SECTION_ID.SCENARIOS },
-    { label: '商業價值', sectionId: SECTION_ID.BUSINESS_VALUE },
-    { label: '常見問題', sectionId: SECTION_ID.FAQ }
+    { label: '產品特色', sectionId: SectionId.InteractiveStage },
+    { label: '應用場景', sectionId: SectionId.Scenarios },
+    { label: '商業價值', sectionId: SectionId.BusinessValue },
+    { label: '常見問題', sectionId: SectionId.FAQ }
   ];
 
-  const scrollToSection = (sectionId: string, offset: number = 0) => {
+  const scrollToSection = (sectionId: string) => {
+    const offset = 50;
     const targetElement = document.getElementById(sectionId);
     if (!targetElement) return;
     const elementPosition = targetElement.getBoundingClientRect().top;
@@ -73,7 +74,7 @@ const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = (
             <button
               key={link.label}
               onClick={() => {
-                scrollToSection(link.sectionId, 50);
+                scrollToSection(link.sectionId);
               }}
               className="cursor-pointer text-base font-medium text-[#4A5565] transition-colors hover:text-blue-600"
             >
@@ -82,7 +83,7 @@ const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = (
           ))}
           <button
             onClick={() => {
-              scrollToSection(SECTION_ID.CONTACT, 50);
+              scrollToSection(SectionId.Contact);
             }}
             className="group flex cursor-pointer items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
           >
@@ -108,7 +109,7 @@ const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = (
               <button
                 key={link.label}
                 onClick={() => {
-                  scrollToSection(link.sectionId);
+                  scrollToSection(SectionId.Contact);
                   setIsMobileMenuOpen(false);
                 }}
                 className="text-left text-lg font-medium text-slate-700"

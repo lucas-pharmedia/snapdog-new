@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { SECTION_ID } from '../constans';
+import { SectionId } from '../constans';
 
 const Hero: React.FC = () => {
   return (
