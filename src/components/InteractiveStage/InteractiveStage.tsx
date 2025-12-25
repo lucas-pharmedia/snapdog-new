@@ -14,32 +14,32 @@ const STEPS = [
     label: 'AI STYLE',
     title: '現場轉換百變造型',
     description: '客製化活動視覺，現場即時生成風格',
-    bgColor: '#2563EB'
+    labelColor: '#2563EB'
   },
   {
     id: 'step-2',
     label: 'LAYOUTS',
     title: '創意版面隨心搭配',
     description: '多種尺寸多格拍攝，皆可選擇',
-    bgColor: '#873AE2'
+    labelColor: '#873AE2'
   },
   {
     id: 'step-3',
     label: 'DECORATION',
     title: '活動主題相框',
     description: '客製化品牌相框與貼圖，加深活動辨識度',
-    bgColor: '#F46C2E'
+    labelColor: '#F46C2E'
   },
   {
     id: 'step-4',
     label: 'SHARE & PRINT',
     title: '成果立即呈現',
     description: '',
-    bgColor: '#26BF34'
+    labelColor: '#26BF34'
   }
 ];
 
-const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => void }> = ({ onVisibilityChange }) => {
+const InteractiveStage: React.FC<{ isNavBarScrolling: boolean }> = ({ isNavBarScrolling }) => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
   console.log(`isInView`, isInView);
@@ -56,10 +56,8 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
   });
 
   useEffect(() => {
-    if (isInView) {
-      console.log('scroll to section', currentStep);
-      scrollToStepSection(currentStep);
-    }
+    if (!isInView || isNavBarScrolling) return;
+    scrollToStepSection(currentStep);
   }, [isInView]);
 
   const scrollToStepSection = (step: number) => {
@@ -68,15 +66,8 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
   };
 
   console.log(`currentStep`, currentStep);
-  // const [isVisible, setIsVisible] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   onVisibilityChange?.(isVisible);
-  //   setIsVisible(isVisible);
-  // }, [isVisible, onVisibilityChange]);
-
-  // Shared state for interactive elements
   const [selectedFilter, setSelectedFilter] = useState('contrast(1.1) saturate(1.2) brightness(1.05)');
   const [selectedRatio, setSelectedRatio] = useState('default');
   const [selectedFrame, setSelectedFrame] = useState('none');
@@ -112,7 +103,7 @@ const InteractiveStage: React.FC<{ onVisibilityChange?: (visible: boolean) => vo
               <h2
                 className={`mb-1 px-3 text-[15px] font-medium tracking-wider text-white md:text-[18px] md:font-bold`}
                 style={{
-                  backgroundColor: STEPS[currentStep].bgColor
+                  backgroundColor: STEPS[currentStep].labelColor
                 }}
               >
                 {STEPS[currentStep].label}

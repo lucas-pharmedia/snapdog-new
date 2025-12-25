@@ -6,10 +6,11 @@ import MarketingSections from './components/Marketing/MarketingSections';
 import MarqueeBackground from './components/MarqueeBackground';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
+import { useRef } from 'react';
 
 function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
-
+  const [isNavBarScrolling, setIsNavBarScrolling] = useState(false);
   return (
     <div className={`relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
       {/* Background Elements */}
@@ -17,14 +18,14 @@ function App() {
       {/* <MarqueeBackground isVisible={isStageVisible} /> */}
 
       {/* Navbar */}
-      <Navbar />
+      <Navbar setNavBarScrolling={(scrolling) => setIsNavBarScrolling(scrolling)} />
 
       <main>
         {/* Section 1: Hero */}
         <Hero />
 
         {/* Section 2: Interactive Stage */}
-        <InteractiveStage onVisibilityChange={setIsStageVisible} />
+        <InteractiveStage isNavBarScrolling={isNavBarScrolling} />
 
         {/* Section 3: Marketing Content */}
         <MarketingSections />

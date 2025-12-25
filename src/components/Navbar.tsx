@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils';
 import { SECTION_ID } from '../constans';
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ setNavBarScrolling: (scrolling: boolean) => void }> = ({ setNavBarScrolling }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -25,17 +25,25 @@ const Navbar: React.FC = () => {
 
   const scrollToSection = (sectionId: string, offset: number = 0) => {
     const targetElement = document.getElementById(sectionId);
+    if (!targetElement) return;
+    const elementPosition = targetElement.getBoundingClientRect().top;
 
-    if (targetElement) {
-      const elementPosition = targetElement.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.scrollY - offset;
 
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+    setNavBarScrolling(true);
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    const checkScrollEnd = () => {
+      if (Math.abs(window.scrollY - offsetPosition) <= 1) {
+        setNavBarScrolling(false);
+        window.removeEventListener('scroll', checkScrollEnd);
+      }
+    };
+
+    window.addEventListener('scroll', checkScrollEnd);
   };
 
   return (

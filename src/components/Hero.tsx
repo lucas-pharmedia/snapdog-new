@@ -59,7 +59,7 @@ const Hero: React.FC = () => {
 
           {/* CTA Button - Desktop Only (matches image 2) */}
           <div className="hidden md:block">
-            <button className="rounded-full bg-[#2463EB] px-10 py-4 text-lg text-[1.375rem] font-medium text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:bg-blue-700">
+            <button className="cursor-pointer rounded-full bg-[#2563EB] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30">
               LINE 馬上體驗
             </button>
           </div>
