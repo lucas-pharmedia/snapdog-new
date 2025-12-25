@@ -37,18 +37,19 @@ const Scenarios: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (!containerRef.current) return;
-      controls.set({ x: 0 });
+      if (containerRef.current) {
+        controls.set({ x: 0 });
 
-      const containerWidth = containerRef.current.offsetWidth;
-      const contentWidth = containerRef.current.scrollWidth;
+        const containerWidth = containerRef.current.offsetWidth;
+        const contentWidth = containerRef.current.scrollWidth;
 
-      setConstraints({
-        left: containerWidth - contentWidth,
-        right: 0
-      });
+        setConstraints({
+          left: containerWidth - contentWidth,
+          right: 0
+        });
 
-      setResizeKey((prev) => prev + 1);
+        setResizeKey((prev) => prev + 1);
+      }
     };
 
     handleResize();

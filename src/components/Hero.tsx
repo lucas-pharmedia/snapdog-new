@@ -81,9 +81,17 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="z-20 flex w-full animate-bounce flex-col items-center gap-0 text-[#6A7282] md:absolute md:bottom-8 md:left-0 md:gap-2 md:text-white/80">
-        <span className="text-[1.0625rem] font-medium">查看產品特色</span>
-        <ChevronDown className="h-6 w-6" />
+      <div className="z-10 flex w-full justify-center md:absolute md:bottom-8 md:left-0">
+        <button
+          className="flex animate-bounce cursor-pointer flex-col items-center justify-center gap-0 text-slate-700 md:gap-2 md:text-white/80"
+          onClick={() => {
+            const targetElement = document.getElementById(`interactive-stage-section`);
+            targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }}
+        >
+          <span className="text-[1.0625rem] font-medium">查看產品特色</span>
+          <ChevronDown className="h-6 w-6" />
+        </button>
       </div>
     </section>
   );
