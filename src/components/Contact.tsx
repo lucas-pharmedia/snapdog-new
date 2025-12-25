@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-4 text-white">
                   <Mail className="h-5 w-5 text-blue-500" />
-                  <span className="text-lg font-medium">service@hypermex.io</span>
+                  <span className="text-lg font-medium">service@hypernex.io</span>
                 </div>
                 <div className="flex items-center gap-4 text-white">
                   <Star className="h-5 w-5 fill-blue-500 text-blue-500" />

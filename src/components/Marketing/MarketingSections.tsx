@@ -10,25 +10,25 @@ const Scenarios: React.FC = () => {
   const tags = ['展場', '活動', '快閃品牌'];
   const cards = [
     {
-      icon: <BookOpen className="h-6 w-6 text-[#5CB6FF]" />,
+      icon: <BookOpen className="h-6 w-6 text-blue-400" />,
       title: '知識型互動體驗',
       desc: '博物館、藝術展、主題展覽。自由組合帶有文字資訊的素材。',
       img: 'https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Heart className="h-6 w-6 text-[#5CB6FF]" />,
+      icon: <Heart className="h-6 w-6 text-blue-400" />,
       title: '婚禮與派對慶典',
       desc: '婚禮、生日、抓周、聚會。相框、AI 功能等創意素材妝點回憶。',
       img: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Briefcase className="h-6 w-6 text-[#5CB6FF]" />,
+      icon: <Briefcase className="h-6 w-6 text-blue-400" />,
       title: '各式公開展覽',
       desc: '展覽會、品牌快閃店、招商活動。活動現場吸引人潮體驗酷拍活動。',
       img: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=600&q=80'
     },
     {
-      icon: <Users className="h-6 w-6 text-[#5CB6FF]" />,
+      icon: <Users className="h-6 w-6 text-blue-400" />,
       title: '企業活動與內部交流',
       desc: '年會、尾牙、員工日。拍照結合品牌自訂素材，加強品牌溝通力道。',
       img: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80'
@@ -37,19 +37,18 @@ const Scenarios: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (containerRef.current) {
-        controls.set({ x: 0 });
+      if (!containerRef.current) return;
+      controls.set({ x: 0 });
 
-        const containerWidth = containerRef.current.offsetWidth;
-        const contentWidth = containerRef.current.scrollWidth;
+      const containerWidth = containerRef.current.offsetWidth;
+      const contentWidth = containerRef.current.scrollWidth;
 
-        setConstraints({
-          left: containerWidth - contentWidth,
-          right: 0
-        });
+      setConstraints({
+        left: containerWidth - contentWidth,
+        right: 0
+      });
 
-        setResizeKey((prev) => prev + 1);
-      }
+      setResizeKey((prev) => prev + 1);
     };
 
     handleResize();
@@ -60,14 +59,14 @@ const Scenarios: React.FC = () => {
   return (
     <section id="scenarios" className="py-15">
       <div className="mx-auto px-5 md:max-w-480 md:px-0">
-        <h2 className="mb-3 text-center text-[1.75rem] font-extrabold text-[#0F172B] md:text-[2.25rem]">
+        <h2 className="mb-3 text-center text-[1.75rem] font-extrabold text-slate-900 md:text-[2.25rem]">
           滿足多樣化的活動場景
         </h2>
         <div className="mb-5 flex justify-center gap-1 md:mb-10">
           {tags.map((tag, i) => (
             <div
               key={i}
-              className="rounded-full bg-[#0F172B] px-6 py-1.5 text-base text-white md:px-10 md:py-2 md:text-lg"
+              className="rounded-full bg-slate-900 px-6 py-1.5 text-base text-white md:px-10 md:py-2 md:text-lg"
             >
               {tag}
             </div>
@@ -132,8 +131,8 @@ const BusinessValue: React.FC = () => {
     <section id="business-value" className="py-15">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto mb-5 text-center md:mb-10">
-          <h2 className="mb-3 text-center text-[1.75rem] leading-tight font-extrabold text-[#0F172B] md:text-[2.25rem]">
-            串接 <span className="text-[#2563EB]">LINE 官方帳號</span>
+          <h2 className="mb-3 text-center text-[1.75rem] leading-tight font-extrabold text-slate-900 md:text-[2.25rem]">
+            串接 <span className="text-blue-600">LINE 官方帳號</span>
             <br className="md:hidden" /> 啟動高效獲客引擎
           </h2>
           <p className="hidden text-xl text-slate-500 md:block">
@@ -250,7 +249,7 @@ const FAQ: React.FC = () => {
 
 const MarketingSections: React.FC = () => {
   return (
-    <section id="marketing-sections" className="relative z-5 bg-[#F8FAFC] shadow-[0_20px_40px_rgba(0,0,0,0.05)]">
+    <section id="marketing-sections" className="relative z-5 bg-[#F8FAFC] shadow-[0_-20px_40px_rgba(0,0,0,0.05)]">
       <Scenarios />
       <BusinessValue />
       <FAQ />
