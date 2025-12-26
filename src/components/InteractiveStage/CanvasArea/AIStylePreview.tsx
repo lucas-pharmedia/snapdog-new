@@ -54,7 +54,7 @@ interface AIStyleSelectorProps {
 }
 
 const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps) => {
-  const selectedImageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
+  const aiStyleImageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
   const originImageUrl = `/ai/${photoConfig.character}/01/none.jpg`;
   const imageBoxRef = useRef<HTMLDivElement>(null);
   const [characterButtonsLeft, setCharacterButtonsLeft] = useState(0);
@@ -79,7 +79,7 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
             <div className="absolute inset-0">
               <ReactCompareImage
                 leftImage={originImageUrl}
-                rightImage={selectedImageUrl}
+                rightImage={aiStyleImageUrl}
                 handle={
                   <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
                     <div className="h-4 w-0.5 bg-[#272636]"></div>

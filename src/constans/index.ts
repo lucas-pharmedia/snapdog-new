@@ -60,6 +60,40 @@ export const LAYOUT_OPTIONS = [
   { value: Layout.Calendar, label: '月曆' }
 ];
 
+export const LayoutConfig = {
+  [Layout.Portrait]: {
+    layoutSize: { width: 360, height: 540 },
+    slots: [{ x: 18, y: 16, width: 324, height: 432 }]
+  },
+  [Layout.Landscape]: {
+    layoutSize: { width: 540, height: 360 },
+    slots: [{ x: 54, y: 18, width: 432, height: 324 }]
+  },
+  [Layout.Classic]: {
+    layoutSize: { width: 180, height: 540 },
+    slots: [
+      { x: 18, y: 18, width: 144, height: 144 },
+      { x: 18, y: 171, width: 144, height: 144 },
+      { x: 18, y: 324, width: 144, height: 144 }
+    ]
+  },
+  [Layout.MultiGrid]: {
+    layoutSize: { width: 360, height: 540 },
+    slots: [
+      { x: 16, y: 18, width: 162, height: 162 },
+      { x: 16, y: 189, width: 162, height: 162 },
+      { x: 16, y: 360, width: 162, height: 162 }
+    ]
+  },
+  [Layout.Calendar]: {
+    layoutSize: { width: 360, height: 540 },
+    slots: [
+      { x: 281, y: 18, width: 70, height: 70 },
+      { x: 9, y: 434, width: 166, height: 90 },
+      { x: 185, y: 434, width: 166, height: 90 }
+    ]
+  }
+};
 export enum Frame {
   None = 'none',
   Snapdog = 'snapdog',

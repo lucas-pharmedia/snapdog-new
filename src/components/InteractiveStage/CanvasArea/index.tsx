@@ -3,6 +3,7 @@ import type { PhotoConfig } from '../../../types';
 import { Character } from '../../../constans';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIStylePreview from './AIStylePreview';
+import LayoutPreview from './LayoutPreview';
 interface CanvasAreaProps {
   isInView: boolean;
   currentStep: number;
@@ -35,7 +36,7 @@ const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: Ca
             )}
             {currentStep === 1 && (
               <>
-                <AIStylePreview photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+                <LayoutPreview photoConfig={photoConfig} />
               </>
             )}
           </motion.div>

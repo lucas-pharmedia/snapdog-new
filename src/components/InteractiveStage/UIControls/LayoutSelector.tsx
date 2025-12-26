@@ -19,8 +19,6 @@ const LayoutIcon = {
   [Layout.Calendar]: Calendar
 };
 const LayoutSelector = ({ photoConfig, onLayoutClick }: LayoutSelectorProps) => {
-  console.log(photoConfig);
-  console.log(onLayoutClick);
   return (
     <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-1 shadow-2xl md:max-w-[90vw]">
       <div className="flex w-full items-center gap-1.5 overflow-x-auto px-4 md:gap-3 md:px-5">
