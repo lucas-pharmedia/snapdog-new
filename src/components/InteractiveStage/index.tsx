@@ -84,12 +84,12 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
       <div
         className={cn(
           `fixed top-0 left-0 flex h-dvh w-full flex-col items-center justify-center`,
-          `pt-[100px] pb-[20px]`
+          `pt-20 pb-5 md:pt-25`
         )}
       >
         <div
           className={cn(
-            'relative mb-4 flex w-full shrink-0 items-end justify-center transition-opacity duration-1200',
+            'relative mb-3 flex w-full shrink-0 items-end justify-center transition-opacity duration-1200 md:mb-4',
             isInView ? 'opacity-100' : 'opacity-0'
           )}
         >
@@ -114,7 +114,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
                 {STEPS[currentStep].title}
               </h1>
               {STEPS[currentStep].description && (
-                <p className="mt-1 text-xs text-gray-500 md:text-base">{STEPS[currentStep].description}</p>
+                <p className="mt-1 text-[15px] text-gray-500 md:text-base">{STEPS[currentStep].description}</p>
               )}
             </motion.div>
           </AnimatePresence>

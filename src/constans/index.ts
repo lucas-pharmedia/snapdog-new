@@ -1,3 +1,5 @@
+export const LINE_OA_URL = 'https://google.com/';
+
 export enum SectionId {
   InteractiveStage = 'interactive-stage',
   Scenarios = 'scenarios',

@@ -11,7 +11,7 @@ const StepIndicator = ({ currentStep, totalSteps, onStepClick, isInView }: StepI
   return (
     <div
       className={cn(
-        `fixed top-1/2 left-6 flex -translate-y-1/2 flex-col rounded-full border border-white/50 bg-white/60 py-1.5 shadow-lg backdrop-blur-md transition-opacity duration-300`,
+        `fixed top-1/2 left-4 flex -translate-y-1/2 flex-col rounded-full border border-white/50 bg-white/60 py-1.5 shadow-lg backdrop-blur-md transition-opacity duration-300 md:left-10`,
         isInView ? 'opacity-100' : 'opacity-0'
       )}
     >
@@ -19,7 +19,7 @@ const StepIndicator = ({ currentStep, totalSteps, onStepClick, isInView }: StepI
         <button
           key={idx}
           onClick={() => onStepClick(idx)}
-          className="flex cursor-pointer items-center justify-center px-2.5 py-2.5"
+          className="flex cursor-pointer items-center justify-center px-2 py-2.5 md:px-2.5"
         >
           <span
             className={`w-1 cursor-pointer rounded-full transition-all duration-400 ${

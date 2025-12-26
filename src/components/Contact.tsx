@@ -1,5 +1,5 @@
 import { Phone, Mail, Star, QrCode, ChevronRight, ChevronDown } from 'lucide-react';
-import { SectionId } from '../constans';
+import { LINE_OA_URL, SectionId } from '../constans';
 
 const Contact = () => {
   return (
@@ -37,7 +37,12 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 transition-all duration-300 hover:bg-slate-800">
+            <button
+              onClick={() => {
+                window.open(LINE_OA_URL, '_blank');
+              }}
+              className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 text-left transition-all duration-300 hover:bg-slate-800"
+            >
               <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10">
                 <QrCode className="h-6 w-6 text-green-500" />
               </div>
@@ -48,7 +53,7 @@ const Contact = () => {
                 </div>
               </div>
               <ChevronRight className="h-5 w-5 text-slate-600 transition-all group-hover:translate-x-2" />
-            </div>
+            </button>
           </div>
 
           <div className="rounded-4xl border border-slate-700 bg-slate-800 p-8 shadow-xl md:p-10 lg:w-2/3">

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../utils';
-import { SectionId } from '../constans';
+import { LINE_OA_URL, SectionId } from '../constans';
 
 const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolean) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -85,15 +85,15 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
             onClick={() => {
               scrollToSection(SectionId.Contact);
             }}
-            className="group flex cursor-pointer items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
+            className="group flex w-42.5 cursor-pointer items-center justify-center gap-1 rounded-full bg-slate-900 px-6 py-2.5 text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
           >
-            <span>立即規劃</span>
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <span className="text-base font-medium">聯絡我們</span>
+            <ChevronRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
 
         <button className="z-50 p-1 text-slate-900 md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
         </button>
       </div>
 
@@ -103,7 +103,7 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 flex w-full flex-col gap-6 border-t border-slate-100 bg-white px-6 py-6 shadow-xl md:hidden"
+            className="absolute top-full left-0 flex w-full flex-col gap-7 border-t border-slate-100 bg-white px-6 py-11 shadow-xl md:hidden"
           >
             {navLinks.map((link) => (
               <button
@@ -112,20 +112,36 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
                   scrollToSection(SectionId.Contact);
                   setIsMobileMenuOpen(false);
                 }}
-                className="text-left text-lg font-medium text-slate-700"
+                className="py-2 text-xl font-medium text-[#101828]"
               >
                 {link.label}
               </button>
             ))}
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full rounded-xl bg-blue-600 py-4 font-bold text-white shadow-lg shadow-blue-200"
-            >
-              立即規劃
-            </button>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  scrollToSection(SectionId.Contact);
+                }}
+                className="relative w-full rounded-xl bg-blue-600 py-5.5 text-xl font-medium text-white"
+              >
+                <span>聯絡我們</span>
+                <ChevronRight className="absolute top-[50%] right-6 h-7 w-7 -translate-y-1/2" />
+              </button>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.open(LINE_OA_URL, '_blank');
+                }}
+                className="relative w-full rounded-xl bg-[#182031] py-5.5 text-xl font-medium text-white"
+              >
+                <span>加入 LINE 體驗</span>
+                <div className="absolute top-[50%] left-6 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10">
+                  <QrCode className="h-7 w-7 text-green-500" />
+                </div>
+                <ChevronRight className="absolute top-[50%] right-6 h-7 w-7 -translate-y-1/2" />
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

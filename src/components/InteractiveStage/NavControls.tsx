@@ -13,7 +13,7 @@ const NavControls = ({ currentStep, totalSteps, onNextClick, onPrevClick, isInVi
   return (
     <div
       className={cn(
-        `fixed top-[50%] right-5 flex -translate-y-1/2 flex-col gap-3 transition-opacity duration-300`,
+        `fixed top-[50%] right-10 hidden -translate-y-1/2 flex-col gap-3 transition-opacity duration-300 md:flex`,
         isInView ? 'opacity-100' : 'opacity-0'
       )}
     >

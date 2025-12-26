@@ -1,6 +1,5 @@
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { SectionId } from '../constans';
 
 const Hero = () => {
   return (
@@ -26,20 +25,20 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="z-20 flex w-full flex-col items-center text-center md:w-1/2 md:items-start md:text-left"
+          className="z-20 flex w-full flex-col items-center text-center md:items-start md:text-left"
         >
           {/* Title Section */}
-          <h1 className="text-[40px] leading-tight font-black tracking-tight md:text-[72px]">
-            <span className="block bg-linear-to-l from-[#06B6D4] to-[#2563EB] bg-clip-text text-[3rem] leading-none font-black text-transparent drop-shadow-sm md:text-[5.625rem] md:font-extrabold">
+          <h1 className="text-[3rem] leading-tight font-black tracking-tight md:text-[4rem] lg:text-[5.625rem]">
+            <span className="block bg-linear-to-l from-[#06B6D4] to-[#2563EB] bg-clip-text leading-none font-black text-transparent drop-shadow-sm md:font-extrabold">
               玩轉回憶
             </span>
-            <span className="mt-3 mb-9 block text-[3rem] leading-none font-black text-gray-900 md:mb-10 md:text-[5.625rem] md:font-extrabold md:text-white">
+            <span className="mt-3 mb-9 block leading-none font-black text-gray-900 md:mb-10 md:font-extrabold md:text-white">
               創造有效互動
             </span>
           </h1>
 
           {/* Features Section */}
-          <div className="mb-10 flex w-full flex-row items-center justify-center gap-7 md:w-auto md:justify-start md:gap-8">
+          <div className="mb-10 flex w-full max-w-100 flex-row items-center justify-between px-2 md:w-auto md:justify-start md:gap-8">
             {[
               { title: '實體機台', desc: '即拍即印' },
               { title: '客製專屬', desc: 'AI百變風格' },
@@ -81,7 +80,7 @@ const Hero = () => {
       {/* Bottom Section */}
       <div className="z-10 flex w-full justify-center md:absolute md:bottom-8 md:left-0">
         <button
-          className="flex animate-bounce cursor-pointer flex-col items-center justify-center gap-0 text-slate-700 md:gap-2 md:text-white/80"
+          className="flex animate-bounce cursor-pointer flex-col items-center justify-center gap-0 text-[#6A7282] md:gap-2 md:text-white/80"
           onClick={() => {
             const targetElement = document.getElementById(`interactive-stage-section`);
             targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });

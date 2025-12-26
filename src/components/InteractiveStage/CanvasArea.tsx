@@ -1,7 +1,7 @@
 import { cn } from '../../utils';
 import type { PhotoConfig } from '../../types';
 import { Character } from '../../constans';
-import AIStyleSelector from './AIStyleSelector';
+import AIStylePreview from './AIStylePreview';
 import { AnimatePresence, motion } from 'framer-motion';
 interface CanvasAreaProps {
   isInView: boolean;
@@ -26,15 +26,16 @@ const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: Ca
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            className="h-full"
           >
             {currentStep === 0 && (
               <>
-                <AIStyleSelector photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+                <AIStylePreview photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
               </>
             )}
             {currentStep === 1 && (
               <>
-                <AIStyleSelector photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+                <AIStylePreview photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
               </>
             )}
           </motion.div>
