@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../utils';
 import type { PhotoConfig } from '../../types';
 import Male from '../../assets/male.svg?react';
@@ -6,6 +6,7 @@ import Female from '../../assets/female.svg?react';
 import Animal from '../../assets/animal.svg?react';
 import { AI_STYLE_OPTIONS, AIStyle, Character } from '../../constans';
 import ReactCompareImage from 'react-compare-image';
+import { resize } from 'framer-motion';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
   const label = style === AIStyle.None ? '原圖' : AI_STYLE_OPTIONS.find((option) => option.value === style)?.label;
@@ -27,12 +28,7 @@ const CharacterButtons = ({
     { icon: <Animal className="h-6 w-6 md:h-7 md:w-7" />, value: Character.Animal }
   ];
   return (
-    <div
-      className={cn(
-        'relative z-1 size-fit rounded-[0.625rem] bg-white p-2.5 shadow-lg md:absolute md:top-0 md:left-0 md:-translate-x-[calc(100%+20px)]',
-        'flex gap-2.5 md:flex-col'
-      )}
-    >
+    <div className={cn('size-fit rounded-[0.625rem] bg-white p-1 shadow-lg md:p-2.5', 'flex gap-2.5 md:flex-col')}>
       {CHARACTERS.map((character, index) => {
         const isSelected = selectedCharacter === character.value;
 
@@ -40,7 +36,7 @@ const CharacterButtons = ({
           <div
             key={index}
             className={cn(
-              'flex h-12 w-12 cursor-pointer items-center justify-center rounded-[0.625rem] md:h-15 md:w-15',
+              'flex h-12.5 w-12.5 cursor-pointer items-center justify-center rounded-[0.625rem] md:h-15 md:w-15',
               isSelected ? 'bg-blue-600 text-white shadow-[0px_4px_4px_0px_#2563EB26]' : 'bg-white text-[#45556C]'
             )}
             onClick={() => onCharacterClick(character.value)}
@@ -62,34 +58,66 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
   const selectedImageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
   const originImageUrl = `/ai/${photoConfig.character}/01/none.jpg`;
   const containerRef = useRef<HTMLDivElement>(null);
+  const imageBoxRef = useRef<HTMLDivElement>(null);
+  const [characterButtonsLeft, setCharacterButtonsLeft] = useState(0);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    const resize = () => {
+      console.log(imageBoxRef.current?.getBoundingClientRect());
+      setCharacterButtonsLeft(imageBoxRef.current?.getBoundingClientRect().left || 0);
+      setContainerSize({
+        width: containerRef.current?.getBoundingClientRect().width || 0,
+        height: containerRef.current?.getBoundingClientRect().height || 0
+      });
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    return () => {
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+  console.log(containerSize);
+  console.log(`characterButtonsLeft`, characterButtonsLeft);
 
-  const imageSize = Math.min(containerRef.current?.clientWidth || 0, containerRef.current?.clientHeight || 0);
-  console.log(imageSize);
   return (
-    <div className="relative flex h-full flex-col items-center justify-center gap-2">
-      <div
-        className="relative aspect-square h-full overflow-hidden rounded-[1.25rem] shadow-lg select-none"
-        ref={containerRef}
-      >
-        <ReactCompareImage
-          leftImage={originImageUrl}
-          rightImage={selectedImageUrl}
-          handle={
-            <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
-              <div className="h-4 w-0.5 bg-[#272636]"></div>
-              <div className="h-4 w-0.5 bg-[#272636]"></div>
-            </div>
-          }
-        />
-        <div className="absolute top-2.5 left-2.5">
-          <ImageStyleLabel style={AIStyle.None} />
-        </div>
-        <div className="absolute top-2.5 right-2.5">
-          <ImageStyleLabel style={photoConfig.style} />
+    <div className="relative flex h-full w-dvw flex-col items-center justify-center px-12 pb-2 md:px-0 md:pb-3">
+      <div className="relative flex w-full grow items-center justify-center overflow-hidden" ref={containerRef}>
+        <div
+          className={cn(
+            `imageBoxRef relative aspect-square max-h-full max-w-full`,
+            'shadow-[0px_2px_12px_0px_#00000026]',
+            containerSize.width > containerSize.height ? 'h-full' : 'w-full'
+          )}
+          ref={imageBoxRef}
+        >
+          <div className="h-full w-full overflow-hidden rounded-[1.25rem] bg-blue-400">
+            <img src={originImageUrl} alt="" />
+            <ReactCompareImage
+              leftImage={originImageUrl}
+              rightImage={selectedImageUrl}
+              handle={
+                <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
+                  <div className="h-4 w-0.5 bg-[#272636]"></div>
+                  <div className="h-4 w-0.5 bg-[#272636]"></div>
+                </div>
+              }
+            />
+          </div>
+          <div className="absolute top-2.5 left-2.5">
+            <ImageStyleLabel style={AIStyle.None} />
+          </div>
+          <div className="absolute top-2.5 right-2.5">
+            <ImageStyleLabel style={photoConfig.style} />
+          </div>
         </div>
       </div>
 
-      <CharacterButtons selectedCharacter={photoConfig.character} onCharacterClick={onCharacterClick} />
+      <div
+        className="mt-2 shrink-0 md:absolute md:top-0 md:mt-0 md:-translate-x-[calc(100%+20px)]"
+        style={{ left: characterButtonsLeft }}
+      >
+        <CharacterButtons selectedCharacter={photoConfig.character} onCharacterClick={onCharacterClick} />
+      </div>
     </div>
   );
 };
