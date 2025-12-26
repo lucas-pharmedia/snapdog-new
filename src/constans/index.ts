@@ -1,4 +1,4 @@
-export const LINE_OA_URL = 'https://google.com/';
+export const LINE_OA_URL = 'https://line.me/R/ti/p/@169cfdxe';
 
 export enum SectionId {
   InteractiveStage = 'interactive-stage',

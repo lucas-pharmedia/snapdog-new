@@ -41,7 +41,7 @@ const Contact = () => {
               onClick={() => {
                 window.open(LINE_OA_URL, '_blank');
               }}
-              className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 text-left transition-all duration-300 hover:bg-slate-800"
+              className="group hidden cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 text-left transition-all duration-300 hover:bg-slate-800 md:flex"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10">
                 <QrCode className="h-6 w-6 text-green-500" />
