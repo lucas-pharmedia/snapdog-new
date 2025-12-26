@@ -1,7 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '../../../utils';
 import type { PhotoConfig } from '../../../types';
-import ReactCompareImage from 'react-compare-image';
 import { LayoutConfig } from '../../../constans';
 
 interface LayoutPreviewProps {
@@ -20,6 +17,7 @@ const LayoutPreview = ({ photoConfig }: LayoutPreviewProps) => {
         return (
           <>
             <img
+              key={index}
               src={photoUrl}
               className="absolute object-cover"
               alt="picture"
