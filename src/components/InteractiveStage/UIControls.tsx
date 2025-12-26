@@ -21,7 +21,7 @@ const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick }: UICont
           opacity: isInView ? 1 : 0
         }}
         transition={{ duration: 0.2 }}
-        className="mt-3 max-w-[90vw] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-4 shadow-2xl backdrop-blur-md"
+        className="mt-2 max-w-[90vw] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl backdrop-blur-md md:mt-3 md:py-4"
       >
         <div className="flex w-full items-center gap-4 overflow-x-auto px-4">
           {AI_STYLE_OPTIONS.map((option, index) => {
@@ -34,7 +34,7 @@ const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick }: UICont
               >
                 <div
                   className={cn(
-                    `box-content h-15 w-15 shrink-0 rounded-full border-[0.25rem] border-transparent`,
+                    `box-content h-13 w-13 shrink-0 rounded-full border-[0.25rem] border-transparent md:h-15 md:w-15`,
                     isSelected && 'border-blue-600 shadow-[0px_4px_4px_0px_#3378F726]'
                   )}
                 >
@@ -50,7 +50,7 @@ const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick }: UICont
                 </div>
                 <span
                   className={cn(
-                    'text-[0.875rem] font-medium whitespace-nowrap text-[#6A7282]',
+                    'text-xs font-medium whitespace-nowrap text-[#6A7282] md:text-sm',
                     isSelected && 'text-slate-900'
                   )}
                 >

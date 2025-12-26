@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import { useRef } from 'react';
 import { cn } from '../../utils';
 import type { PhotoConfig } from '../../types';
 import Male from '../../assets/male.svg?react';
 import Female from '../../assets/female.svg?react';
 import Animal from '../../assets/animal.svg?react';
 import { AI_STYLE_OPTIONS, AIStyle, Character } from '../../constans';
+import ReactCompareImage from 'react-compare-image';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
   const label = style === AIStyle.None ? '原圖' : AI_STYLE_OPTIONS.find((option) => option.value === style)?.label;
@@ -63,54 +63,29 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
   const originImageUrl = `/ai/${photoConfig.character}/01/none.jpg`;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const x = useMotionValue(0);
-  const [sliderPercent, setSliderPercent] = useState(50);
-  useEffect(() => {
-    const handleXChange = x.on('change', (latest) => {
-      if (!containerRef.current) return;
-      const containerWidth = containerRef.current.clientWidth;
-      const currentPercent = ((latest + containerWidth / 2) / containerWidth) * 100;
-      setSliderPercent(Math.round(currentPercent));
-    });
-    return () => handleXChange();
-  }, [x]);
-
+  const imageSize = Math.min(containerRef.current?.clientWidth || 0, containerRef.current?.clientHeight || 0);
+  console.log(imageSize);
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-2">
       <div
         className="relative aspect-square h-full overflow-hidden rounded-[1.25rem] shadow-lg select-none"
         ref={containerRef}
       >
-        <img src={originImageUrl} alt="Original" className="absolute inset-0 h-full w-full" />
-        <div className="absolute inset-0 h-full w-full" style={{ clipPath: `inset(0 0 0 ${sliderPercent}%)` }}>
-          <img src={selectedImageUrl} alt="AI Processed" className="absolute inset-0 h-full w-full" />
+        <ReactCompareImage
+          leftImage={originImageUrl}
+          rightImage={selectedImageUrl}
+          handle={
+            <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
+              <div className="h-4 w-0.5 bg-[#272636]"></div>
+              <div className="h-4 w-0.5 bg-[#272636]"></div>
+            </div>
+          }
+        />
+        <div className="absolute top-2.5 left-2.5">
+          <ImageStyleLabel style={AIStyle.None} />
         </div>
-
-        {/* Image comparison slider */}
-        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-          <motion.div
-            drag="x"
-            dragConstraints={containerRef} // 限制只能在容器內拖拽
-            dragElastic={0} // 拖到邊緣不彈跳
-            dragMomentum={false} // 關閉慣性
-            style={{ x }}
-            className="relative flex h-11 w-11 cursor-grab items-center justify-center gap-0.5 rounded-full bg-white active:cursor-grabbing"
-          >
-            {/* 中間的「線」 */}
-            <div className="absolute h-dvh w-0.5 bg-white" />
-
-            {/* 符號 */}
-            <div className="h-4 w-0.5 bg-[#272636]"></div>
-            <div className="h-4 w-0.5 bg-[#272636]"></div>
-          </motion.div>
-
-          {/* 圖片label */}
-          <div className="absolute top-2.5 left-2.5">
-            <ImageStyleLabel style={AIStyle.None} />
-          </div>
-          <div className="absolute top-2.5 right-2.5">
-            <ImageStyleLabel style={photoConfig.style} />
-          </div>
+        <div className="absolute top-2.5 right-2.5">
+          <ImageStyleLabel style={photoConfig.style} />
         </div>
       </div>
 

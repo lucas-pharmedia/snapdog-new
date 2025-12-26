@@ -13,10 +13,15 @@ interface CanvasAreaProps {
 const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: CanvasAreaProps) => {
   return (
     <>
-      <div className={cn('flex grow transition-opacity duration-800', isInView ? 'opacity-100' : 'opacity-0')}>
+      <div
+        className={cn(
+          'flex grow overflow-hidden transition-opacity duration-800',
+          isInView ? 'opacity-100' : 'opacity-0'
+        )}
+      >
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentStep} // 這裡一定要給 key，Framer Motion 才知道這是不同元件
+            key={currentStep}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
