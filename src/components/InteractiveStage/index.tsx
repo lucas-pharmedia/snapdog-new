@@ -78,6 +78,11 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
     if (currentStep > 0) scrollToStepSection(currentStep - 1);
   };
 
+  useEffect(() => {
+    if (currentStep === 0) {
+      setPhotoConfig((prev) => ({ ...prev, layout: Layout.Portrait }));
+    }
+  }, [currentStep]);
   return (
     <section id={SectionId.InteractiveStage} className="relative" ref={containerRef}>
       {/* Sticky Stage */}
@@ -89,7 +94,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
       >
         <div
           className={cn(
-            'relative mb-3 flex w-full shrink-0 items-end justify-center transition-opacity duration-1200 md:mb-4',
+            'relative flex w-full shrink-0 items-end justify-center transition-opacity duration-1200',
             isInView ? 'opacity-100' : 'opacity-0'
           )}
         >

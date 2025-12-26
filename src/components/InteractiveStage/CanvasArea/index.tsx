@@ -4,6 +4,7 @@ import { Character } from '../../../constans';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIStylePreview from './AIStylePreview';
 import LayoutPreview from './LayoutPreview';
+import FramePreview from './FramePreview';
 interface CanvasAreaProps {
   isInView: boolean;
   currentStep: number;
@@ -16,7 +17,7 @@ const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: Ca
     <>
       <div
         className={cn(
-          'flex grow overflow-hidden transition-opacity duration-800',
+          'flex w-full grow overflow-hidden transition-opacity duration-800',
           isInView ? 'opacity-100' : 'opacity-0'
         )}
       >
@@ -27,7 +28,7 @@ const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: Ca
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="h-full"
+            className="h-full w-full"
           >
             {currentStep === 0 && (
               <>
@@ -37,6 +38,11 @@ const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: Ca
             {currentStep === 1 && (
               <>
                 <LayoutPreview photoConfig={photoConfig} />
+              </>
+            )}
+            {currentStep === 2 && (
+              <>
+                <FramePreview photoConfig={photoConfig} />
               </>
             )}
           </motion.div>

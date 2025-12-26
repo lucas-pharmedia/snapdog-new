@@ -1,4 +1,4 @@
-import { cn } from '../../../utils';
+import { cn, getPhotoPath } from '../../../utils';
 import type { PhotoConfig } from '../../../types';
 import Male from '../../../assets/characters/male.svg?react';
 import Female from '../../../assets/characters/female.svg?react';
@@ -53,11 +53,19 @@ interface AIStyleSelectorProps {
 }
 
 const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps) => {
-  const aiStyleImageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
-  const originImageUrl = `/ai/${photoConfig.character}/01/none.jpg`;
+  const aiStyleImageUrl = getPhotoPath({
+    character: photoConfig.character,
+    characterIndex: 1,
+    style: photoConfig.style
+  });
+  const originImageUrl = getPhotoPath({
+    character: photoConfig.character,
+    characterIndex: 1,
+    style: AIStyle.None
+  });
 
   return (
-    <div className="relative flex h-full w-dvw flex-col items-center justify-center px-12 pb-2 md:px-0 md:pb-3">
+    <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pt-3 pb-2 md:px-0 md:pb-3">
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
         <div className={cn(`relative aspect-square max-h-full max-w-full`)}>
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
