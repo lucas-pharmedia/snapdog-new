@@ -59,7 +59,7 @@ const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
           {/* CTA Button - Desktop Only (matches image 2) */}
           <div className="hidden md:block">
             <button
-              className="cursor-pointer rounded-full bg-[#2563EB] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30"
+              className="cursor-pointer rounded-full bg-blue-600 px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30"
               onClick={onLineButtonClick}
             >
               LINE 馬上體驗

@@ -48,7 +48,7 @@ export enum Layout {
   Portrait = 'portrait',
   Landscape = 'landscape',
   Classic = 'classic',
-  MuiltiGrid = 'muilti-grid',
+  MultiGrid = 'multi-grid',
   Calendar = 'calendar'
 }
 
@@ -56,7 +56,7 @@ export const LAYOUT_OPTIONS = [
   { value: Layout.Portrait, label: '直式' },
   { value: Layout.Landscape, label: '橫式' },
   { value: Layout.Classic, label: '經典' },
-  { value: Layout.MuiltiGrid, label: '多格佈局' },
+  { value: Layout.MultiGrid, label: '多格佈局' },
   { value: Layout.Calendar, label: '月曆' }
 ];
 

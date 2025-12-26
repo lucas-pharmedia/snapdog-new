@@ -132,8 +132,10 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
           currentStep={currentStep}
           photoConfig={photoConfig}
           onStyleClick={(style) => {
-            console.log(style);
             setPhotoConfig({ ...photoConfig, style });
+          }}
+          onLayoutClick={(layout) => {
+            setPhotoConfig({ ...photoConfig, layout });
           }}
         />
       </div>

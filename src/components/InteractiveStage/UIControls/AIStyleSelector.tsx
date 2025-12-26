@@ -9,13 +9,13 @@ interface AIStyleSelectorProps {
 
 const AIStyleSelector = ({ photoConfig, onStyleClick }: AIStyleSelectorProps) => {
   return (
-    <div className="max-w-[90vw] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl backdrop-blur-md md:py-4">
+    <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl md:max-w-[90vw] md:py-4">
       <div className="flex w-full items-center gap-4 overflow-x-auto px-4">
-        {AI_STYLE_OPTIONS.map((option, index) => {
+        {AI_STYLE_OPTIONS.map((option) => {
           const isSelected = photoConfig.style === option.value;
           return (
             <div
-              key={index}
+              key={option.value}
               className="flex cursor-pointer flex-col items-center justify-center gap-1"
               onClick={() => onStyleClick(option.value)}
             >
