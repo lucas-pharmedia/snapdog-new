@@ -1,4 +1,4 @@
-export const LINE_OA_URL = 'https://line.me/R/ti/p/@169cfdxe';
+export const LINE_OA_URL = 'https://bit.ly/SnapDog?r=qr';
 
 export enum SectionId {
   InteractiveStage = 'interactive-stage',
@@ -71,7 +71,7 @@ export enum Frame {
 
 export const FRAME_OPTIONS = [
   { value: Frame.None, label: '無' },
-  { value: Frame.Snapdog, label: 'Snapdog' },
+  { value: Frame.Snapdog, label: 'SnapDog' },
   { value: Frame.Bear, label: '熊可愛' },
   { value: Frame.Y2K, label: 'Y2K' },
   { value: Frame.ScienceFiction, label: '科幻未來' },

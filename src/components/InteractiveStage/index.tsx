@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
-import CanvasArea from './CanvasArea';
 import UIControls from './UIControls';
 import StepIndicator from './StepIndicator';
 import NavControls from './NavControls';
 import { AIStyle, Character, Frame, Layout, SectionId } from '../../constans';
 import type { PhotoConfig } from '../../types';
 import { cn } from '../../utils';
+import CanvasArea from './CanvasArea';
 
 const STEPS = [
   {

@@ -1,8 +1,8 @@
-import { cn } from '../../utils';
-import type { PhotoConfig } from '../../types';
-import { Character } from '../../constans';
-import AIStylePreview from './AIStylePreview';
+import { cn } from '../../../utils';
+import type { PhotoConfig } from '../../../types';
+import { Character } from '../../../constans';
 import { AnimatePresence, motion } from 'framer-motion';
+import AIStylePreview from './AIStylePreview';
 interface CanvasAreaProps {
   isInView: boolean;
   currentStep: number;

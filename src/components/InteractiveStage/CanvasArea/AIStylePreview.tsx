@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '../../utils';
-import type { PhotoConfig } from '../../types';
-import Male from '../../assets/male.svg?react';
-import Female from '../../assets/female.svg?react';
-import Animal from '../../assets/animal.svg?react';
-import { AI_STYLE_OPTIONS, AIStyle, Character } from '../../constans';
+import { cn } from '../../../utils';
+import type { PhotoConfig } from '../../../types';
+import Male from '../../../assets/male.svg?react';
+import Female from '../../../assets/female.svg?react';
+import Animal from '../../../assets/animal.svg?react';
+import { AI_STYLE_OPTIONS, AIStyle, Character } from '../../../constans';
 import ReactCompareImage from 'react-compare-image';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
