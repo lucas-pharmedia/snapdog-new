@@ -69,7 +69,7 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
           />
         </div>
 
-        <div className="hidden items-center md:flex md:gap-8 lg:gap-10">
+        <div className="hidden items-center md:flex md:gap-6 lg:gap-10">
           {navLinks.map((link) => (
             <button
               key={link.label}
@@ -85,7 +85,7 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
             onClick={() => {
               scrollToSection(SectionId.Contact);
             }}
-            className="group flex w-42.5 cursor-pointer items-center justify-center gap-1 rounded-full bg-slate-900 px-6 py-2.5 text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30"
+            className="group flex cursor-pointer items-center justify-center gap-1 rounded-full bg-slate-900 px-6 py-2.5 text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 md:w-36 lg:w-42.5"
           >
             <span className="text-base font-medium">聯絡我們</span>
             <ChevronRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
