@@ -6,7 +6,6 @@ import Female from '../../assets/female.svg?react';
 import Animal from '../../assets/animal.svg?react';
 import { AI_STYLE_OPTIONS, AIStyle, Character } from '../../constans';
 import ReactCompareImage from 'react-compare-image';
-import { resize } from 'framer-motion';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
   const label = style === AIStyle.None ? '原圖' : AI_STYLE_OPTIONS.find((option) => option.value === style)?.label;
@@ -57,18 +56,11 @@ interface AIStyleSelectorProps {
 const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps) => {
   const selectedImageUrl = `/ai/${photoConfig.character}/01/${photoConfig.style}.jpg`;
   const originImageUrl = `/ai/${photoConfig.character}/01/none.jpg`;
-  const containerRef = useRef<HTMLDivElement>(null);
   const imageBoxRef = useRef<HTMLDivElement>(null);
   const [characterButtonsLeft, setCharacterButtonsLeft] = useState(0);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
     const resize = () => {
-      console.log(imageBoxRef.current?.getBoundingClientRect());
       setCharacterButtonsLeft(imageBoxRef.current?.getBoundingClientRect().left || 0);
-      setContainerSize({
-        width: containerRef.current?.getBoundingClientRect().width || 0,
-        height: containerRef.current?.getBoundingClientRect().height || 0
-      });
     };
     resize();
     window.addEventListener('resize', resize);
@@ -76,32 +68,26 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
       window.removeEventListener('resize', resize);
     };
   }, []);
-  console.log(containerSize);
-  console.log(`characterButtonsLeft`, characterButtonsLeft);
 
   return (
     <div className="relative flex h-full w-dvw flex-col items-center justify-center px-12 pb-2 md:px-0 md:pb-3">
-      <div className="relative flex w-full grow items-center justify-center overflow-hidden" ref={containerRef}>
-        <div
-          className={cn(
-            `imageBoxRef relative aspect-square max-h-full max-w-full`,
-            'shadow-[0px_2px_12px_0px_#00000026]',
-            containerSize.width > containerSize.height ? 'h-full' : 'w-full'
-          )}
-          ref={imageBoxRef}
-        >
-          <div className="h-full w-full overflow-hidden rounded-[1.25rem] bg-blue-400">
-            <img src={originImageUrl} alt="" />
-            <ReactCompareImage
-              leftImage={originImageUrl}
-              rightImage={selectedImageUrl}
-              handle={
-                <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
-                  <div className="h-4 w-0.5 bg-[#272636]"></div>
-                  <div className="h-4 w-0.5 bg-[#272636]"></div>
-                </div>
-              }
-            />
+      <div className="relative flex w-full grow items-center justify-center overflow-hidden">
+        <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={imageBoxRef}>
+          <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
+            {/* 放一張圖片撐高度 */}
+            <img src={originImageUrl} alt="" className="opacity-0" />
+            <div className="absolute inset-0">
+              <ReactCompareImage
+                leftImage={originImageUrl}
+                rightImage={selectedImageUrl}
+                handle={
+                  <div className="flex h-11 w-11 items-center justify-center gap-0.5 rounded-full bg-white">
+                    <div className="h-4 w-0.5 bg-[#272636]"></div>
+                    <div className="h-4 w-0.5 bg-[#272636]"></div>
+                  </div>
+                }
+              />
+            </div>
           </div>
           <div className="absolute top-2.5 left-2.5">
             <ImageStyleLabel style={AIStyle.None} />
