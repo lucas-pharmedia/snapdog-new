@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import InteractiveStage from './components/InteractiveStage';
@@ -8,15 +8,18 @@ import Footer from './components/Footer';
 import Contact from './components/Contact';
 import { AIStyle, Character } from './constans';
 import LineModal from './components/LineModal';
+import ParallaxBackground from './components/ParallaxBackground';
 
 function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
   const [isNavBarScrolling, setIsNavBarScrolling] = useState(false);
   const [isLineModalOpen, setIsLineModalOpen] = useState(false);
+
   return (
     <div className={`hide-scrollbar relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
-      {/* Background Elements */}
-      <div id="parallax-bg" className="pointer-events-none fixed inset-0" />
+      {/* Parallax Background  */}
+      <ParallaxBackground />
+
       {/* <MarqueeBackground isVisible={isStageVisible} /> */}
 
       {/* Navbar */}
