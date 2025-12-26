@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Hero = () => {
+const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
     <section className="relative z-5 flex w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:h-dvh">
       {/* Background Image - Visible only on Desktop */}
@@ -58,7 +58,10 @@ const Hero = () => {
 
           {/* CTA Button - Desktop Only (matches image 2) */}
           <div className="hidden md:block">
-            <button className="cursor-pointer rounded-full bg-[#2563EB] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30">
+            <button
+              className="cursor-pointer rounded-full bg-[#2563EB] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30"
+              onClick={onLineButtonClick}
+            >
               LINE 馬上體驗
             </button>
           </div>

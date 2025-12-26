@@ -7,10 +7,12 @@ import MarqueeBackground from './components/MarqueeBackground';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
 import { AIStyle, Character } from './constans';
+import LineModal from './components/LineModal';
 
 function App() {
   const [isStageVisible, setIsStageVisible] = useState(false);
   const [isNavBarScrolling, setIsNavBarScrolling] = useState(false);
+  const [isLineModalOpen, setIsLineModalOpen] = useState(false);
   return (
     <div className={`hide-scrollbar relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
       {/* Background Elements */}
@@ -22,12 +24,14 @@ function App() {
 
       <main>
         {/* Section 1: Hero */}
-        <Hero />
+        <Hero onLineButtonClick={() => setIsLineModalOpen(true)} />
         {/* Section 2: Interactive Stage */}
         <InteractiveStage isNavBarScrolling={isNavBarScrolling} />
         {/* Section 3: Marketing Content */}
         <MarketingSections />
-        <Contact />
+        <Contact onLineButtonClick={() => setIsLineModalOpen(true)} />
+
+        <LineModal isOpen={isLineModalOpen} onClose={() => setIsLineModalOpen(false)} />
         {/* <div className="relative z-100">
           {Object.values(Character).map((character) => {
             return (

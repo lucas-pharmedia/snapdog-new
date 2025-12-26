@@ -1,7 +1,7 @@
 import { Phone, Mail, Star, QrCode, ChevronRight, ChevronDown } from 'lucide-react';
-import { LINE_OA_URL, SectionId } from '../constans';
+import { SectionId } from '../constans';
 
-const Contact = () => {
+const Contact = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
     <section
       id={SectionId.Contact}
@@ -38,9 +38,7 @@ const Contact = () => {
             </div>
 
             <button
-              onClick={() => {
-                window.open(LINE_OA_URL, '_blank');
-              }}
+              onClick={onLineButtonClick}
               className="group hidden cursor-pointer items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/50 p-4 text-left transition-all duration-300 hover:bg-slate-800 md:flex"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-green-500/20 bg-green-500/10">
