@@ -1,11 +1,11 @@
-import { cn } from '../../../utils';
-import { Layout, LAYOUT_OPTIONS } from '../../../constans';
-import type { PhotoConfig } from '../../../types';
-import Landscape from '../../../assets/layouts/landscape.svg?react';
-import Portrait from '../../../assets/layouts/portrait.svg?react';
-import Classic from '../../../assets/layouts/classic.svg?react';
-import MultiGrid from '../../../assets/layouts/multi-grid.svg?react';
-import Calendar from '../../../assets/layouts/calendar.svg?react';
+import { cn } from '@/utils';
+import { Layout, LAYOUT_OPTIONS } from '@/constans';
+import type { PhotoConfig } from '@/types';
+import Landscape from '@/assets/layouts/landscape.svg?react';
+import Portrait from '@/assets/layouts/portrait.svg?react';
+import Classic from '@/assets/layouts/classic.svg?react';
+import MultiGrid from '@/assets/layouts/multi-grid.svg?react';
+import Calendar from '@/assets/layouts/calendar.svg?react';
 interface LayoutSelectorProps {
   photoConfig: PhotoConfig;
   onLayoutClick: (layout: Layout) => void;

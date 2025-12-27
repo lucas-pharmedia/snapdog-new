@@ -1,6 +1,6 @@
-import { cn } from '../../../utils';
-import { AI_STYLE_OPTIONS, AIStyle } from '../../../constans';
-import type { PhotoConfig } from '../../../types';
+import { cn } from '@/utils';
+import { AI_STYLE_OPTIONS, AIStyle } from '@/constans';
+import type { PhotoConfig } from '@/types';
 import { Ban } from 'lucide-react';
 interface AIStyleSelectorProps {
   photoConfig: PhotoConfig;

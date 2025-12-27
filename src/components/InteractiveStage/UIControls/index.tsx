@@ -1,8 +1,8 @@
-import { AIStyle, Layout } from '../../../constans';
-import type { PhotoConfig } from '../../../types';
+import { AIStyle, Layout } from '@/constans';
+import type { PhotoConfig } from '@/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import AIStyleSelector from './AIStyleSelector';
-import LayoutSelector from './LayoutSelector';
+import AIStyleSelector from '@/components/InteractiveStage/UIControls/AIStyleSelector';
+import LayoutSelector from '@/components/InteractiveStage/UIControls/LayoutSelector';
 interface UIControlsProps {
   isInView: boolean;
   currentStep: number;

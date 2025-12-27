@@ -1,5 +1,5 @@
 import { Phone, Mail, Star, QrCode, ChevronRight, ChevronDown } from 'lucide-react';
-import { SectionId } from '../constans';
+import { SectionId } from '@/constans';
 
 const Contact = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (

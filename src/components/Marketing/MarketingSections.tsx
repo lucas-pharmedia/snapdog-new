@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { BookOpen, Heart, Briefcase, Users, ChevronDown } from 'lucide-react';
-import { cn } from '../../utils';
+import { cn } from '@/utils';
 import { motion, useAnimationControls } from 'framer-motion';
-import { SectionId } from '../../constans';
+import { SectionId } from '@/constans';
 const Scenarios = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();

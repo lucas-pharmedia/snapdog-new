@@ -1,11 +1,11 @@
-import { cn } from '../../../utils';
-import type { PhotoConfig, Rect } from '../../../types';
-import { Character } from '../../../constans';
+import { cn } from '@/utils';
+import type { PhotoConfig, Rect } from '@/types';
+import { Character } from '@/constans';
 import { AnimatePresence, motion } from 'framer-motion';
-import AIStylePreview from './AIStylePreview';
-import LayoutPreview from './LayoutPreview';
-import FramePreview from './FramePreview';
-import FixedPhoto from './FixedPhoto';
+import AIStylePreview from '@/components/InteractiveStage/CanvasArea/AIStylePreview';
+import LayoutPreview from '@/components/InteractiveStage/CanvasArea/LayoutPreview';
+import FramePreview from '@/components/InteractiveStage/CanvasArea/FramePreview';
+import FixedPhoto from '@/components/InteractiveStage/CanvasArea/FixedPhoto';
 import { useState } from 'react';
 interface CanvasAreaProps {
   isInView: boolean;

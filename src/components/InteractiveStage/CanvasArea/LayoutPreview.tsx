@@ -1,8 +1,8 @@
-import type { PhotoConfig } from '../../../types';
-import { LayoutConfig } from '../../../constans';
+import type { PhotoConfig } from '@/types';
+import { LayoutConfig } from '@/constans';
 import { useEffect, useState } from 'react';
-import { useElementSize } from '../../../hooks/useElementSize';
-import { getAIAssetPath } from '../../../utils';
+import { useElementSize } from '@/hooks/useElementSize';
+import { getAIAssetPath } from '@/utils';
 
 interface LayoutPreviewProps {
   photoConfig: PhotoConfig;

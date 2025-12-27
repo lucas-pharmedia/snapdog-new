@@ -1,10 +1,6 @@
-import { cn, getAIAssetPath } from '../../../utils';
-import type { PhotoConfig, Rect } from '../../../types';
-import Male from '../../../assets/characters/male.svg?react';
-import Female from '../../../assets/characters/female.svg?react';
-import Animal from '../../../assets/characters/animal.svg?react';
-import { AI_STYLE_OPTIONS, AIStyle, Character, LayoutConfig } from '../../../constans';
-import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
+import { cn, getAIAssetPath } from '@/utils';
+import type { PhotoConfig, Rect } from '@/types';
+import { LayoutConfig } from '@/constans';
 import { useEffect, useState } from 'react';
 
 interface FixedPhotoProps {

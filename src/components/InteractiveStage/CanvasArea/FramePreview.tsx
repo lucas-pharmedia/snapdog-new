@@ -1,8 +1,8 @@
-import type { PhotoConfig, Rect } from '../../../types';
-import { FRAME_OPTIONS, LayoutConfig } from '../../../constans';
+import type { PhotoConfig, Rect } from '@/types';
+import { FRAME_OPTIONS, LayoutConfig } from '@/constans';
 import { useEffect, useState } from 'react';
-import { useElementSize } from '../../../hooks/useElementSize';
-import { cn, getAIAssetPath } from '../../../utils';
+import { useElementSize } from '@/hooks/useElementSize';
+import { cn, getAIAssetPath } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperClass } from 'swiper/react';
 import 'swiper/swiper-bundle.css';

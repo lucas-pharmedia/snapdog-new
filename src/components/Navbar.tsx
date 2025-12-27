@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../utils';
-import { LINE_OA_URL, SectionId } from '../constans';
+import { cn } from '@/utils';
+import { LINE_OA_URL, SectionId } from '@/constans';
 
 const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolean) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
