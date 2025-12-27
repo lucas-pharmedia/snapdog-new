@@ -17,6 +17,7 @@ const FixedPhoto = () => {
     }
   }, [fixedPhotoRect, selectedLayoutConfig]);
 
+  console.log(`renderScale`, renderScale);
   return (
     <div
       className="FIXED-PHOTO fixed transition-[top,left] duration-500 ease-in-out"
@@ -32,10 +33,17 @@ const FixedPhoto = () => {
         style={{
           width: selectedLayoutConfig.layoutSize.width * renderScale,
           height: selectedLayoutConfig.layoutSize.height * renderScale,
-          filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.25))'
+          filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       >
-        <img src={`/layout/background/${photoConfig.layout}.png`} alt="layout" />
+        {/* 底片背景圖：必須設定 w-full h-full 確保它跟著父級 renderScale 縮放 */}
+        <img
+          src={`/layout/background/${photoConfig.layout}.png`}
+          className="block h-full w-full object-contain"
+          alt="layout-bg"
+        />
+
+        {/* 照片格子 */}
         {selectedLayoutConfig.slots.map((slot, index) => {
           const photoUrl = getAIAssetPath({
             character: photoConfig.character,

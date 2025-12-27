@@ -33,8 +33,6 @@ function App() {
     preloadImages();
   }, []);
 
-  console.log(isImagesLoaded);
-
   if (!isImagesLoaded) return <div className="fixed inset-0 flex items-center justify-center"> Loading...</div>;
   return (
     <div className={`hide-scrollbar relative overflow-x-hidden`}>
