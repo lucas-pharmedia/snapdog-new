@@ -14,7 +14,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
   return (
     <>
       <div className={cn('pointer-events-none fixed inset-0 z-0', currentStep >= 1 ? 'visible' : 'invisible')}>
-        <FixedPhoto />
+        <FixedPhoto currentStep={currentStep} />
       </div>
 
       <div

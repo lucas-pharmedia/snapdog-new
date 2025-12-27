@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutConfig } from '@/constants';
+import { LayoutConfig, InteractiveStep } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import { getAIAssetPath } from '@/utils';
+import { cn, getAIAssetPath } from '@/utils';
 
-const FixedPhoto = () => {
+const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
   console.log(fixedPhotoRect);
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
@@ -25,9 +25,12 @@ const FixedPhoto = () => {
   const offsetX = (containerW - actualW) / 2;
   const offsetY = (containerH - actualH) / 2;
 
+  const isLayoutStep = currentStep === InteractiveStep.Layout;
   return (
     <div
-      className="FIXED-PHOTO fixed transition-[top,left] duration-500 ease-in-out"
+      className={cn(
+        `FIXED-PHOTO fixed ${currentStep > InteractiveStep.Layout ? 'transition-[top,left] duration-500 ease-in-out' : ''}`
+      )}
       style={{
         top: fixedPhotoRect.top,
         left: fixedPhotoRect.left,
@@ -37,7 +40,10 @@ const FixedPhoto = () => {
       }}
     >
       <div
-        className="relative shrink-0 transition-[width,height] duration-500 ease-in-out"
+        className={cn(
+          `relative shrink-0`,
+          currentStep > InteractiveStep.Layout ? 'transition-[width,height] duration-500 ease-in-out' : ''
+        )}
         style={{
           width: containerW,
           height: containerH,
