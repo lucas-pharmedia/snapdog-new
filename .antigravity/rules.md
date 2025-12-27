@@ -25,6 +25,7 @@
 - css單位一律都使用 **rem**
 - React 元件使用 **Function Component + Hooks**
 - Props 與資料結構皆用 TypeScript 型別定義
+- Implementation Plan，Task 文件一律寫中文
 
 ## 💎 代碼品質標準
 

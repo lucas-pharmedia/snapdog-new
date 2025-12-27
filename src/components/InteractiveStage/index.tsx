@@ -1,81 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import UIControls from '@/components/InteractiveStage/UIControls';
 import StepIndicator from '@/components/InteractiveStage/StepIndicator';
 import NavControls from '@/components/InteractiveStage/NavControls';
-import { AIStyle, Character, Frame, Layout, SectionId } from '@/constans';
+import { AIStyle, Character, Frame, INTERACTIVE_STAGE_STEPS, Layout, SectionId } from '@/constans';
 import type { PhotoConfig } from '@/types';
 import { cn } from '@/utils';
 import CanvasArea from '@/components/InteractiveStage/CanvasArea';
-
-const STEPS = [
-  {
-    id: 'step-1',
-    label: 'AI STYLE',
-    title: '現場轉換百變造型',
-    description: '客製化活動視覺，現場即時生成風格',
-    labelColor: '#2563EB'
-  },
-  {
-    id: 'step-2',
-    label: 'LAYOUTS',
-    title: '創意版面隨心搭配',
-    description: '多種尺寸多格拍攝，皆可選擇',
-    labelColor: '#873AE2'
-  },
-  {
-    id: 'step-3',
-    label: 'DECORATION',
-    title: '活動主題相框',
-    description: '客製化品牌相框與貼圖，加深活動辨識度',
-    labelColor: '#F46C2E'
-  },
-  {
-    id: 'step-4',
-    label: 'SHARE & PRINT',
-    title: '成果立即呈現',
-    description: '',
-    labelColor: '#26BF34'
-  }
-];
+import { useStageScroll } from '@/hooks/useStageScroll';
 
 const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean }) => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: false, amount: 0.1 });
-  const [currentStep, setCurrentStep] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { currentStep, scrollToStep, handleNext, handlePrev, isInView } = useStageScroll({
+    containerRef,
+    isNavBarScrolling,
+    steps: INTERACTIVE_STAGE_STEPS
+  });
+
   const [photoConfig, setPhotoConfig] = useState<PhotoConfig>({
     character: Character.Male,
     style: AIStyle.None,
     layout: Layout.Portrait,
     frame: Frame.None
   });
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
-  const stepProgress = useTransform(scrollYProgress, [0, 1], [0, STEPS.length - 1]);
-  useMotionValueEvent(stepProgress, 'change', (latest) => {
-    const step = Math.round(latest);
-    setCurrentStep(step);
-  });
-
-  useEffect(() => {
-    if (!isInView || isNavBarScrolling) return;
-    scrollToStepSection(currentStep);
-  }, [isInView]);
-
-  const scrollToStepSection = (step: number) => {
-    const targetElement = document.getElementById(STEPS[step].id);
-    targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const handleNext = () => {
-    if (currentStep < STEPS.length - 1) scrollToStepSection(currentStep + 1);
-  };
-
-  const handlePrev = () => {
-    if (currentStep > 0) scrollToStepSection(currentStep - 1);
-  };
 
   useEffect(() => {
     if (currentStep === 0) {
@@ -109,16 +56,18 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
               <h2
                 className={`mb-1 px-3 text-[15px] font-medium tracking-wider text-white md:text-[18px] md:font-bold`}
                 style={{
-                  backgroundColor: STEPS[currentStep].labelColor
+                  backgroundColor: INTERACTIVE_STAGE_STEPS[currentStep].labelColor
                 }}
               >
-                {STEPS[currentStep].label}
+                {INTERACTIVE_STAGE_STEPS[currentStep].label}
               </h2>
               <h1 className="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">
-                {STEPS[currentStep].title}
+                {INTERACTIVE_STAGE_STEPS[currentStep].title}
               </h1>
-              {STEPS[currentStep].description && (
-                <p className="mt-1 text-[15px] text-gray-500 md:text-base">{STEPS[currentStep].description}</p>
+              {INTERACTIVE_STAGE_STEPS[currentStep].description && (
+                <p className="mt-1 text-[15px] text-gray-500 md:text-base">
+                  {INTERACTIVE_STAGE_STEPS[currentStep].description}
+                </p>
               )}
             </motion.div>
           </AnimatePresence>
@@ -148,7 +97,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
 
       <NavControls
         currentStep={currentStep}
-        totalSteps={STEPS.length}
+        totalSteps={INTERACTIVE_STAGE_STEPS.length}
         onNextClick={handleNext}
         onPrevClick={handlePrev}
         isInView={isInView}
@@ -156,13 +105,13 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
 
       <StepIndicator
         currentStep={currentStep}
-        totalSteps={STEPS.length}
-        onStepClick={scrollToStepSection}
+        totalSteps={INTERACTIVE_STAGE_STEPS.length}
+        onStepClick={scrollToStep}
         isInView={isInView}
       />
 
       {/* Scroll Sections */}
-      {STEPS.map((step, idx) => (
+      {INTERACTIVE_STAGE_STEPS.map((step, idx) => (
         <div key={idx} className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-dvh" id={step.id}></div>
       ))}
     </section>

@@ -1,3 +1,5 @@
+import type { InteractiveStageStep } from '@/types';
+
 export const LINE_OA_URL = 'https://bit.ly/SnapDog?r=qr';
 
 export enum SectionId {
@@ -7,6 +9,37 @@ export enum SectionId {
   FAQ = 'faq',
   Contact = 'contact'
 }
+
+export const INTERACTIVE_STAGE_STEPS: InteractiveStageStep[] = [
+  {
+    id: 'step-1',
+    label: 'AI STYLE',
+    title: '現場轉換百變造型',
+    description: '客製化活動視覺，現場即時生成風格',
+    labelColor: '#2563EB'
+  },
+  {
+    id: 'step-2',
+    label: 'LAYOUTS',
+    title: '創意版面隨心搭配',
+    description: '多種尺寸多格拍攝，皆可選擇',
+    labelColor: '#873AE2'
+  },
+  {
+    id: 'step-3',
+    label: 'DECORATION',
+    title: '活動主題相框',
+    description: '客製化品牌相框與貼圖，加深活動辨識度',
+    labelColor: '#F46C2E'
+  },
+  {
+    id: 'step-4',
+    label: 'SHARE & PRINT',
+    title: '成果立即呈現',
+    description: '',
+    labelColor: '#26BF34'
+  }
+];
 
 export enum Character {
   Male = 'male',

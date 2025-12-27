@@ -13,3 +13,11 @@ export type Rect = {
   top: number;
   left: number;
 };
+
+export type InteractiveStageStep = {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  labelColor: string;
+};
