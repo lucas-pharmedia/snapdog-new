@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { PhotoConfig, Rect } from '@/types';
-import { Character, AIStyle, Layout, Frame } from '@/constans';
+import { Character, AIStyle, Layout, Frame } from '@/constants';
 
 interface PhotoState {
   photoConfig: PhotoConfig;

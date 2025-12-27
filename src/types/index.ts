@@ -1,4 +1,4 @@
-import type { AIStyle, Character, Frame, Layout } from '@/constans';
+import type { AIStyle, Character, Frame, Layout } from '@/constants';
 
 export type PhotoConfig = {
   character: Character;

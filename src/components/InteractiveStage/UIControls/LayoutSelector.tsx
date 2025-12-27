@@ -1,5 +1,5 @@
 import { cn } from '@/utils';
-import { Layout, LAYOUT_OPTIONS } from '@/constans';
+import { Layout, LAYOUT_OPTIONS } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import Landscape from '@/assets/layouts/landscape.svg?react';
 import Portrait from '@/assets/layouts/portrait.svg?react';

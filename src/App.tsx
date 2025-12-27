@@ -6,7 +6,7 @@ import MarketingSections from '@/components/Marketing/MarketingSections';
 import MarqueeBackground from '@/components/MarqueeBackground';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
-import { FRAME_OPTIONS } from '@/constans';
+import { FRAME_OPTIONS } from '@/constants';
 import LineModal from '@/components/LineModal';
 import ParallaxBackground from '@/components/ParallaxBackground';
 

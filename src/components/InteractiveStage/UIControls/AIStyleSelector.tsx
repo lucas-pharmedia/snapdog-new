@@ -1,5 +1,5 @@
 import { cn } from '@/utils';
-import { AI_STYLE_OPTIONS, AIStyle } from '@/constans';
+import { AI_STYLE_OPTIONS, AIStyle } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { Ban } from 'lucide-react';
 

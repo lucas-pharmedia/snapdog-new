@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
-import { LINE_OA_URL } from '@/constans';
+import { LINE_OA_URL } from '@/constants';
 
 const LineModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   return (

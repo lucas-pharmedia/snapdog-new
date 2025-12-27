@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type { AIStyle, Character } from '@/constans';
+import type { AIStyle, Character } from '@/constants';
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));

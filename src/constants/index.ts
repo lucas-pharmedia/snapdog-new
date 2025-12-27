@@ -10,6 +10,12 @@ export enum SectionId {
   Contact = 'contact'
 }
 
+export enum InteractiveStep {
+  AIStyle = 0,
+  Layout = 1,
+  Frame = 2,
+  SharePrint = 3
+}
 export const INTERACTIVE_STAGE_STEPS: InteractiveStageStep[] = [
   {
     id: 'step-1',

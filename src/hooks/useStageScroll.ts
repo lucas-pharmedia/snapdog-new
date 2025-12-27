@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
 import { useUIStore } from '@/store/useUIStore';
 import type { InteractiveStageStep } from '@/types';
+import { InteractiveStep } from '@/constants';
 
 interface UseStageScrollProps {
   steps: InteractiveStageStep[];
@@ -11,7 +12,7 @@ export const useStageScroll = ({ steps }: UseStageScrollProps) => {
   const { isNavBarScrolling } = useUIStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(InteractiveStep.AIStyle);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,

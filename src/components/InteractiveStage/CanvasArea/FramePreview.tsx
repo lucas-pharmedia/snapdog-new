@@ -1,4 +1,4 @@
-import { FRAME_OPTIONS, LayoutConfig } from '@/constans';
+import { FRAME_OPTIONS, InteractiveStep, LayoutConfig } from '@/constants';
 import { useEffect } from 'react';
 import { cn } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,7 +6,8 @@ import type { SwiperClass } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { usePhotoStore } from '@/store/usePhotoStore';
 
-const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
+const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
+  const isCurrentStep = currentStep === InteractiveStep.Frame;
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
 

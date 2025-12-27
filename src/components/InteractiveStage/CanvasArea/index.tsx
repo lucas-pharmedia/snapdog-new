@@ -3,10 +3,11 @@ import AIStylePreview from '@/components/InteractiveStage/CanvasArea/AIStylePrev
 import LayoutPreview from '@/components/InteractiveStage/CanvasArea/LayoutPreview';
 import FramePreview from '@/components/InteractiveStage/CanvasArea/FramePreview';
 import FixedPhoto from '@/components/InteractiveStage/CanvasArea/FixedPhoto';
+import { InteractiveStep } from '@/constants';
 
 interface CanvasAreaProps {
   isInView: boolean;
-  currentStep: number;
+  currentStep: InteractiveStep;
 }
 
 const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
@@ -35,18 +36,18 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
           <div
             className={cn(
               'absolute inset-0 transition duration-800',
-              currentStep === 1 ? 'opacity-100' : 'pointer-events-none opacity-0'
+              currentStep === InteractiveStep.Layout ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
-            <LayoutPreview isCurrentStep={currentStep === 1} />
+            <LayoutPreview currentStep={currentStep} />
           </div>
           <div
             className={cn(
               'sss absolute inset-0 transition duration-800',
-              currentStep === 2 ? 'opacity-100' : 'pointer-events-none opacity-0'
+              currentStep === InteractiveStep.Frame ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
-            <FramePreview isCurrentStep={currentStep === 2} />
+            <FramePreview currentStep={currentStep} />
           </div>
         </div>
       </div>

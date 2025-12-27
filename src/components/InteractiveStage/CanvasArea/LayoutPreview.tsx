@@ -1,13 +1,14 @@
-import { LayoutConfig } from '@/constans';
+import { InteractiveStep, LayoutConfig } from '@/constants';
 import { useEffect, useRef, useState } from 'react';
 import { useElementSize } from '@/hooks/useElementSize';
 import { usePhotoStore } from '@/store/usePhotoStore';
 
 interface LayoutPreviewProps {
-  isCurrentStep: boolean;
+  currentStep: InteractiveStep;
 }
 
-const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
+const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
+  const isCurrentStep = currentStep === InteractiveStep.Layout;
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
 
@@ -46,7 +47,7 @@ const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
   };
 
   useEffect(() => {
-    if (isCurrentStep) {
+    if (currentStep <= InteractiveStep.Layout) {
       const timer = setTimeout(updateRect, 200);
       window.addEventListener('resize', updateRect);
       return () => {
@@ -54,7 +55,7 @@ const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
         window.removeEventListener('resize', updateRect);
       };
     }
-  }, [isCurrentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);
+  }, [currentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);
 
   return (
     <div className="flex h-full w-full items-center justify-center px-6 pb-3" ref={containerRef}>

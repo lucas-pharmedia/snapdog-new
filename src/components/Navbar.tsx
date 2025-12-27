@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils';
-import { LINE_OA_URL, SectionId } from '@/constans';
+import { LINE_OA_URL, SectionId } from '@/constants';
 
 import { useUIStore } from '@/store/useUIStore';
 

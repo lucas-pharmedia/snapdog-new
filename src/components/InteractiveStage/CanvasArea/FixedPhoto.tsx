@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutConfig } from '@/constans';
+import { LayoutConfig } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { getAIAssetPath } from '@/utils';
 
