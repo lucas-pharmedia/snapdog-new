@@ -10,9 +10,14 @@ import CanvasArea from '@/components/InteractiveStage/CanvasArea';
 import { useStageScroll } from '@/hooks/useStageScroll';
 
 const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { currentStep, scrollToStep, handleNext, handlePrev, isInView } = useStageScroll({
-    containerRef,
+  const {
+    ref: containerRef,
+    currentStep,
+    scrollToStep,
+    handleNext,
+    handlePrev,
+    isInView
+  } = useStageScroll({
     isNavBarScrolling,
     steps: INTERACTIVE_STAGE_STEPS
   });

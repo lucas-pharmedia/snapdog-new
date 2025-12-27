@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useScroll, useTransform, useMotionValueEvent, useInView } from 'framer-motion';
 import type { InteractiveStageStep } from '@/types';
 
 interface UseStageScrollProps {
-  containerRef: React.RefObject<HTMLElement | null>;
   isNavBarScrolling: boolean;
   steps: InteractiveStageStep[];
 }
 
-export const useStageScroll = ({ containerRef, isNavBarScrolling, steps }: UseStageScrollProps) => {
+export const useStageScroll = ({ isNavBarScrolling, steps }: UseStageScrollProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -47,6 +47,7 @@ export const useStageScroll = ({ containerRef, isNavBarScrolling, steps }: UseSt
     scrollToStep,
     handleNext,
     handlePrev,
-    isInView
+    isInView,
+    ref: containerRef
   };
 };
