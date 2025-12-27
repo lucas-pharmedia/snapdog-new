@@ -15,10 +15,10 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
 
   // 動態計算比例與尺寸
   const aspectRatio = `${lW}/${lH}`;
-  const desktopWidth = lW * 0.88; // 寬度比例保持 0.88 倍
-  const mobileWidth = desktopWidth * 0.7; // 手機端再縮小一點確保看到左右
-  const desktopMaxHeight = lH * 0.88; // 高度限制同步比例
-  const mobileMaxHeight = desktopMaxHeight * 0.7;
+  const desktopWidth = lW * 0.89; // 寬度比例保持 0.88 倍
+  const mobileWidth = desktopWidth * 0.6; // 手機端再縮小一點確保看到左右
+  const desktopMaxHeight = lH * 0.89; // 高度限制同步比例
+  const mobileMaxHeight = desktopMaxHeight * 0.6;
 
   const updateRect = (swiper: SwiperClass) => {
     const activeSlide = swiper.slides[swiper.activeIndex];
@@ -79,7 +79,6 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
           className="h-full w-full"
           onAfterInit={updateRect}
           onResize={updateRect}
-          onTransitionEnd={updateRect}
           initialSlide={0}
           breakpoints={{
             768: {
@@ -92,7 +91,7 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
             return (
               <SwiperSlide
                 key={frame.value}
-                className="h-full! w-[var(--mobile-w)]! md:w-[var(--desktop-w)]!"
+                className="h-full! w-(--mobile-w)! md:w-(--desktop-w)!"
                 style={{ height: '100%' }}
               >
                 {({ isActive }) => {
@@ -101,8 +100,8 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
                       <div
                         className={cn(
                           'img-box relative transition-transform duration-300',
-                          // 使用 Tailwind 處理響應式 maxHeight，避免內聯樣式優先度過高
-                          'max-h-[min(65dvh,var(--mobile-max-h))] md:max-h-(--desktop-max-h)',
+                          // 使用 dvh (Dynamic Viewport Height) 確保在矮螢幕下也不會溢出
+                          'max-h-[min(55dvh,var(--mobile-max-h))] md:max-h-[min(55dvh,var(--desktop-max-h))]',
                           isActive ? 'scale-100' : 'scale-[0.85]'
                         )}
                         style={{
