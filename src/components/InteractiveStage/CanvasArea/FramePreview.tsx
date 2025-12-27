@@ -21,6 +21,7 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
   const mobileMaxHeight = desktopMaxHeight * 0.6;
 
   const updateRect = (swiper: SwiperClass) => {
+    if (!isCurrentStep) return; // 關鍵修正：不是當前步驟時不准更新座標
     const activeSlide = swiper.slides[swiper.activeIndex];
     const imgDom = activeSlide?.querySelector('.img-box img') as HTMLImageElement;
     if (imgDom) {
