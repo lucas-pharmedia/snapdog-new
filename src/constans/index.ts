@@ -35,7 +35,7 @@ export const AI_STYLE_OPTIONS = [
   { value: AIStyle.Korean3D, label: '3D韓風' },
   { value: AIStyle.GameIllustration, label: '遊戲插畫' },
   { value: AIStyle.Cartoon2D, label: '2D卡通' },
-  { value: AIStyle.Cyber, label: ' Cyber' },
+  { value: AIStyle.Cyber, label: ' CYBER' },
   { value: AIStyle.Job, label: '職業' },
   { value: AIStyle.Scene, label: '場景' },
   { value: AIStyle.Xmas, label: '聖誕節' },

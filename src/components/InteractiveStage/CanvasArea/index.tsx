@@ -1,10 +1,12 @@
 import { cn } from '../../../utils';
-import type { PhotoConfig } from '../../../types';
+import type { PhotoConfig, Rect } from '../../../types';
 import { Character } from '../../../constans';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIStylePreview from './AIStylePreview';
 import LayoutPreview from './LayoutPreview';
 import FramePreview from './FramePreview';
+import FixedPhoto from './FixedPhoto';
+import { useState } from 'react';
 interface CanvasAreaProps {
   isInView: boolean;
   currentStep: number;
@@ -13,41 +15,54 @@ interface CanvasAreaProps {
 }
 
 const CanvasArea = ({ isInView, currentStep, photoConfig, onCharacterClick }: CanvasAreaProps) => {
+  const [fixedPhotoRect, setFixedPhotoRect] = useState<Rect>({
+    width: (360 * 1) / 1,
+    height: (540 * 1) / 1,
+    top: 0,
+    left: 0
+  });
   return (
     <>
       <div
+        id="cavas-area"
         className={cn(
           'flex w-full grow overflow-hidden transition-opacity duration-800',
           isInView ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="h-full w-full"
+        <div className="relative h-full w-full">
+          <div
+            className={cn(
+              'absolute inset-0 transition duration-800',
+              currentStep === 0 ? 'opacity-100' : 'pointer-events-none opacity-0'
+            )}
           >
-            {currentStep === 0 && (
-              <>
-                <AIStylePreview photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
-              </>
+            <AIStylePreview photoConfig={photoConfig} onCharacterClick={onCharacterClick} />
+          </div>
+          <div
+            className={cn(
+              'absolute inset-0 transition duration-800',
+              currentStep === 1 ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
-            {currentStep === 1 && (
-              <>
-                <LayoutPreview photoConfig={photoConfig} />
-              </>
+          >
+            <LayoutPreview photoConfig={photoConfig} />
+          </div>
+          <div
+            className={cn(
+              'sss absolute inset-0 transition duration-800',
+              currentStep === 2 ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
-            {currentStep === 2 && (
-              <>
-                <FramePreview photoConfig={photoConfig} />
-              </>
-            )}
-          </motion.div>
-        </AnimatePresence>
+          >
+            <FramePreview
+              photoConfig={photoConfig}
+              isCurrentStep={currentStep === 2}
+              setFixedPhotoRect={setFixedPhotoRect}
+            />
+          </div>
+        </div>
       </div>
+
+      <FixedPhoto photoConfig={photoConfig} fixedPhotoRect={fixedPhotoRect} />
     </>
   );
 

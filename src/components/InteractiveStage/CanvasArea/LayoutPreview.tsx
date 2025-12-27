@@ -2,7 +2,7 @@ import type { PhotoConfig } from '../../../types';
 import { LayoutConfig } from '../../../constans';
 import { useEffect, useState } from 'react';
 import { useElementSize } from '../../../hooks/useElementSize';
-import { getPhotoPath } from '../../../utils';
+import { getAIAssetPath } from '../../../utils';
 
 interface LayoutPreviewProps {
   photoConfig: PhotoConfig;
@@ -33,7 +33,7 @@ const LayoutPreview = ({ photoConfig }: LayoutPreviewProps) => {
       >
         <img src={`/layout/background/${photoConfig.layout}.png`} alt="layout" />
         {selectedLayoutConfig.slots.map((slot, index) => {
-          const photoUrl = getPhotoPath({
+          const assetUrl = getAIAssetPath({
             character: photoConfig.character,
             characterIndex: index + 1,
             style: photoConfig.style
@@ -41,7 +41,7 @@ const LayoutPreview = ({ photoConfig }: LayoutPreviewProps) => {
           return (
             <img
               key={index}
-              src={photoUrl}
+              src={assetUrl}
               className="absolute object-cover"
               alt="picture"
               style={{

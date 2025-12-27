@@ -6,7 +6,7 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
-export const getPhotoPath = ({
+export const getAIAssetPath = ({
   character,
   style,
   characterIndex

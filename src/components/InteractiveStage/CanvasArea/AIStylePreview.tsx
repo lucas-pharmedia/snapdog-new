@@ -1,4 +1,4 @@
-import { cn, getPhotoPath } from '../../../utils';
+import { cn, getAIAssetPath } from '../../../utils';
 import type { PhotoConfig } from '../../../types';
 import Male from '../../../assets/characters/male.svg?react';
 import Female from '../../../assets/characters/female.svg?react';
@@ -53,12 +53,12 @@ interface AIStyleSelectorProps {
 }
 
 const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps) => {
-  const aiStyleImageUrl = getPhotoPath({
+  const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
     characterIndex: 1,
     style: photoConfig.style
   });
-  const originImageUrl = getPhotoPath({
+  const originImageUrl = getAIAssetPath({
     character: photoConfig.character,
     characterIndex: 1,
     style: AIStyle.None

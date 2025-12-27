@@ -6,3 +6,10 @@ export type PhotoConfig = {
   layout: Layout;
   frame: Frame;
 };
+
+export type Rect = {
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+};

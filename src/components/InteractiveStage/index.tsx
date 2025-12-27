@@ -68,7 +68,6 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
     const targetElement = document.getElementById(STEPS[step].id);
     targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-  const [printMode, setPrintMode] = useState<'wall' | 'print'>('wall');
 
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) scrollToStepSection(currentStep + 1);
@@ -94,7 +93,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
       >
         <div
           className={cn(
-            'relative flex w-full shrink-0 items-end justify-center transition-opacity duration-1200',
+            'relative flex h-[15dvh] w-full shrink-0 items-end justify-center transition-opacity duration-1200',
             isInView ? 'opacity-100' : 'opacity-0'
           )}
         >
@@ -132,6 +131,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
           onCharacterClick={(character) => setPhotoConfig({ ...photoConfig, character })}
         />
 
+        {/* <div className="absolute bottom-0 left-[50%] -translate-x-1/2"> */}
         <UIControls
           isInView={isInView}
           currentStep={currentStep}
@@ -144,6 +144,7 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
           }}
         />
       </div>
+      {/* </div> */}
 
       <NavControls
         currentStep={currentStep}
