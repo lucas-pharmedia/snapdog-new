@@ -1,15 +1,11 @@
 import { cn } from '@/utils';
 import { Layout, LAYOUT_OPTIONS } from '@/constans';
-import type { PhotoConfig } from '@/types';
+import { usePhotoStore } from '@/store/usePhotoStore';
 import Landscape from '@/assets/layouts/landscape.svg?react';
 import Portrait from '@/assets/layouts/portrait.svg?react';
 import Classic from '@/assets/layouts/classic.svg?react';
 import MultiGrid from '@/assets/layouts/multi-grid.svg?react';
 import Calendar from '@/assets/layouts/calendar.svg?react';
-interface LayoutSelectorProps {
-  photoConfig: PhotoConfig;
-  onLayoutClick: (layout: Layout) => void;
-}
 
 const LayoutIcon = {
   [Layout.Landscape]: Landscape,
@@ -18,7 +14,9 @@ const LayoutIcon = {
   [Layout.MultiGrid]: MultiGrid,
   [Layout.Calendar]: Calendar
 };
-const LayoutSelector = ({ photoConfig, onLayoutClick }: LayoutSelectorProps) => {
+
+const LayoutSelector = () => {
+  const { photoConfig, setPhotoConfig } = usePhotoStore();
   return (
     <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-1 shadow-2xl md:max-w-[90vw]">
       <div className="flex w-full items-center gap-1.5 overflow-x-auto px-4 md:gap-3 md:px-5">
@@ -26,9 +24,9 @@ const LayoutSelector = ({ photoConfig, onLayoutClick }: LayoutSelectorProps) => 
           const isSelected = photoConfig.layout === option.value;
           const Icon = LayoutIcon[option.value];
           return (
-            <div
+            <button
               key={option.value}
-              onClick={() => onLayoutClick(option.value)}
+              onClick={() => setPhotoConfig({ layout: option.value })}
               className="flex cursor-pointer flex-col items-center justify-center gap-1"
             >
               <div
@@ -42,7 +40,7 @@ const LayoutSelector = ({ photoConfig, onLayoutClick }: LayoutSelectorProps) => 
               <span className={cn('text-xs font-medium text-[#6A7282]', isSelected && 'text-blue-600')}>
                 {option.label}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>

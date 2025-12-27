@@ -1,5 +1,5 @@
 import { cn, getAIAssetPath } from '@/utils';
-import type { PhotoConfig } from '@/types';
+import { usePhotoStore } from '@/store/usePhotoStore';
 import Male from '@/assets/characters/male.svg?react';
 import Female from '@/assets/characters/female.svg?react';
 import Animal from '@/assets/characters/animal.svg?react';
@@ -31,7 +31,7 @@ const CharacterButtons = ({
         const isSelected = selectedCharacter === character.value;
         const Icon = character.icon;
         return (
-          <div
+          <button
             key={index}
             className={cn(
               'flex h-12.5 w-12.5 cursor-pointer items-center justify-center rounded-[0.625rem] md:h-15 md:w-15',
@@ -40,19 +40,15 @@ const CharacterButtons = ({
             onClick={() => onCharacterClick(character.value)}
           >
             <Icon className="h-6 w-6 md:h-7 md:w-7" />
-          </div>
+          </button>
         );
       })}
     </div>
   );
 };
 
-interface AIStyleSelectorProps {
-  photoConfig: PhotoConfig;
-  onCharacterClick: (character: Character) => void;
-}
-
-const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps) => {
+const AIStylePreview = () => {
+  const { photoConfig, setPhotoConfig } = usePhotoStore();
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
     characterIndex: 1,
@@ -86,15 +82,6 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
                     </div>
                   </div>
                 }
-                // itemTwo={
-                //   <video
-                //     muted
-                //     autoPlay
-                //     playsInline
-                //     className="h-full w-full"
-                //     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                //   ></video>
-                // }
               />
             </div>
           </div>
@@ -105,16 +92,22 @@ const AIStyleSelector = ({ photoConfig, onCharacterClick }: AIStyleSelectorProps
             <ImageStyleLabel style={photoConfig.style} />
           </div>
           <div className="absolute top-0 left-0 hidden md:block md:-translate-x-[calc(100%+20px)]">
-            <CharacterButtons selectedCharacter={photoConfig.character} onCharacterClick={onCharacterClick} />
+            <CharacterButtons
+              selectedCharacter={photoConfig.character}
+              onCharacterClick={(character) => setPhotoConfig({ character })}
+            />
           </div>
         </div>
       </div>
 
       <div className="mt-2 shrink-0 md:hidden">
-        <CharacterButtons selectedCharacter={photoConfig.character} onCharacterClick={onCharacterClick} />
+        <CharacterButtons
+          selectedCharacter={photoConfig.character}
+          onCharacterClick={(character) => setPhotoConfig({ character })}
+        />
       </div>
     </div>
   );
 };
 
-export default AIStyleSelector;
+export default AIStylePreview;

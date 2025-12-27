@@ -1,36 +1,36 @@
-import type { PhotoConfig, Rect } from '@/types';
-import { FRAME_OPTIONS, LayoutConfig } from '@/constans';
+import { FRAME_OPTIONS } from '@/constans';
 import { useEffect, useState } from 'react';
-import { useElementSize } from '@/hooks/useElementSize';
-import { cn, getAIAssetPath } from '@/utils';
+import { cn } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperClass } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { div } from 'framer-motion/client';
+import { usePhotoStore } from '@/store/usePhotoStore';
+import type { Rect } from '@/types';
+
 interface FramePreviewProps {
-  photoConfig: PhotoConfig;
   isCurrentStep: boolean;
   setFixedPhotoRect: (rect: Rect) => void;
 }
 
-const FramePreview = ({ photoConfig, isCurrentStep, setFixedPhotoRect }: FramePreviewProps) => {
+const FramePreview = ({ isCurrentStep, setFixedPhotoRect }: FramePreviewProps) => {
+  const { photoConfig } = usePhotoStore();
   const [activeSlideRect, setActiveSlideRect] = useState<Rect | null>(null);
+
   const handleAfterInit = (swiper: SwiperClass) => {
     const activeSlide = swiper.slides[swiper.activeIndex];
     const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
-    const rect = imgDom.getBoundingClientRect();
-    console.log(`width`, rect.width);
-    console.log(`height`, rect.height);
-    console.log(`top`, rect.top);
-    console.log(`left`, rect.left);
-    setActiveSlideRect(rect);
+    if (imgDom) {
+      const rect = imgDom.getBoundingClientRect();
+      setActiveSlideRect(rect);
+    }
   };
+
   useEffect(() => {
-    console.log(`activeSlideRect`, activeSlideRect);
     if (isCurrentStep && activeSlideRect) {
       setFixedPhotoRect(activeSlideRect);
     }
-  }, [isCurrentStep, activeSlideRect]);
+  }, [isCurrentStep, activeSlideRect, setFixedPhotoRect]);
+
   return (
     <div className="h-full w-full">
       <div className="relative flex h-full w-full items-center justify-center">
@@ -41,7 +41,6 @@ const FramePreview = ({ photoConfig, isCurrentStep, setFixedPhotoRect }: FramePr
           spaceBetween={40}
           className="h-full w-full bg-red-500/20"
           onAfterInit={handleAfterInit}
-          // onTransitionEnd={handleAfterInit}
           initialSlide={0}
         >
           {FRAME_OPTIONS.map((frame) => {
@@ -49,13 +48,11 @@ const FramePreview = ({ photoConfig, isCurrentStep, setFixedPhotoRect }: FramePr
             return (
               <SwiperSlide key={frame.value} style={{ width: 'auto', height: '100%' }}>
                 {({ isActive }) => {
-                  // console.log(`isActive`, isActive);
                   return (
                     <div className={`flex h-full flex-col gap-5`}>
                       <div
                         className={cn(
                           'flex grow items-center justify-center overflow-hidden transition-all duration-300'
-                          // isCurrentStep ? (isActive ? 'scale-100' : 'scale-100') : 'scale-100'
                         )}
                       >
                         <div
@@ -66,7 +63,7 @@ const FramePreview = ({ photoConfig, isCurrentStep, setFixedPhotoRect }: FramePr
                             isCurrentStep ? (isActive ? 'scale-100' : 'scale-[0.875]') : 'scale-100'
                           )}
                         >
-                          <img src={frameUrl} className={'h-full w-full'} />
+                          <img src={frameUrl} className={'h-full w-full'} alt={frame.label} />
                         </div>
                       </div>
                       <span

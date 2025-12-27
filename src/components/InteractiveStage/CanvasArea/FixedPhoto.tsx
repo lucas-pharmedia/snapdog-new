@@ -1,14 +1,15 @@
-import { cn, getAIAssetPath } from '@/utils';
-import type { PhotoConfig, Rect } from '@/types';
+import { getAIAssetPath } from '@/utils';
+import type { Rect } from '@/types';
 import { LayoutConfig } from '@/constans';
 import { useEffect, useState } from 'react';
+import { usePhotoStore } from '@/store/usePhotoStore';
 
 interface FixedPhotoProps {
-  photoConfig: PhotoConfig;
   fixedPhotoRect: Rect;
 }
 
-const FixedPhoto = ({ photoConfig, fixedPhotoRect }: FixedPhotoProps) => {
+const FixedPhoto = ({ fixedPhotoRect }: FixedPhotoProps) => {
+  const { photoConfig } = usePhotoStore();
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
   const [renderScale, setRenderScale] = useState(1);
 
@@ -16,19 +17,19 @@ const FixedPhoto = ({ photoConfig, fixedPhotoRect }: FixedPhotoProps) => {
     const scale = fixedPhotoRect.width / selectedLayoutConfig.layoutSize.width;
     setRenderScale(scale);
   }, [fixedPhotoRect, selectedLayoutConfig]);
+
   return (
     <div
-      className="cccc fixed bg-red-500 transition-all duration-500"
+      className="cccc fixed transition-all duration-500"
       style={{
         top: fixedPhotoRect.top,
-        left: fixedPhotoRect.left
+        left: fixedPhotoRect.left,
+        pointerEvents: 'none'
       }}
     >
       <div
         className="relative shrink-0"
         style={{
-          // transform: `scale(${renderScale})`,
-          // transformOrigin: 'top left',
           width: selectedLayoutConfig.layoutSize.width * renderScale,
           height: selectedLayoutConfig.layoutSize.height * renderScale,
           filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.25))'

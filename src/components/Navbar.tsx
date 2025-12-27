@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils';
 import { LINE_OA_URL, SectionId } from '@/constans';
 
-const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolean) => void }) => {
+import { useUIStore } from '@/store/useUIStore';
+
+const Navbar = () => {
+  const { setIsNavBarScrolling } = useUIStore();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -31,7 +35,7 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
 
     const offsetPosition = elementPosition + window.scrollY - offset;
 
-    setNavBarScrolling(true);
+    setIsNavBarScrolling(true);
     window.scrollTo({
       top: offsetPosition,
       behavior: 'smooth'
@@ -39,7 +43,7 @@ const Navbar = ({ setNavBarScrolling }: { setNavBarScrolling: (scrolling: boolea
 
     const checkScrollEnd = () => {
       if (Math.abs(window.scrollY - offsetPosition) <= 1) {
-        setNavBarScrolling(false);
+        setIsNavBarScrolling(false);
         window.removeEventListener('scroll', checkScrollEnd);
       }
     };

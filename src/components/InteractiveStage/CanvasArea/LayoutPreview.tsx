@@ -1,14 +1,11 @@
-import type { PhotoConfig } from '@/types';
 import { LayoutConfig } from '@/constans';
 import { useEffect, useState } from 'react';
 import { useElementSize } from '@/hooks/useElementSize';
 import { getAIAssetPath } from '@/utils';
+import { usePhotoStore } from '@/store/usePhotoStore';
 
-interface LayoutPreviewProps {
-  photoConfig: PhotoConfig;
-}
-
-const LayoutPreview = ({ photoConfig }: LayoutPreviewProps) => {
+const LayoutPreview = () => {
+  const { photoConfig } = usePhotoStore();
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
@@ -20,6 +17,7 @@ const LayoutPreview = ({ photoConfig }: LayoutPreviewProps) => {
     );
     setPhotoRenderScale(scale);
   }, [containerSize, selectedLayoutConfig]);
+
   return (
     <div className="flex h-full w-full items-center justify-center px-6 py-3" ref={containerRef}>
       <div

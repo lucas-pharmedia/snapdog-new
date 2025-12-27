@@ -6,13 +6,11 @@ import MarketingSections from '@/components/Marketing/MarketingSections';
 import MarqueeBackground from '@/components/MarqueeBackground';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
-import { AIStyle, Character, FRAME_OPTIONS } from '@/constans';
+import { FRAME_OPTIONS } from '@/constans';
 import LineModal from '@/components/LineModal';
 import ParallaxBackground from '@/components/ParallaxBackground';
 
 function App() {
-  const [isStageVisible, setIsStageVisible] = useState(false);
-  const [isNavBarScrolling, setIsNavBarScrolling] = useState(false);
   const [isLineModalOpen, setIsLineModalOpen] = useState(false);
 
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
@@ -39,20 +37,20 @@ function App() {
 
   if (!isImagesLoaded) return <div className="fixed inset-0 flex items-center justify-center"> Loading...</div>;
   return (
-    <div className={`hide-scrollbar relative overflow-x-hidden ${isStageVisible ? 'stage-visible' : ''}`}>
+    <div className={`hide-scrollbar relative overflow-x-hidden`}>
       {/* Parallax Background  */}
       <ParallaxBackground />
 
       {/* <MarqueeBackground isVisible={isStageVisible} /> */}
 
       {/* Navbar */}
-      <Navbar setNavBarScrolling={(scrolling) => setIsNavBarScrolling(scrolling)} />
+      <Navbar />
 
       <main>
         {/* Section 1: Hero */}
         <Hero onLineButtonClick={() => setIsLineModalOpen(true)} />
         {/* Section 2: Interactive Stage */}
-        <InteractiveStage isNavBarScrolling={isNavBarScrolling} />
+        <InteractiveStage />
         {/* Section 3: Marketing Content */}
         <MarketingSections />
         <Contact onLineButtonClick={() => setIsLineModalOpen(true)} />

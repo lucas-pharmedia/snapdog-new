@@ -1,15 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import UIControls from '@/components/InteractiveStage/UIControls';
 import StepIndicator from '@/components/InteractiveStage/StepIndicator';
 import NavControls from '@/components/InteractiveStage/NavControls';
-import { AIStyle, Character, Frame, INTERACTIVE_STAGE_STEPS, Layout, SectionId } from '@/constans';
-import type { PhotoConfig } from '@/types';
+import { Layout, SectionId, INTERACTIVE_STAGE_STEPS } from '@/constans';
 import { cn } from '@/utils';
 import CanvasArea from '@/components/InteractiveStage/CanvasArea';
 import { useStageScroll } from '@/hooks/useStageScroll';
+import { usePhotoStore } from '@/store/usePhotoStore';
 
-const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean }) => {
+const InteractiveStage = () => {
   const {
     ref: containerRef,
     currentStep,
@@ -18,22 +18,17 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
     handlePrev,
     isInView
   } = useStageScroll({
-    isNavBarScrolling,
     steps: INTERACTIVE_STAGE_STEPS
   });
 
-  const [photoConfig, setPhotoConfig] = useState<PhotoConfig>({
-    character: Character.Male,
-    style: AIStyle.None,
-    layout: Layout.Portrait,
-    frame: Frame.None
-  });
+  const { setPhotoConfig } = usePhotoStore();
 
   useEffect(() => {
     if (currentStep === 0) {
       setPhotoConfig((prev) => ({ ...prev, layout: Layout.Portrait }));
     }
-  }, [currentStep]);
+  }, [currentStep, setPhotoConfig]);
+
   return (
     <section id={SectionId.InteractiveStage} className="relative" ref={containerRef}>
       {/* Sticky Stage */}
@@ -78,27 +73,10 @@ const InteractiveStage = ({ isNavBarScrolling }: { isNavBarScrolling: boolean })
           </AnimatePresence>
         </div>
 
-        <CanvasArea
-          isInView={isInView}
-          currentStep={currentStep}
-          photoConfig={photoConfig}
-          onCharacterClick={(character) => setPhotoConfig({ ...photoConfig, character })}
-        />
+        <CanvasArea isInView={isInView} currentStep={currentStep} />
 
-        {/* <div className="absolute bottom-0 left-[50%] -translate-x-1/2"> */}
-        <UIControls
-          isInView={isInView}
-          currentStep={currentStep}
-          photoConfig={photoConfig}
-          onStyleClick={(style) => {
-            setPhotoConfig({ ...photoConfig, style });
-          }}
-          onLayoutClick={(layout) => {
-            setPhotoConfig({ ...photoConfig, layout });
-          }}
-        />
+        <UIControls isInView={isInView} currentStep={currentStep} />
       </div>
-      {/* </div> */}
 
       <NavControls
         currentStep={currentStep}

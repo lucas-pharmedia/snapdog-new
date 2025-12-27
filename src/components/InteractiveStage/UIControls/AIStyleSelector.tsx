@@ -1,23 +1,20 @@
 import { cn } from '@/utils';
 import { AI_STYLE_OPTIONS, AIStyle } from '@/constans';
-import type { PhotoConfig } from '@/types';
+import { usePhotoStore } from '@/store/usePhotoStore';
 import { Ban } from 'lucide-react';
-interface AIStyleSelectorProps {
-  photoConfig: PhotoConfig;
-  onStyleClick: (style: AIStyle) => void;
-}
 
-const AIStyleSelector = ({ photoConfig, onStyleClick }: AIStyleSelectorProps) => {
+const AIStyleSelector = () => {
+  const { photoConfig, setPhotoConfig } = usePhotoStore();
   return (
     <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl md:max-w-[90vw] md:py-4">
       <div className="flex w-full items-center gap-4 overflow-x-auto px-4">
         {AI_STYLE_OPTIONS.map((option) => {
           const isSelected = photoConfig.style === option.value;
           return (
-            <div
+            <button
               key={option.value}
               className="flex cursor-pointer flex-col items-center justify-center gap-1"
-              onClick={() => onStyleClick(option.value)}
+              onClick={() => setPhotoConfig({ style: option.value })}
             >
               <div
                 className={cn(
@@ -43,7 +40,7 @@ const AIStyleSelector = ({ photoConfig, onStyleClick }: AIStyleSelectorProps) =>
               >
                 {option.label}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>

@@ -1,17 +1,13 @@
-import { AIStyle, Layout } from '@/constans';
-import type { PhotoConfig } from '@/types';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIStyleSelector from '@/components/InteractiveStage/UIControls/AIStyleSelector';
 import LayoutSelector from '@/components/InteractiveStage/UIControls/LayoutSelector';
+
 interface UIControlsProps {
   isInView: boolean;
   currentStep: number;
-  photoConfig: PhotoConfig;
-  onStyleClick: (style: AIStyle) => void;
-  onLayoutClick: (layout: Layout) => void;
 }
 
-const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick, onLayoutClick }: UIControlsProps) => {
+const UIControls = ({ isInView, currentStep }: UIControlsProps) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -23,8 +19,8 @@ const UIControls = ({ isInView, currentStep, photoConfig, onStyleClick, onLayout
         }}
         transition={{ duration: 0.2 }}
       >
-        {currentStep === 0 && <AIStyleSelector photoConfig={photoConfig} onStyleClick={onStyleClick} />}
-        {currentStep === 1 && <LayoutSelector photoConfig={photoConfig} onLayoutClick={onLayoutClick} />}
+        {currentStep === 0 && <AIStyleSelector />}
+        {currentStep === 1 && <LayoutSelector />}
       </motion.div>
     </AnimatePresence>
   );
