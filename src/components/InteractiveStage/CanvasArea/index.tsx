@@ -1,10 +1,8 @@
 import { cn } from '@/utils';
-import type { Rect } from '@/types';
 import AIStylePreview from '@/components/InteractiveStage/CanvasArea/AIStylePreview';
 import LayoutPreview from '@/components/InteractiveStage/CanvasArea/LayoutPreview';
 import FramePreview from '@/components/InteractiveStage/CanvasArea/FramePreview';
 import FixedPhoto from '@/components/InteractiveStage/CanvasArea/FixedPhoto';
-import { useState } from 'react';
 
 interface CanvasAreaProps {
   isInView: boolean;
@@ -12,14 +10,12 @@ interface CanvasAreaProps {
 }
 
 const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
-  const [fixedPhotoRect, setFixedPhotoRect] = useState<Rect>({
-    width: (360 * 1) / 1,
-    height: (540 * 1) / 1,
-    top: 0,
-    left: 0
-  });
   return (
     <>
+      <div className={cn('pointer-events-none fixed inset-0 z-0', currentStep >= 1 ? 'visible' : 'invisible')}>
+        <FixedPhoto />
+      </div>
+
       <div
         id="cavas-area"
         className={cn(
@@ -42,7 +38,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
               currentStep === 1 ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
-            <LayoutPreview />
+            <LayoutPreview isCurrentStep={currentStep === 1} />
           </div>
           <div
             className={cn(
@@ -50,12 +46,10 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
               currentStep === 2 ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
-            <FramePreview isCurrentStep={currentStep === 2} setFixedPhotoRect={setFixedPhotoRect} />
+            <FramePreview isCurrentStep={currentStep === 2} />
           </div>
         </div>
       </div>
-
-      <FixedPhoto fixedPhotoRect={fixedPhotoRect} />
     </>
   );
 };

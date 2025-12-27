@@ -1,35 +1,45 @@
 import { FRAME_OPTIONS } from '@/constans';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { cn } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperClass } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import type { Rect } from '@/types';
 
-interface FramePreviewProps {
-  isCurrentStep: boolean;
-  setFixedPhotoRect: (rect: Rect) => void;
-}
+const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
+  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
 
-const FramePreview = ({ isCurrentStep, setFixedPhotoRect }: FramePreviewProps) => {
-  const { photoConfig } = usePhotoStore();
-  const [activeSlideRect, setActiveSlideRect] = useState<Rect | null>(null);
-
-  const handleAfterInit = (swiper: SwiperClass) => {
+  const updateRect = (swiper: SwiperClass) => {
+    // 獲取當前 active slide 內的圖片區域
     const activeSlide = swiper.slides[swiper.activeIndex];
-    const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
+    const imgDom = activeSlide?.querySelector('.img-box img') as HTMLImageElement;
     if (imgDom) {
       const rect = imgDom.getBoundingClientRect();
-      setActiveSlideRect(rect);
+      if (rect.width > 0 && rect.height > 0) {
+        setFixedPhotoRect({
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          left: rect.left
+        });
+      }
     }
   };
 
   useEffect(() => {
-    if (isCurrentStep && activeSlideRect) {
-      setFixedPhotoRect(activeSlideRect);
+    if (isCurrentStep) {
+      // 進入此步驟時，稍微延遲一點確保 DOM 渲染完全與 Swiper 初始化完成
+      const timer = setTimeout(() => {
+        const swiperEl = document.querySelector('.swiper')?.shadowRoot || document.querySelector('.swiper');
+        // @ts-ignore
+        if (swiperEl && swiperEl.swiper) {
+          // @ts-ignore
+          updateRect(swiperEl.swiper);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [isCurrentStep, activeSlideRect, setFixedPhotoRect]);
+  }, [isCurrentStep]);
 
   return (
     <div className="h-full w-full">
@@ -39,8 +49,12 @@ const FramePreview = ({ isCurrentStep, setFixedPhotoRect }: FramePreviewProps) =
           centeredSlides={true}
           slidesPerView={'auto'}
           spaceBetween={40}
-          className="h-full w-full bg-red-500/20"
-          onAfterInit={handleAfterInit}
+          className="h-full w-full"
+          onAfterInit={updateRect}
+          onResize={updateRect}
+          // 此處我們只在過渡結束或初始化時更新，避免在滑動過程中因 getBoundingClientRect 產生抖動
+          onTransitionEnd={updateRect}
+          onUpdate={updateRect}
           initialSlide={0}
         >
           {FRAME_OPTIONS.map((frame) => {
@@ -59,11 +73,11 @@ const FramePreview = ({ isCurrentStep, setFixedPhotoRect }: FramePreviewProps) =
                           className={cn(
                             'h-full overflow-hidden rounded-[15px]',
                             'aspect-360/540 max-h-[480px]',
-                            'img-box',
+                            'img-box relative',
                             isCurrentStep ? (isActive ? 'scale-100' : 'scale-[0.875]') : 'scale-100'
                           )}
                         >
-                          <img src={frameUrl} className={'h-full w-full'} alt={frame.label} />
+                          <img src={frameUrl} className={'relative z-10 h-full w-full'} alt={frame.label} />
                         </div>
                       </div>
                       <span

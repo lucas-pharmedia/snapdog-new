@@ -1,14 +1,18 @@
 import { LayoutConfig } from '@/constans';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useElementSize } from '@/hooks/useElementSize';
-import { getAIAssetPath } from '@/utils';
 import { usePhotoStore } from '@/store/usePhotoStore';
 
-const LayoutPreview = () => {
-  const { photoConfig } = usePhotoStore();
+interface LayoutPreviewProps {
+  isCurrentStep: boolean;
+}
+
+const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
+  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
+  const imageBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const scale = Math.min(
@@ -18,40 +22,37 @@ const LayoutPreview = () => {
     setPhotoRenderScale(scale);
   }, [containerSize, selectedLayoutConfig]);
 
+  useEffect(() => {
+    if (isCurrentStep && imageBoxRef.current) {
+      const rect = imageBoxRef.current.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setFixedPhotoRect({
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          left: rect.left
+        });
+      }
+    }
+  }, [isCurrentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);
+
   return (
     <div className="flex h-full w-full items-center justify-center px-6 py-3" ref={containerRef}>
+      {/* 
+          這個 div 僅作為定位參考 (Skeleton/Ghost)，不渲染實體內容。
+          FixedPhoto 會根據它的 getBoundingClientRect() 來決定飛到哪裡。
+      */}
       <div
+        ref={imageBoxRef}
         className="relative shrink-0"
         style={{
           transform: `scale(${photoRenderScale})`,
           width: selectedLayoutConfig.layoutSize.width,
           height: selectedLayoutConfig.layoutSize.height,
-          filter: 'drop-shadow(0px 6px 12px rgba(0,0,0,0.25))'
+          visibility: 'hidden', // 隱藏佔位，不影響佈局計算
+          pointerEvents: 'none'
         }}
-      >
-        <img src={`/layout/background/${photoConfig.layout}.png`} alt="layout" />
-        {selectedLayoutConfig.slots.map((slot, index) => {
-          const assetUrl = getAIAssetPath({
-            character: photoConfig.character,
-            characterIndex: index + 1,
-            style: photoConfig.style
-          });
-          return (
-            <img
-              key={index}
-              src={assetUrl}
-              className="absolute object-cover"
-              alt="picture"
-              style={{
-                left: slot.x,
-                top: slot.y,
-                width: slot.width,
-                height: slot.height
-              }}
-            />
-          );
-        })}
-      </div>
+      />
     </div>
   );
 };
