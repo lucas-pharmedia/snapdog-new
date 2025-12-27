@@ -16,6 +16,8 @@
 
 - React + Vite 前端開發
 - TypeScript、現代 JavaScript（ES2024+）
+- TailwindCSS
+- 回答用繁體中文為主
 
 ---
 

@@ -40,7 +40,8 @@ const InteractiveStage = () => {
       >
         <div
           className={cn(
-            'relative flex h-[15dvh] w-full shrink-0 items-end justify-center transition-opacity duration-1200',
+            'relative flex h-[15dvh] min-h-[80px] w-full shrink-0 items-end justify-center transition-opacity duration-1200',
+            'mb-4',
             isInView ? 'opacity-100' : 'opacity-0'
           )}
         >

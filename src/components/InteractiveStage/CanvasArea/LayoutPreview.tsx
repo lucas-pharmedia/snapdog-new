@@ -8,7 +8,9 @@ interface LayoutPreviewProps {
 }
 
 const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
-  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
+  const photoConfig = usePhotoStore((state) => state.photoConfig);
+  const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
+
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
@@ -26,12 +28,20 @@ const LayoutPreview = ({ isCurrentStep }: LayoutPreviewProps) => {
     if (isCurrentStep && imageBoxRef.current) {
       const rect = imageBoxRef.current.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        setFixedPhotoRect({
-          width: rect.width,
-          height: rect.height,
-          top: rect.top,
-          left: rect.left
-        });
+        const currentRect = usePhotoStore.getState().fixedPhotoRect;
+        if (
+          Math.abs(rect.top - currentRect.top) > 0.5 ||
+          Math.abs(rect.left - currentRect.left) > 0.5 ||
+          Math.abs(rect.width - currentRect.width) > 0.5 ||
+          Math.abs(rect.height - currentRect.height) > 0.5
+        ) {
+          setFixedPhotoRect({
+            width: rect.width,
+            height: rect.height,
+            top: rect.top,
+            left: rect.left
+          });
+        }
       }
     }
   }, [isCurrentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);

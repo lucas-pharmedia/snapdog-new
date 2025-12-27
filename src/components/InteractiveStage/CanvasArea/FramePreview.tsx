@@ -1,4 +1,4 @@
-import { FRAME_OPTIONS } from '@/constans';
+import { FRAME_OPTIONS, LayoutConfig } from '@/constans';
 import { useEffect } from 'react';
 import { cn } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,28 +7,45 @@ import 'swiper/swiper-bundle.css';
 import { usePhotoStore } from '@/store/usePhotoStore';
 
 const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
-  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
+  const photoConfig = usePhotoStore((state) => state.photoConfig);
+  const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
+
+  const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
+  const { width: lW, height: lH } = selectedLayoutConfig.layoutSize;
+
+  // 動態計算比例與尺寸
+  const aspectRatio = `${lW}/${lH}`;
+  const desktopWidth = lW * 0.88; // 寬度比例保持 0.88 倍
+  const mobileWidth = desktopWidth * 0.7; // 手機端再縮小一點確保看到左右
+  const desktopMaxHeight = lH * 0.88; // 高度限制同步比例
+  const mobileMaxHeight = desktopMaxHeight * 0.7;
 
   const updateRect = (swiper: SwiperClass) => {
-    // 獲取當前 active slide 內的圖片區域
     const activeSlide = swiper.slides[swiper.activeIndex];
     const imgDom = activeSlide?.querySelector('.img-box img') as HTMLImageElement;
     if (imgDom) {
       const rect = imgDom.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        setFixedPhotoRect({
-          width: rect.width,
-          height: rect.height,
-          top: rect.top,
-          left: rect.left
-        });
+        const currentRect = usePhotoStore.getState().fixedPhotoRect;
+        if (
+          Math.abs(rect.top - currentRect.top) > 0.5 ||
+          Math.abs(rect.left - currentRect.left) > 0.5 ||
+          Math.abs(rect.width - currentRect.width) > 0.5 ||
+          Math.abs(rect.height - currentRect.height) > 0.5
+        ) {
+          setFixedPhotoRect({
+            width: rect.width,
+            height: rect.height,
+            top: rect.top,
+            left: rect.left
+          });
+        }
       }
     }
   };
 
   useEffect(() => {
     if (isCurrentStep) {
-      // 進入此步驟時，稍微延遲一點確保 DOM 渲染完全與 Swiper 初始化完成
       const timer = setTimeout(() => {
         const swiperEl = document.querySelector('.swiper')?.shadowRoot || document.querySelector('.swiper');
         // @ts-ignore
@@ -36,58 +53,75 @@ const FramePreview = ({ isCurrentStep }: { isCurrentStep: boolean }) => {
           // @ts-ignore
           updateRect(swiperEl.swiper);
         }
-      }, 100);
+      }, 150);
       return () => clearTimeout(timer);
     }
-  }, [isCurrentStep]);
+  }, [isCurrentStep, photoConfig.layout]);
 
   return (
-    <div className="h-full w-full">
+    <div
+      className="h-full w-full"
+      style={
+        {
+          '--desktop-w': `${desktopWidth}px`,
+          '--mobile-w': `${mobileWidth}px`,
+          '--desktop-max-h': `${desktopMaxHeight}px`,
+          '--mobile-max-h': `${mobileMaxHeight}px`
+        } as React.CSSProperties
+      }
+    >
       <div className="relative flex h-full w-full items-center justify-center">
         <Swiper
           grabCursor={true}
           centeredSlides={true}
           slidesPerView={'auto'}
-          spaceBetween={40}
+          spaceBetween={16}
           className="h-full w-full"
           onAfterInit={updateRect}
           onResize={updateRect}
-          // 此處我們只在過渡結束或初始化時更新，避免在滑動過程中因 getBoundingClientRect 產生抖動
           onTransitionEnd={updateRect}
-          onUpdate={updateRect}
           initialSlide={0}
+          breakpoints={{
+            768: {
+              spaceBetween: 30
+            }
+          }}
         >
           {FRAME_OPTIONS.map((frame) => {
             const frameUrl = `/frame/${photoConfig.layout}/${frame.value}.png`;
             return (
-              <SwiperSlide key={frame.value} style={{ width: 'auto', height: '100%' }}>
+              <SwiperSlide
+                key={frame.value}
+                className="h-full! w-[var(--mobile-w)]! md:w-[var(--desktop-w)]!"
+                style={{ height: '100%' }}
+              >
                 {({ isActive }) => {
                   return (
-                    <div className={`flex h-full flex-col gap-5`}>
+                    <div className="flex h-full flex-col items-center justify-center pt-2 pb-12">
                       <div
                         className={cn(
-                          'flex grow items-center justify-center overflow-hidden transition-all duration-300'
+                          'img-box relative transition-transform duration-300',
+                          // 使用 Tailwind 處理響應式 maxHeight，避免內聯樣式優先度過高
+                          'max-h-[min(65dvh,var(--mobile-max-h))] md:max-h-(--desktop-max-h)',
+                          isActive ? 'scale-100' : 'scale-[0.85]'
                         )}
+                        style={{
+                          aspectRatio
+                        }}
                       >
-                        <div
+                        <div className="h-full w-full overflow-hidden rounded-[12px] shadow-lg md:rounded-[15px]">
+                          <img src={frameUrl} className="block h-full w-full object-contain" alt={frame.label} />
+                        </div>
+
+                        <span
                           className={cn(
-                            'h-full overflow-hidden rounded-[15px]',
-                            'aspect-360/540 max-h-[480px]',
-                            'img-box relative',
-                            isCurrentStep ? (isActive ? 'scale-100' : 'scale-[0.875]') : 'scale-100'
+                            'absolute top-full left-1/2 mt-3 w-full -translate-x-1/2 text-center font-medium text-slate-900 transition-all duration-300',
+                            isActive ? 'text-[20px]' : 'text-[16px]'
                           )}
                         >
-                          <img src={frameUrl} className={'relative z-10 h-full w-full'} alt={frame.label} />
-                        </div>
+                          {frame.label}
+                        </span>
                       </div>
-                      <span
-                        className={cn(
-                          'h-[28px] shrink-0 text-center font-medium text-slate-900 transition duration-300',
-                          isActive ? 'translate-y-0 text-xl' : '-translate-y-10 scale-[0.8]'
-                        )}
-                      >
-                        {frame.label}
-                      </span>
                     </div>
                   );
                 }}
