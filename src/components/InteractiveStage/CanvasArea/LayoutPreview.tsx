@@ -54,7 +54,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
         window.removeEventListener('resize', updateRect);
       };
     }
-  }, [currentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);
+  }, [currentStep, photoRenderScale, photoConfig.layout, updateRect]);
 
   return (
     <div className="flex h-full w-full items-center justify-center px-6 pb-3" ref={containerRef}>

@@ -40,15 +40,15 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
           </div>
           <div
             className={cn(
-              'absolute inset-0 transition duration-500',
-              currentStep === InteractiveStep.Layout ? 'opacity-100 delay-500' : 'pointer-events-none opacity-0'
+              'absolute inset-0',
+              currentStep === InteractiveStep.Layout ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
             <LayoutPreview currentStep={currentStep} />
           </div>
           <div
             className={cn(
-              'sss absolute inset-0 transition duration-500',
+              'absolute inset-0 transition duration-500',
               currentStep === InteractiveStep.Frame ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
