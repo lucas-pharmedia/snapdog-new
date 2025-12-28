@@ -36,7 +36,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
               currentStep === 0 ? 'opacity-100 delay-500' : 'pointer-events-none opacity-0'
             )}
           >
-            <AIStylePreview currentStep={currentStep} />
+            <AIStylePreview />
           </div>
           <div
             className={cn(

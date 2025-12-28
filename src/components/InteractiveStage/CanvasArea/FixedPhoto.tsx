@@ -13,7 +13,7 @@ interface LayoutBackgroundProps {
 }
 
 const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: LayoutBackgroundProps) => {
-  console.log(rect.height);
+  console.log(rect);
   return (
     <motion.div
       initial={{
@@ -118,10 +118,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             layout
             initial={false}
             animate={{
-              left: animLeft,
-              top: animTop,
-              width: animWidth,
-              height: animHeight,
+              left: Math.floor(animLeft),
+              top: Math.floor(animTop),
+              width: Math.ceil(animWidth) + 1,
+              height: Math.ceil(animHeight) + 1,
               opacity: stepOpacity
             }}
             transition={{ duration: 0.4 }}
@@ -131,9 +131,6 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
               isAIStyle ? 'rounded-[1.25rem]' : 'rounded-none'
             )}
             alt="picture"
-            style={{
-              filter: isAIStyle ? 'none' : 'drop-shadow(0px 4px 8px rgba(0,0,0,0.1))'
-            }}
           />
         );
       })}

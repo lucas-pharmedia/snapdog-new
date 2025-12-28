@@ -27,6 +27,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
 
   const updateRect = () => {
     if (!imageBoxRef.current) return;
+    console.log('updateRect');
     const rect = imageBoxRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       const currentRect = usePhotoStore.getState().fixedPhotoRect;
@@ -47,7 +48,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   };
 
   useEffect(() => {
-    if (!isCurrentStep || !imageBoxRef.current) return;
+    if (currentStep > InteractiveStep.Layout || !imageBoxRef.current) return;
 
     // 使用 ResizeObserver 確保在 DOM 真正完成渲染與縮放後才測量
     const observer = new ResizeObserver(() => {
@@ -61,6 +62,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
 
     // 同時監聽視窗縮放
     window.addEventListener('resize', updateRect);
+    updateRect();
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', updateRect);
