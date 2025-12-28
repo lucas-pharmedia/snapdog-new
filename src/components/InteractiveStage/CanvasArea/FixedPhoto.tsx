@@ -13,18 +13,27 @@ interface LayoutBackgroundProps {
 }
 
 const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: LayoutBackgroundProps) => {
+  console.log(rect);
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        position: 'absolute',
+      initial={{
+        opacity: 0,
         top: rect.top,
         left: rect.left,
         width: rect.width,
-        height: rect.height,
+        height: rect.height
+      }}
+      animate={{
+        opacity: 1,
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height
+      }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      style={{
+        position: 'absolute',
         pointerEvents: 'none'
       }}
     >

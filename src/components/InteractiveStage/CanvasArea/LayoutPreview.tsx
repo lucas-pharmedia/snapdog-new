@@ -47,7 +47,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   };
 
   useEffect(() => {
-    if (currentStep === InteractiveStep.Layout) {
+    if (currentStep <= InteractiveStep.Layout) {
       updateRect();
       window.addEventListener('resize', updateRect);
       return () => {
