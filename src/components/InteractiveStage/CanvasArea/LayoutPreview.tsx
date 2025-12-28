@@ -48,11 +48,15 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
 
   useEffect(() => {
     if (currentStep <= InteractiveStep.Layout) {
-      const timer = setTimeout(updateRect, 200);
-      window.addEventListener('resize', updateRect);
+      // 立即更新一次，並使用 requestAnimationFrame 確保在瀏覽器渲染前完成
+      const handleUpdate = () => {
+        requestAnimationFrame(updateRect);
+      };
+
+      handleUpdate();
+      window.addEventListener('resize', handleUpdate);
       return () => {
-        clearTimeout(timer);
-        window.removeEventListener('resize', updateRect);
+        window.removeEventListener('resize', handleUpdate);
       };
     }
   }, [currentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);

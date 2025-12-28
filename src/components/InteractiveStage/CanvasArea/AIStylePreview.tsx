@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { cn, getAIAssetPath } from '@/utils';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import Male from '@/assets/characters/male.svg?react';
@@ -48,7 +49,27 @@ const CharacterButtons = ({
 };
 
 const AIStylePreview = () => {
-  const { photoConfig, setPhotoConfig } = usePhotoStore();
+  const { photoConfig, setPhotoConfig, setFixedPhotoRect } = usePhotoStore();
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  const updateRect = () => {
+    if (!previewRef.current) return;
+    const rect = previewRef.current.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      setFixedPhotoRect({
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left
+      });
+    }
+  };
+
+  useEffect(() => {
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    return () => window.removeEventListener('resize', updateRect);
+  }, []);
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
     characterIndex: 1,
@@ -63,7 +84,7 @@ const AIStylePreview = () => {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pt-3 pb-2 md:px-0 md:pb-3">
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
-        <div className={cn(`relative aspect-square max-h-full max-w-full`)}>
+        <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={previewRef}>
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
             {/* 放一張圖片撐高度 */}
             <img src={originImageUrl} alt="" className="opacity-0" />

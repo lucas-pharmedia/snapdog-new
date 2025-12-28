@@ -2,80 +2,87 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutConfig, InteractiveStep } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import { cn, getAIAssetPath } from '@/utils';
+import { getAIAssetPath } from '@/utils';
 
 const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
-  console.log(fixedPhotoRect);
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
 
-  // 計算邏輯優化：模擬 object-contain，讓版面在切換時始終置中且不跳動
+  // 計算邏輯：模擬 object-contain
   const layoutBase = selectedLayoutConfig.layoutSize;
   const containerW = fixedPhotoRect.width;
   const containerH = fixedPhotoRect.height;
 
-  // 計算當前佈局在容器內應該呈現的比例與偏移量
   const scaleW = containerW / layoutBase.width || 0;
   const scaleH = containerH / layoutBase.height || 0;
   const actualScale = Math.min(scaleW, scaleH);
 
-  // 計算置中位移量
   const actualW = layoutBase.width * actualScale;
   const actualH = layoutBase.height * actualScale;
   const offsetX = (containerW - actualW) / 2;
   const offsetY = (containerH - actualH) / 2;
 
-  const isLayoutStep = currentStep === InteractiveStep.Layout;
+  const isAIStyle = currentStep === InteractiveStep.AIStyle;
+
+  // 定位邏輯：第一步時擴張 Slot 0 蓋滿容器
+  const finalActualW = isAIStyle ? containerW : actualW;
+  const finalActualH = isAIStyle ? containerH : actualH;
+  const finalOffsetX = isAIStyle ? 0 : offsetX;
+  const finalOffsetY = isAIStyle ? 0 : offsetY;
+
+  const transitionConfig: any = { duration: 0.5, ease: [0.4, 0, 0.2, 1] };
+
   return (
-    <div
-      className={cn(
-        `FIXED-PHOTO fixed ${currentStep > InteractiveStep.Layout ? 'transition-[top,left] duration-500 ease-in-out' : ''}`
-      )}
-      style={{
+    <motion.div
+      className="FIXED-PHOTO fixed"
+      initial={false}
+      animate={{
         top: fixedPhotoRect.top,
         left: fixedPhotoRect.left,
+        width: containerW,
+        height: containerH,
+        opacity: actualScale > 0 || isAIStyle ? 1 : 0
+      }}
+      transition={transitionConfig}
+      style={{
         pointerEvents: 'none',
-        opacity: actualScale > 0 ? 1 : 0,
         zIndex: 50
       }}
     >
       <div
-        className={cn(
-          `relative shrink-0`,
-          currentStep > InteractiveStep.Layout ? 'transition-[width,height] duration-500 ease-in-out' : ''
-        )}
+        className="relative h-full w-full"
         style={{
-          width: containerW,
-          height: containerH,
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       >
-        {/* 背景底圖：使用 AnimatePresence 處理真正的淡入淡出 */}
+        {/* 背景底圖 */}
         <AnimatePresence mode="wait">
-          <motion.img
-            key={photoConfig.layout}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            src={`/layout/background/${photoConfig.layout}.png`}
-            className="absolute block object-contain"
-            alt="layout-bg"
-            style={{
-              left: offsetX,
-              top: offsetY,
-              width: actualW,
-              height: actualH
-            }}
-          />
+          {!isAIStyle && (
+            <motion.img
+              key={photoConfig.layout}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              src={`/layout/background/${photoConfig.layout}.png`}
+              className="absolute block object-contain"
+              alt="layout-bg"
+              style={{
+                left: finalOffsetX,
+                top: finalOffsetY,
+                width: finalActualW,
+                height: finalActualH
+              }}
+            />
+          )}
         </AnimatePresence>
 
-        {/* 照片格子過渡：固定渲染 3 個插槽 */}
+        {/* 照片格子 */}
         {[...Array(3)].map((_, index) => {
           const targetSlot = selectedLayoutConfig.slots[index];
           const firstSlot = selectedLayoutConfig.slots[0];
 
-          const isUsed = !!targetSlot;
+          const isUsed = isAIStyle ? index === 0 : !!targetSlot;
           const displaySlot = targetSlot || firstSlot;
 
           const photoUrl = getAIAssetPath({
@@ -84,19 +91,25 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             style: photoConfig.style
           });
 
+          // 如果是 AIStyle 步驟，Slot 0 佔滿呈現區
+          const animLeft = isAIStyle ? 0 : finalOffsetX + displaySlot.x * actualScale;
+          const animTop = isAIStyle ? 0 : finalOffsetY + displaySlot.y * actualScale;
+          const animWidth = isAIStyle ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
+          const animHeight = isAIStyle ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
+
           return (
             <motion.img
               key={`photo-slot-${index}`}
               layout
               initial={false}
               animate={{
-                left: offsetX + displaySlot.x * actualScale,
-                top: offsetY + displaySlot.y * actualScale,
-                width: displaySlot.width * actualScale,
-                height: displaySlot.height * actualScale,
+                left: animLeft,
+                top: animTop,
+                width: animWidth,
+                height: animHeight,
                 opacity: isUsed ? 1 : 0
               }}
-              transition={{ duration: 0.4 }}
+              transition={transitionConfig}
               src={photoUrl}
               className="absolute z-10 block object-cover"
               alt="picture"
@@ -104,7 +117,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
