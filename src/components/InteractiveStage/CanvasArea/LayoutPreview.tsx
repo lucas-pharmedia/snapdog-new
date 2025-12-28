@@ -16,7 +16,6 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
   const imageBoxRef = useRef<HTMLDivElement>(null);
-  console.log(`photoRenderScale`, photoRenderScale);
   useEffect(() => {
     const scale = Math.min(
       containerSize.width / selectedLayoutConfig.layoutSize.width,
