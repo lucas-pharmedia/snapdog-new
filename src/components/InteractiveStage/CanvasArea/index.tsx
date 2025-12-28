@@ -13,7 +13,12 @@ interface CanvasAreaProps {
 const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
   return (
     <>
-      <div className={cn('pointer-events-none fixed inset-0 z-0', currentStep >= 0 ? 'visible' : 'invisible')}>
+      <div
+        className={cn(
+          'pointer-events-none fixed inset-0 z-0 transition-opacity duration-500',
+          currentStep >= InteractiveStep.AIStyle && isInView ? 'visible opacity-100' : 'invisible opacity-0'
+        )}
+      >
         <FixedPhoto currentStep={currentStep} />
       </div>
 

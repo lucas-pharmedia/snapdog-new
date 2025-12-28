@@ -1,9 +1,10 @@
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { SectionId } from '@/constants';
 
 const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
-    <section className="relative z-5 flex w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:h-dvh">
+    <section className="relative z-5 flex h-dvh w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
       {/* Background Image - Visible only on Desktop */}
       <div className="absolute inset-0 z-10 hidden md:block">
         <img src="/hero.jpg" alt="Hero background" className="h-full w-full object-cover object-right" />
@@ -81,11 +82,11 @@ const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
       </div>
 
       {/* Bottom Section */}
-      <div className="z-10 flex w-full justify-center md:absolute md:bottom-8 md:left-0">
+      <div className="absolute bottom-8 left-0 z-10 flex w-full justify-center">
         <button
           className="flex animate-bounce cursor-pointer flex-col items-center justify-center gap-0 text-[#6A7282] md:gap-2 md:text-white/80"
           onClick={() => {
-            const targetElement = document.getElementById(`interactive-stage-section`);
+            const targetElement = document.getElementById(SectionId.InteractiveStage);
             targetElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }}
         >
