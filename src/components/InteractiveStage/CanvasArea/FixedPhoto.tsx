@@ -47,6 +47,7 @@ const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: 
 
 const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
+
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
 
   const layoutBase = selectedLayoutConfig.layoutSize;

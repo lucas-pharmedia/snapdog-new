@@ -16,24 +16,14 @@ function App() {
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
 
   useEffect(() => {
-    const preloadImages = async () => {
-      const promises = FRAME_OPTIONS.map((frame) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = `/frame/portrait/${frame.value}.png`;
-          img.onload = resolve; // 圖片載入成功
-          img.onerror = resolve; // 即使失敗也繼續，避免卡死
-        });
-      });
-
-      await Promise.all(promises);
-      setIsImagesLoaded(true); // 全部載入完畢
-    };
-
-    preloadImages();
+    // 重整後強制回到頁面最上方
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
   }, []);
 
-  if (!isImagesLoaded) return <div className="fixed inset-0 flex items-center justify-center"> Loading...</div>;
+  // if (!isImagesLoaded) return <div className="fixed inset-0 flex items-center justify-center"> Loading...</div>;
   return (
     <div className={`hide-scrollbar relative overflow-x-hidden`}>
       {/* Parallax Background  */}
