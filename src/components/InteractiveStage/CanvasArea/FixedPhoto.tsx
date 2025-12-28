@@ -13,7 +13,7 @@ interface LayoutBackgroundProps {
 }
 
 const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: LayoutBackgroundProps) => {
-  console.log(rect);
+  console.log(rect.height);
   return (
     <motion.div
       initial={{

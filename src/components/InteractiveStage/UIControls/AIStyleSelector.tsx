@@ -6,7 +6,7 @@ import { Ban } from 'lucide-react';
 const AIStyleSelector = () => {
   const { photoConfig, setPhotoConfig } = usePhotoStore();
   return (
-    <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl md:max-w-[90vw] md:py-4">
+    <div className="max-w-[calc(100dvw-2rem)] shrink-0 rounded-2xl border border-white/40 bg-white/90 py-3 shadow-2xl md:max-w-[90vw] md:py-3">
       <div className="flex w-full items-center gap-4 overflow-x-auto px-4">
         {AI_STYLE_OPTIONS.map((option) => {
           const isSelected = photoConfig.style === option.value;
