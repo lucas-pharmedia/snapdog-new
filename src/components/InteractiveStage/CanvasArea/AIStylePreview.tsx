@@ -3,7 +3,7 @@ import { usePhotoStore } from '@/store/usePhotoStore';
 import Male from '@/assets/characters/male.svg?react';
 import Female from '@/assets/characters/female.svg?react';
 import Animal from '@/assets/characters/animal.svg?react';
-import { AI_STYLE_OPTIONS, AIStyle, Character } from '@/constants';
+import { AI_STYLE_OPTIONS, AIStyle, Character, InteractiveStep } from '@/constants';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 import { useEffect, useRef } from 'react';
 
@@ -56,7 +56,7 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   const previewRef = useRef<HTMLDivElement>(null);
 
   const updateRect = () => {
-    if (!previewRef.current || currentStep !== 0) return;
+    if (!previewRef.current || currentStep !== InteractiveStep.AIStyle) return;
     const rect = previewRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       setFixedPhotoRect({
@@ -69,15 +69,21 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   };
 
   useEffect(() => {
-    if (currentStep === 0) {
+    if (currentStep === InteractiveStep.AIStyle) {
       const observer = new ResizeObserver(() => {
         updateRect();
       });
       if (previewRef.current) {
         observer.observe(previewRef.current);
       }
+
+      window.addEventListener('resize', updateRect);
       updateRect();
-      return () => observer.disconnect();
+
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', updateRect);
+      };
     }
   }, [currentStep]);
 
