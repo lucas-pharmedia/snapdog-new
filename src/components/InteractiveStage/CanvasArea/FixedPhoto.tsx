@@ -127,6 +127,12 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           animHeight = index === 0 ? squareSize : 0;
           animLeft = fixedPhotoRect.left + (containerW - squareSize) / 2;
           animTop = fixedPhotoRect.top + (containerH - squareSize) / 2;
+
+          // 刻意將圖片縮小一點，避免在圖片比較區邊緣露出底圖
+          animLeft = animLeft + 1;
+          animTop = animTop + 1;
+          animWidth = animWidth - 1;
+          animHeight = animHeight - 1;
         } else {
           // 佈局步驟：正確加上中心偏移量 offsetX/offsetY
           animWidth = displaySlot.width * actualScale;
