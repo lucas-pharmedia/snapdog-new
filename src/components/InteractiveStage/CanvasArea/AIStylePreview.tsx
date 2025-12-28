@@ -48,12 +48,12 @@ const CharacterButtons = ({
   );
 };
 
-const AIStylePreview = () => {
+const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   const { photoConfig, setPhotoConfig, setFixedPhotoRect } = usePhotoStore();
   const previewRef = useRef<HTMLDivElement>(null);
 
   const updateRect = () => {
-    if (!previewRef.current) return;
+    if (!previewRef.current || currentStep !== 0) return;
     const rect = previewRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       setFixedPhotoRect({
@@ -66,10 +66,18 @@ const AIStylePreview = () => {
   };
 
   useEffect(() => {
-    updateRect();
-    window.addEventListener('resize', updateRect);
-    return () => window.removeEventListener('resize', updateRect);
-  }, []);
+    if (currentStep === 0) {
+      const observer = new ResizeObserver(() => {
+        updateRect();
+      });
+      if (previewRef.current) {
+        observer.observe(previewRef.current);
+      }
+      updateRect();
+      return () => observer.disconnect();
+    }
+  }, [currentStep]);
+
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
     characterIndex: 1,
@@ -86,12 +94,12 @@ const AIStylePreview = () => {
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
         <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={previewRef}>
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
-            {/* 放一張圖片撐高度 */}
-            <img src={originImageUrl} alt="" className="opacity-0" />
+            {/* 放一張圖片撐高度，並在載入後更新座標 */}
+            <img src={originImageUrl} alt="" className="opacity-0" onLoad={updateRect} />
             <div className="absolute inset-0">
               <ReactCompareSlider
-                itemOne={<ReactCompareSliderImage src={originImageUrl} alt="Item one" />}
-                itemTwo={<ReactCompareSliderImage src={aiStyleImageUrl} alt="Item two" />}
+                itemOne={<ReactCompareSliderImage src={originImageUrl} alt="Item one" className="object-cover" />}
+                itemTwo={<ReactCompareSliderImage src={aiStyleImageUrl} alt="Item two" className="object-cover" />}
                 handle={
                   <div className="relative h-full cursor-col-resize">
                     {/* 中線 */}

@@ -47,16 +47,11 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   };
 
   useEffect(() => {
-    if (currentStep <= InteractiveStep.Layout) {
-      // 立即更新一次，並使用 requestAnimationFrame 確保在瀏覽器渲染前完成
-      const handleUpdate = () => {
-        requestAnimationFrame(updateRect);
-      };
-
-      handleUpdate();
-      window.addEventListener('resize', handleUpdate);
+    if (currentStep === InteractiveStep.Layout) {
+      updateRect();
+      window.addEventListener('resize', updateRect);
       return () => {
-        window.removeEventListener('resize', handleUpdate);
+        window.removeEventListener('resize', updateRect);
       };
     }
   }, [currentStep, photoRenderScale, photoConfig.layout, setFixedPhotoRect]);

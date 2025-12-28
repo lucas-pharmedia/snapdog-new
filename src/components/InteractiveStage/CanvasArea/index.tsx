@@ -20,22 +20,22 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
       <div
         id="cavas-area"
         className={cn(
-          'flex w-full grow overflow-hidden transition-opacity duration-800',
+          'relative z-10 flex w-full grow overflow-hidden transition-opacity duration-800',
           isInView ? 'opacity-100' : 'opacity-0'
         )}
       >
         <div className="relative h-full w-full">
           <div
             className={cn(
-              'absolute inset-0 transition duration-800',
+              'absolute inset-0 transition duration-500',
               currentStep === 0 ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
-            <AIStylePreview />
+            <AIStylePreview currentStep={currentStep} />
           </div>
           <div
             className={cn(
-              'absolute inset-0 transition duration-800',
+              'absolute inset-0 transition duration-500',
               currentStep === InteractiveStep.Layout ? 'opacity-100' : 'pointer-events-none opacity-0'
             )}
           >

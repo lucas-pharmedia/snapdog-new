@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutConfig, InteractiveStep } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import { getAIAssetPath } from '@/utils';
+import { cn, getAIAssetPath } from '@/utils';
 
 interface LayoutBackgroundProps {
   layout: string;
@@ -70,7 +70,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const finalOffsetY = isAIStyle ? 0 : offsetY;
 
   return (
-    <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-50">
+    <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
       {/* 背景底圖：獨立淡入淡出，不跟隨位移動畫 */}
       <AnimatePresence mode="wait">
         {!isAIStyle && (
@@ -109,6 +109,9 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
         const animWidth = isAIStyle ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
         const animHeight = isAIStyle ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
 
+        // 第一步時也保持顯示 (但在背景)，以便進入第二步時能進行無縫位移動畫
+        const stepOpacity = isUsed ? 1 : 0;
+
         return (
           <motion.img
             key={`photo-slot-${index}`}
@@ -119,11 +122,11 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
               top: animTop,
               width: animWidth,
               height: animHeight,
-              opacity: isUsed ? 1 : 0
+              opacity: stepOpacity
             }}
             transition={{ duration: 0.4 }}
             src={photoUrl}
-            className="absolute z-10 block object-cover"
+            className={cn('absolute z-10 block object-cover', isAIStyle ? 'rounded-[1.25rem]' : 'rounded-none')}
             alt="picture"
             style={{
               filter: isAIStyle ? 'none' : 'drop-shadow(0px 4px 8px rgba(0,0,0,0.1))'

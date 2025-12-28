@@ -24,7 +24,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const updateRect = (swiper: SwiperClass) => {
     if (!isCurrentStep) return; // 關鍵修正：不是當前步驟時不准更新座標
     const activeSlide = swiper.slides[swiper.activeIndex];
-    const imgDom = activeSlide?.querySelector('.img-box img') as HTMLImageElement;
+    const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
     if (imgDom) {
       const rect = imgDom.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
@@ -101,7 +101,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
                     <div className="flex h-full flex-col items-center justify-center pt-2 pb-12">
                       <div
                         className={cn(
-                          'img-box relative transition-transform duration-300',
+                          'relative transition-transform duration-300',
                           // 使用 dvh (Dynamic Viewport Height) 確保在矮螢幕下也不會溢出
                           'max-h-[min(55dvh,var(--mobile-max-h))] md:max-h-[min(55dvh,var(--desktop-max-h))]',
                           isActive ? 'scale-100' : 'scale-[0.85]'
