@@ -7,14 +7,10 @@ import { cn, getAIAssetPath } from '@/utils';
 interface LayoutBackgroundProps {
   layout: Layout;
   rect: { top: number; left: number; width: number; height: number };
-  actualW: number;
-  actualH: number;
-  offsetX: number;
-  offsetY: number;
   currentStep: InteractiveStep;
 }
 
-const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY, currentStep }: LayoutBackgroundProps) => {
+const LayoutBackground = ({ layout, rect, currentStep }: LayoutBackgroundProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const prevStepRef = useRef(currentStep);
 
@@ -66,6 +62,7 @@ const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY, cu
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       />
+      {/* <div className="absolute inset-0 bg-white"></div> */}
     </motion.div>
   );
 };
@@ -98,15 +95,11 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   return (
     <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
       <AnimatePresence mode="wait">
-        {!isAIStyleStep && (
+        {1 && (
           <LayoutBackground
             key={photoConfig.layout}
             layout={photoConfig.layout}
             rect={fixedPhotoRect}
-            actualW={actualW}
-            actualH={actualH}
-            offsetX={offsetX}
-            offsetY={offsetY}
             currentStep={currentStep}
           />
         )}
