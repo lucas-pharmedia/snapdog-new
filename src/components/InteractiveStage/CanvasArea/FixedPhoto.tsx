@@ -126,7 +126,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             }}
             transition={{ duration: 0.4 }}
             src={photoUrl}
-            className={cn('absolute z-10 block object-cover', isAIStyle ? 'rounded-[1.25rem]' : 'rounded-none')}
+            className={cn(
+              'absolute z-10 block object-cover transition-[border-radius]',
+              isAIStyle ? 'rounded-[1.25rem]' : 'rounded-none'
+            )}
             alt="picture"
             style={{
               filter: isAIStyle ? 'none' : 'drop-shadow(0px 4px 8px rgba(0,0,0,0.1))'

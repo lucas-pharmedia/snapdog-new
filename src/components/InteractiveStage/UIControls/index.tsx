@@ -17,6 +17,7 @@ const UIControls = ({ isInView, currentStep }: UIControlsProps) => {
           y: isInView ? 0 : 150,
           opacity: isInView ? 1 : 0
         }}
+        exit={{ y: 150, opacity: 0 }}
         transition={{ duration: 0.2 }}
       >
         {currentStep === 0 && <AIStyleSelector />}

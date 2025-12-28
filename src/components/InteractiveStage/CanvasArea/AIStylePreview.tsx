@@ -90,7 +90,7 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   });
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pt-3 pb-2 md:px-0 md:pb-3">
+    <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pb-3 md:px-0">
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
         <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={previewRef}>
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
