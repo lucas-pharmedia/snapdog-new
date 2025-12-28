@@ -13,7 +13,10 @@ interface LayoutBackgroundProps {
 }
 
 const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: LayoutBackgroundProps) => {
-  console.log(rect);
+  // console.log(`offsetX`, offsetX);
+  // console.log(`actualW`, actualW);
+  // console.log(`rect left`, rect.left);
+  // console.log(`rect width`, rect.width);
   return (
     <motion.div
       initial={{
@@ -42,10 +45,10 @@ const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: 
         className="absolute block object-contain"
         alt="layout-bg"
         style={{
-          left: offsetX,
-          top: offsetY,
-          width: actualW,
-          height: actualH,
+          left: 0,
+          top: 0,
+          width: '100%',
+          height: '100%',
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       />
@@ -55,7 +58,7 @@ const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: 
 
 const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
-
+  console.log(`fixedPhotoRect`, fixedPhotoRect);
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
 
   const layoutBase = selectedLayoutConfig.layoutSize;
@@ -65,11 +68,14 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const scaleW = containerW / layoutBase.width || 0;
   const scaleH = containerH / layoutBase.height || 0;
   const actualScale = Math.min(scaleW, scaleH);
-
+  console.log(`actualScale`, actualScale);
+  console.log(`xxx`, fixedPhotoRect.width / layoutBase.width);
   const actualW = layoutBase.width * actualScale;
   const actualH = layoutBase.height * actualScale;
-  const offsetX = (containerW - actualW) / 2;
-  const offsetY = (containerH - actualH) / 2;
+  // const offsetX = (containerW - actualW) / 2;
+  // const offsetY = (containerH - actualH) / 2;
+  const offsetX = fixedPhotoRect.left * actualScale;
+  const offsetY = fixedPhotoRect.top * actualScale;
 
   const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
   const isLayoutStep = currentStep === InteractiveStep.Layout;
@@ -105,10 +111,8 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
         });
 
         // 計算絕對螢幕座標
-        const animLeft = isAIStyleStep
-          ? fixedPhotoRect.left
-          : fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
-        const animTop = isAIStyleStep ? fixedPhotoRect.top : fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
+        const animLeft = isAIStyleStep ? fixedPhotoRect.left : fixedPhotoRect.left + displaySlot.x * actualScale;
+        const animTop = isAIStyleStep ? fixedPhotoRect.top : fixedPhotoRect.top + displaySlot.y * actualScale;
         const animWidth = isAIStyleStep ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
         const animHeight = isAIStyleStep ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
 
