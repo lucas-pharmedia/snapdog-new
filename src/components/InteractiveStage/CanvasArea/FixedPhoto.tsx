@@ -1,54 +1,68 @@
+import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutConfig, InteractiveStep } from '@/constants';
+import { LayoutConfig, InteractiveStep, Layout } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { cn, getAIAssetPath } from '@/utils';
 
 interface LayoutBackgroundProps {
-  layout: string;
+  layout: Layout;
   rect: { top: number; left: number; width: number; height: number };
   actualW: number;
   actualH: number;
   offsetX: number;
   offsetY: number;
+  currentStep: InteractiveStep;
 }
 
-const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: LayoutBackgroundProps) => {
-  // console.log(`offsetX`, offsetX);
-  // console.log(`actualW`, actualW);
-  // console.log(`rect left`, rect.left);
-  // console.log(`rect width`, rect.width);
+const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY, currentStep }: LayoutBackgroundProps) => {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const prevStepRef = useRef(currentStep);
+
+  useEffect(() => {
+    if (currentStep !== prevStepRef.current) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => setIsTransitioning(false), 600);
+      return () => clearTimeout(timer);
+    }
+    prevStepRef.current = currentStep;
+  }, [currentStep]);
+
+  // 進入第二步的保護期內鎖死動畫，避免從第一步座標滑動
+  const shouldSnap = currentStep === InteractiveStep.Layout && isTransitioning;
+
   return (
     <motion.div
       initial={{
         opacity: 0,
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height
+        top: Math.round(rect.top),
+        left: Math.round(rect.left),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
       }}
       animate={{
         opacity: 1,
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height
+        top: Math.round(rect.top),
+        left: Math.round(rect.left),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
       }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{
+        opacity: { duration: 0.4 },
+        default: { duration: shouldSnap ? 0 : 0.4 }
+      }}
       style={{
         position: 'absolute',
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        transform: 'translateZ(0)',
+        willChange: 'top, left, width, height'
       }}
     >
       <img
         src={`/layout/background/${layout}.png`}
-        className="absolute block object-contain"
+        className="absolute inset-0 block h-full w-full object-contain"
         alt="layout-bg"
         style={{
-          left: 0,
-          top: 0,
-          width: '100%',
-          height: '100%',
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       />
@@ -58,7 +72,12 @@ const LayoutBackground = ({ layout, rect, actualW, actualH, offsetX, offsetY }: 
 
 const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
-  console.log(`fixedPhotoRect`, fixedPhotoRect);
+  const prevStepRef = useRef<InteractiveStep>(currentStep);
+
+  useEffect(() => {
+    prevStepRef.current = currentStep;
+  }, [currentStep]);
+
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
 
   const layoutBase = selectedLayoutConfig.layoutSize;
@@ -68,21 +87,16 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const scaleW = containerW / layoutBase.width || 0;
   const scaleH = containerH / layoutBase.height || 0;
   const actualScale = Math.min(scaleW, scaleH);
-  console.log(`actualScale`, actualScale);
-  console.log(`xxx`, fixedPhotoRect.width / layoutBase.width);
+
   const actualW = layoutBase.width * actualScale;
   const actualH = layoutBase.height * actualScale;
-  // const offsetX = (containerW - actualW) / 2;
-  // const offsetY = (containerH - actualH) / 2;
-  const offsetX = fixedPhotoRect.left * actualScale;
-  const offsetY = fixedPhotoRect.top * actualScale;
+  const offsetX = (containerW - actualW) / 2;
+  const offsetY = (containerH - actualH) / 2;
 
   const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
-  const isLayoutStep = currentStep === InteractiveStep.Layout;
 
   return (
     <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
-      {/* 背景底圖：獨立淡入淡出，不跟隨位移動畫 */}
       <AnimatePresence mode="wait">
         {!isAIStyleStep && (
           <LayoutBackground
@@ -93,11 +107,11 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             actualH={actualH}
             offsetX={offsetX}
             offsetY={offsetY}
+            currentStep={currentStep}
           />
         )}
       </AnimatePresence>
 
-      {/* 照片格子：獨立進行位移與縮放動畫 */}
       {[...Array(3)].map((_, index) => {
         const targetSlot = selectedLayoutConfig.slots[index];
         const firstSlot = selectedLayoutConfig.slots[0];
@@ -111,42 +125,34 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
         });
 
         // 計算絕對螢幕座標
-        const animLeft = isAIStyleStep ? fixedPhotoRect.left : fixedPhotoRect.left + displaySlot.x * actualScale;
-        const animTop = isAIStyleStep ? fixedPhotoRect.top : fixedPhotoRect.top + displaySlot.y * actualScale;
-        const animWidth = isAIStyleStep ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
-        const animHeight = isAIStyleStep ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
+        let animLeft, animTop, animWidth, animHeight;
 
-        // 第一步時也保持顯示 (但在背景)，以便進入第二步時能進行無縫位移動畫
+        if (isAIStyleStep) {
+          // 第一步時：照片強制在容器中心顯示為正方形，與第二步佈局中心對齊
+          const squareSize = Math.min(containerW, containerH);
+          animWidth = index === 0 ? squareSize : 0;
+          animHeight = index === 0 ? squareSize : 0;
+          animLeft = fixedPhotoRect.left + (containerW - squareSize) / 2;
+          animTop = fixedPhotoRect.top + (containerH - squareSize) / 2;
+        } else {
+          // 佈局步驟：正確加上中心偏移量 offsetX/offsetY
+          animWidth = displaySlot.width * actualScale;
+          animHeight = displaySlot.height * actualScale;
+          animLeft = fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
+          animTop = fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
+        }
+
         const stepOpacity = isUsed ? 1 : 0;
 
-        let fixedAnimLeft = animLeft;
-        let fixedAnimTop = animTop;
-        let fixedAnimWidth = animWidth;
-        let fixedAnimHeight = animHeight;
-        if (isAIStyleStep) {
-          // 避免在 AIStyleStep 時邊緣露出來
-          fixedAnimLeft = fixedAnimLeft + 1;
-          fixedAnimTop = fixedAnimTop + 1;
-          fixedAnimWidth = fixedAnimWidth - 1;
-          fixedAnimHeight = fixedAnimHeight - 1;
-        }
-        if (isLayoutStep) {
-          // 避免在 LayoutStep 時無法撐滿 底圖的灰色 slot 區塊
-          fixedAnimLeft = Math.floor(fixedAnimLeft);
-          fixedAnimTop = Math.floor(fixedAnimTop);
-          fixedAnimWidth = Math.ceil(fixedAnimWidth) + 1;
-          fixedAnimHeight = Math.ceil(fixedAnimHeight) + 1;
-        }
         return (
           <motion.img
             key={`photo-slot-${index}`}
-            layout
             initial={false}
             animate={{
-              left: fixedAnimLeft,
-              top: fixedAnimTop,
-              width: fixedAnimWidth,
-              height: fixedAnimHeight,
+              left: Math.round(animLeft),
+              top: Math.round(animTop),
+              width: Math.round(animWidth),
+              height: Math.round(animHeight),
               opacity: stepOpacity
             }}
             transition={{ duration: 0.4 }}
@@ -156,6 +162,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
               isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
             )}
             alt="picture"
+            style={{
+              transform: 'translateZ(0)',
+              willChange: 'left, top, width, height'
+            }}
           />
         );
       })}
