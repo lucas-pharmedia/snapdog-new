@@ -71,13 +71,14 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const offsetX = (containerW - actualW) / 2;
   const offsetY = (containerH - actualH) / 2;
 
-  const isAIStyle = currentStep === InteractiveStep.AIStyle;
+  const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
+  const isLayoutStep = currentStep === InteractiveStep.Layout;
 
   return (
     <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
       {/* 背景底圖：獨立淡入淡出，不跟隨位移動畫 */}
       <AnimatePresence mode="wait">
-        {!isAIStyle && (
+        {!isAIStyleStep && (
           <LayoutBackground
             key={photoConfig.layout}
             layout={photoConfig.layout}
@@ -94,7 +95,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
       {[...Array(3)].map((_, index) => {
         const targetSlot = selectedLayoutConfig.slots[index];
         const firstSlot = selectedLayoutConfig.slots[0];
-        const isUsed = isAIStyle ? index === 0 : !!targetSlot;
+        const isUsed = isAIStyleStep ? index === 0 : !!targetSlot;
         const displaySlot = targetSlot || firstSlot;
 
         const photoUrl = getAIAssetPath({
@@ -104,31 +105,51 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
         });
 
         // 計算絕對螢幕座標
-        const animLeft = isAIStyle ? fixedPhotoRect.left : fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
-        const animTop = isAIStyle ? fixedPhotoRect.top : fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
-        const animWidth = isAIStyle ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
-        const animHeight = isAIStyle ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
+        const animLeft = isAIStyleStep
+          ? fixedPhotoRect.left
+          : fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
+        const animTop = isAIStyleStep ? fixedPhotoRect.top : fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
+        const animWidth = isAIStyleStep ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
+        const animHeight = isAIStyleStep ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
 
         // 第一步時也保持顯示 (但在背景)，以便進入第二步時能進行無縫位移動畫
         const stepOpacity = isUsed ? 1 : 0;
 
+        let fixedAnimLeft = animLeft;
+        let fixedAnimTop = animTop;
+        let fixedAnimWidth = animWidth;
+        let fixedAnimHeight = animHeight;
+        if (isAIStyleStep) {
+          // 避免在 AIStyleStep 時邊緣露出來
+          fixedAnimLeft = fixedAnimLeft + 1;
+          fixedAnimTop = fixedAnimTop + 1;
+          fixedAnimWidth = fixedAnimWidth - 1;
+          fixedAnimHeight = fixedAnimHeight - 1;
+        }
+        if (isLayoutStep) {
+          // 避免在 LayoutStep 時無法撐滿 底圖的灰色 slot 區塊
+          fixedAnimLeft = Math.floor(fixedAnimLeft);
+          fixedAnimTop = Math.floor(fixedAnimTop);
+          fixedAnimWidth = Math.ceil(fixedAnimWidth) + 1;
+          fixedAnimHeight = Math.ceil(fixedAnimHeight) + 1;
+        }
         return (
           <motion.img
             key={`photo-slot-${index}`}
             layout
             initial={false}
             animate={{
-              left: Math.floor(animLeft),
-              top: Math.floor(animTop),
-              width: Math.ceil(animWidth) + 1,
-              height: Math.ceil(animHeight) + 1,
+              left: fixedAnimLeft,
+              top: fixedAnimTop,
+              width: fixedAnimWidth,
+              height: fixedAnimHeight,
               opacity: stepOpacity
             }}
             transition={{ duration: 0.4 }}
             src={photoUrl}
             className={cn(
               'absolute z-10 block object-cover transition-[border-radius]',
-              isAIStyle ? 'rounded-[1.25rem]' : 'rounded-none'
+              isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
             )}
             alt="picture"
           />
