@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutConfig, InteractiveStep } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
@@ -64,10 +63,6 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const offsetY = (containerH - actualH) / 2;
 
   const isAIStyle = currentStep === InteractiveStep.AIStyle;
-  const finalActualW = isAIStyle ? containerW : actualW;
-  const finalActualH = isAIStyle ? containerH : actualH;
-  const finalOffsetX = isAIStyle ? 0 : offsetX;
-  const finalOffsetY = isAIStyle ? 0 : offsetY;
 
   return (
     <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
@@ -78,10 +73,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             key={photoConfig.layout}
             layout={photoConfig.layout}
             rect={fixedPhotoRect}
-            actualW={finalActualW}
-            actualH={finalActualH}
-            offsetX={finalOffsetX}
-            offsetY={finalOffsetY}
+            actualW={actualW}
+            actualH={actualH}
+            offsetX={offsetX}
+            offsetY={offsetY}
           />
         )}
       </AnimatePresence>
@@ -100,12 +95,8 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
         });
 
         // 計算絕對螢幕座標
-        const animLeft = isAIStyle
-          ? fixedPhotoRect.left
-          : fixedPhotoRect.left + finalOffsetX + displaySlot.x * actualScale;
-        const animTop = isAIStyle
-          ? fixedPhotoRect.top
-          : fixedPhotoRect.top + finalOffsetY + displaySlot.y * actualScale;
+        const animLeft = isAIStyle ? fixedPhotoRect.left : fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
+        const animTop = isAIStyle ? fixedPhotoRect.top : fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
         const animWidth = isAIStyle ? (index === 0 ? containerW : 0) : displaySlot.width * actualScale;
         const animHeight = isAIStyle ? (index === 0 ? containerH : 0) : displaySlot.height * actualScale;
 
