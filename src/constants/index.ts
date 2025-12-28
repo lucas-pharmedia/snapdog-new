@@ -66,7 +66,9 @@ export enum AIStyle {
   Halloween = 'halloween',
   JapanTravel = 'japan-travel',
   SoutheastAsiaTravel = 'southeast-asia-travel',
-  Video = 'video'
+  Video = 'video',
+  Interactive = 'interactive',
+  AISimulation = 'ai-simulation'
 }
 
 export const AI_STYLE_OPTIONS = [
@@ -82,7 +84,9 @@ export const AI_STYLE_OPTIONS = [
   { value: AIStyle.Halloween, label: '萬聖節' },
   { value: AIStyle.JapanTravel, label: '日本旅遊' },
   { value: AIStyle.SoutheastAsiaTravel, label: '東南亞旅遊' },
-  { value: AIStyle.Video, label: '5秒動態' }
+  { value: AIStyle.Video, label: '5秒動態' },
+  { value: AIStyle.Interactive, label: '互動合影' },
+  { value: AIStyle.AISimulation, label: 'AI模擬' }
 ];
 
 export enum Layout {
