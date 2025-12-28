@@ -5,6 +5,7 @@ import Female from '@/assets/characters/female.svg?react';
 import Animal from '@/assets/characters/animal.svg?react';
 import { AI_STYLE_OPTIONS, AIStyle, Character } from '@/constants';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
+import { useEffect, useRef } from 'react';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
   const label = style === AIStyle.None ? '原圖' : AI_STYLE_OPTIONS.find((option) => option.value === style)?.label;
@@ -47,9 +48,38 @@ const CharacterButtons = ({
   );
 };
 
-const AIStylePreview = () => {
+const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setPhotoConfig = usePhotoStore((state) => state.setPhotoConfig);
+  const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
+
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  const updateRect = () => {
+    if (!previewRef.current || currentStep !== 0) return;
+    const rect = previewRef.current.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      setFixedPhotoRect({
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (currentStep === 0) {
+      const observer = new ResizeObserver(() => {
+        updateRect();
+      });
+      if (previewRef.current) {
+        observer.observe(previewRef.current);
+      }
+      updateRect();
+      return () => observer.disconnect();
+    }
+  }, [currentStep]);
 
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
@@ -65,7 +95,7 @@ const AIStylePreview = () => {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pb-3 md:px-0">
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
-        <div className={cn(`relative aspect-square max-h-full max-w-full`)}>
+        <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={previewRef}>
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
             {/* 放一張圖片撐高度，並在載入後更新座標 */}
             <img src={originImageUrl} alt="" className="opacity-0" />
