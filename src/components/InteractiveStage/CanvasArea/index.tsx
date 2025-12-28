@@ -13,7 +13,7 @@ interface CanvasAreaProps {
 const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
   return (
     <>
-      <div className={cn('pointer-events-none fixed inset-0 z-0', currentStep >= 1 ? 'visible' : 'invisible')}>
+      <div className={cn('pointer-events-none fixed inset-0 z-0', currentStep >= 0 ? 'visible' : 'invisible')}>
         <FixedPhoto currentStep={currentStep} />
       </div>
 
