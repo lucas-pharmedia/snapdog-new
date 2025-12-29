@@ -188,7 +188,7 @@ const FAQItem = ({ q, a, isOpen, onClick }: { q: string; a: string; isOpen: bool
 };
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
     {
