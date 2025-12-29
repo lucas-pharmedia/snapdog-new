@@ -67,7 +67,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
 
   return (
-    <div className="aaa pointer-events-none fixed inset-0 z-0">
+    <div className="pointer-events-none fixed inset-0 z-0">
       <AnimatePresence mode="wait">
         {1 && <LayoutBackground key={photoConfig.layout} layout={photoConfig.layout} rect={fixedPhotoRect} />}
       </AnimatePresence>

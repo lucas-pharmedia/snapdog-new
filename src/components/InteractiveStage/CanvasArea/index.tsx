@@ -4,6 +4,7 @@ import LayoutPreview from '@/components/InteractiveStage/CanvasArea/LayoutPrevie
 import FramePreview from '@/components/InteractiveStage/CanvasArea/FramePreview';
 import FixedPhoto from '@/components/InteractiveStage/CanvasArea/FixedPhoto';
 import { InteractiveStep } from '@/constants';
+import ResultView from '@/components/InteractiveStage/CanvasArea/ResultView';
 
 interface CanvasAreaProps {
   isInView: boolean;
@@ -11,12 +12,13 @@ interface CanvasAreaProps {
 }
 
 const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
+  const showFixedPhoto = currentStep >= InteractiveStep.AIStyle && currentStep <= InteractiveStep.Frame && isInView;
   return (
     <>
       <div
         className={cn(
           'pointer-events-none fixed inset-0 z-0 transition-opacity duration-500',
-          currentStep >= InteractiveStep.AIStyle && isInView ? 'visible opacity-100' : 'invisible opacity-0'
+          showFixedPhoto ? 'visible opacity-100' : 'invisible opacity-0'
         )}
       >
         <FixedPhoto currentStep={currentStep} />
@@ -55,6 +57,16 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
             )}
           >
             <FramePreview currentStep={currentStep} />
+          </div>
+          <div
+            className={cn(
+              'absolute inset-0',
+              currentStep === InteractiveStep.Result
+                ? 'opacity-100 transition duration-500'
+                : 'pointer-events-none opacity-0'
+            )}
+          >
+            <ResultView />
           </div>
         </div>
       </div>

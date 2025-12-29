@@ -14,7 +14,7 @@ export enum InteractiveStep {
   AIStyle = 0,
   Layout = 1,
   Frame = 2,
-  SharePrint = 3
+  Result = 3
 }
 export const INTERACTIVE_STAGE_STEPS: InteractiveStageStep[] = [
   {
@@ -52,6 +52,8 @@ export enum Character {
   Female = 'female',
   Animal = 'animal'
 }
+
+export const CHARACTER_POSES = [1, 2, 3];
 
 export enum AIStyle {
   None = 'none',
@@ -105,7 +107,16 @@ export const LAYOUT_OPTIONS = [
   { value: Layout.Calendar, label: '月曆' }
 ];
 
-export const LayoutConfig = {
+export const LayoutConfig: Record<
+  Layout,
+  {
+    layoutSize: {
+      width: number;
+      height: number;
+    };
+    slots: { x: number; y: number; width: number; height: number }[];
+  }
+> = {
   [Layout.Portrait]: {
     layoutSize: { width: 360, height: 540 },
     slots: [{ x: 18, y: 16, width: 324, height: 432 }]

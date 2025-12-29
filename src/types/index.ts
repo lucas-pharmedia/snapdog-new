@@ -5,6 +5,7 @@ export type PhotoConfig = {
   style: AIStyle;
   layout: Layout;
   frame: Frame;
+  characterIndex?: number;
 };
 
 export type Rect = {

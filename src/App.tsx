@@ -26,20 +26,13 @@ function App() {
   // if (!isImagesLoaded) return <div className="fixed inset-0 flex items-center justify-center"> Loading...</div>;
   return (
     <div className={`hide-scrollbar relative overflow-x-hidden`}>
-      {/* Parallax Background  */}
       <ParallaxBackground />
 
-      {/* <MarqueeBackground isVisible={isStageVisible} /> */}
-
-      {/* Navbar */}
       <Navbar />
 
       <main>
-        {/* Section 1: Hero */}
         <Hero onLineButtonClick={() => setIsLineModalOpen(true)} />
-        {/* Section 2: Interactive Stage */}
         <InteractiveStage />
-        {/* Section 3: Marketing Content */}
         <MarketingSections />
         <Contact onLineButtonClick={() => setIsLineModalOpen(true)} />
 
