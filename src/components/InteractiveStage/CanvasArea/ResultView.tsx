@@ -3,7 +3,7 @@ import { cn } from '@/utils';
 import MarqueeBackground from '@/components/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
-import { LayoutConfig } from '@/constants';
+import { InteractiveStep, LayoutConfig } from '@/constants';
 
 enum Mode {
   Wall = 'wall',
@@ -47,44 +47,41 @@ const ModeSwitch = ({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
   );
 };
 
-const ResultView = () => {
+const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
+  const isCurrentStep = currentStep === InteractiveStep.Result;
   const [mode, setMode] = useState<Mode>(Mode.Wall);
   const { photoConfig, setFixedPhotoRect } = usePhotoStore();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (mode === Mode.Wall && containerRef.current) {
-      const updateTargetRect = () => {
-        const container = containerRef.current;
-        if (!container) return;
+    if (!isCurrentStep || !containerRef.current) return;
+    const updateTargetRect = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+      setFixedPhotoRect({
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left
+      });
+    };
 
-        const rect = container.getBoundingClientRect();
-        const layoutSize = LayoutConfig[photoConfig.layout].layoutSize;
+    const observer = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        updateTargetRect();
+      });
+    });
 
-        // Calculate scale to fit container or use a fixed scale
-        const scale = 1.1; // Desired scale in ResultView
-        const targetW = layoutSize.width * scale;
-        const targetH = layoutSize.height * scale;
+    observer.observe(containerRef.current);
 
-        const targetLeft = rect.left + (rect.width - targetW) / 2;
-        const targetTop = rect.top + (rect.height - targetH) / 2;
-
-        setFixedPhotoRect({
-          width: targetW,
-          height: targetH,
-          left: targetLeft,
-          top: targetTop
-        });
-      };
-
-      // Initial update
-      updateTargetRect();
-
-      // Update on resize
-      window.addEventListener('resize', updateTargetRect);
-      return () => window.removeEventListener('resize', updateTargetRect);
-    }
-  }, [mode, photoConfig.layout, setFixedPhotoRect]);
+    // Update on resize
+    window.addEventListener('resize', updateTargetRect);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateTargetRect);
+    };
+  }, [isCurrentStep, mode, photoConfig.layout, setFixedPhotoRect]);
 
   console.log('result ', photoConfig);
   return (

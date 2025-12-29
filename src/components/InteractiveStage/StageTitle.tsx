@@ -35,7 +35,9 @@ const StageTitle = ({ currentStep, isInView }: StageTitleProps) => {
           >
             {step.label}
           </h2>
-          <h1 className="text-2xl leading-tight font-bold text-slate-900 md:text-4xl">{step.title}</h1>
+          <h1 className="text-2xl leading-tight font-bold whitespace-nowrap text-slate-900 md:text-4xl">
+            {step.title}
+          </h1>
           {step.description && <p className="mt-1 text-[15px] text-gray-500 md:text-base">{step.description}</p>}
         </motion.div>
       </AnimatePresence>

@@ -30,7 +30,7 @@ const MarqueeBackground = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div
       className={cn(
-        `mmm pointer-events-none -rotate-3 flex-col overflow-hidden transition-all duration-1000`,
+        `pointer-events-none -rotate-3 flex-col overflow-hidden transition-all duration-1000`,
         `fixed top-25 left-0 flex h-dvh w-dvw`,
         'gap-1 md:gap-3',
         isVisible ? 'opacity-20' : 'opacity-0'

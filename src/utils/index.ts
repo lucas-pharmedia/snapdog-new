@@ -45,3 +45,16 @@ export const generateRandomPhotoConfigs = (count = 5): PhotoConfig[] => {
   // 3. 取出指定的數量
   return allConfigs.slice(0, count);
 };
+
+export const isRectDifferent = (
+  rect1: { top: number; left: number; width: number; height: number },
+  rect2: { top: number; left: number; width: number; height: number },
+  threshold = 0.5
+) => {
+  return (
+    Math.abs(rect1.top - rect2.top) > threshold ||
+    Math.abs(rect1.left - rect2.left) > threshold ||
+    Math.abs(rect1.width - rect2.width) > threshold ||
+    Math.abs(rect1.height - rect2.height) > threshold
+  );
+};

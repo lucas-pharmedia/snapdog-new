@@ -29,20 +29,12 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
     if (imgDom) {
       const rect = imgDom.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        const currentRect = usePhotoStore.getState().fixedPhotoRect;
-        if (
-          Math.abs(rect.top - currentRect.top) > 0.5 ||
-          Math.abs(rect.left - currentRect.left) > 0.5 ||
-          Math.abs(rect.width - currentRect.width) > 0.5 ||
-          Math.abs(rect.height - currentRect.height) > 0.5
-        ) {
-          setFixedPhotoRect({
-            width: rect.width,
-            height: rect.height,
-            top: rect.top,
-            left: rect.left
-          });
-        }
+        setFixedPhotoRect({
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          left: rect.left
+        });
       }
     }
   };
