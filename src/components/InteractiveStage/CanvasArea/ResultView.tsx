@@ -69,7 +69,6 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
     if (!imageBoxRef.current || !isCurrentStep) return;
     const rect = imageBoxRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
-      console.log(rect);
       setFixedPhotoRect({
         width: rect.width,
         height: rect.height,
@@ -100,7 +99,6 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
       <div className="relative flex h-full w-full flex-col items-center gap-6 md:gap-8">
         <ModeSwitch mode={mode} onChange={setMode} />
         <div ref={containerRef} className="relative flex h-[80%] w-full items-center justify-center overflow-hidden">
-          {/* FixedPhoto will be moved here by setFixedPhotoRect */}
           <div
             ref={imageBoxRef}
             className="relative shrink-0"

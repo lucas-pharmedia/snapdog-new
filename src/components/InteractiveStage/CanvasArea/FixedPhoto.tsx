@@ -8,9 +8,18 @@ import type { Rect } from '@/types';
 interface LayoutBackgroundProps {
   layout: Layout;
   rect: Rect;
+  isResultStep: boolean;
 }
 const DEFAULT_DURATION = 0.4;
-const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
+
+const BOUNCE_SCALE = [1, 0.9, 1.1, 1];
+const BOUNCE_TRANSITION = {
+  delay: 0.8,
+  duration: 0.8,
+  times: [0, 0.6, 0.8, 1],
+  ease: 'easeInOut' as const
+};
+const LayoutBackground = ({ layout, rect, isResultStep }: LayoutBackgroundProps) => {
   return (
     <motion.div
       initial={{
@@ -18,18 +27,21 @@ const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
         top: Math.round(rect.top),
         left: Math.round(rect.left),
         width: Math.round(rect.width),
-        height: Math.round(rect.height)
+        height: Math.round(rect.height),
+        scale: 1
       }}
       animate={{
         opacity: 1,
         top: Math.round(rect.top),
         left: Math.round(rect.left),
         width: Math.round(rect.width),
-        height: Math.round(rect.height)
+        height: Math.round(rect.height),
+        scale: isResultStep ? BOUNCE_SCALE : 1
       }}
       exit={{ opacity: 0 }}
       transition={{
-        duration: DEFAULT_DURATION
+        default: { duration: DEFAULT_DURATION },
+        scale: BOUNCE_TRANSITION
       }}
       className="pointer-events-none absolute translate-z-0"
     >
@@ -66,7 +78,12 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
     <div className="pointer-events-none fixed inset-0 z-1">
       <AnimatePresence mode="wait">
         {!isAIStyleStep && (
-          <LayoutBackground key={photoConfig.layout} layout={photoConfig.layout} rect={fixedPhotoRect} />
+          <LayoutBackground
+            key={photoConfig.layout}
+            layout={photoConfig.layout}
+            rect={fixedPhotoRect}
+            isResultStep={isResultStep}
+          />
         )}
       </AnimatePresence>
 
@@ -117,9 +134,13 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
               top: animTop,
               width: animWidth,
               height: animHeight,
-              opacity: stepOpacity
+              opacity: stepOpacity,
+              scale: isResultStep ? BOUNCE_SCALE : 1
             }}
-            transition={{ duration: DEFAULT_DURATION }}
+            transition={{
+              default: { duration: DEFAULT_DURATION },
+              scale: BOUNCE_TRANSITION
+            }}
             src={photoUrl}
             className={cn(
               'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
@@ -137,14 +158,16 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           top: fixedPhotoRect.top,
           width: fixedPhotoRect.width,
           height: fixedPhotoRect.height,
-          opacity: isResultStep ? 1 : 0
+          opacity: isResultStep ? 1 : 0,
+          scale: isResultStep ? BOUNCE_SCALE : 1
         }}
         transition={{
           default: { duration: DEFAULT_DURATION },
           opacity: {
             duration: 0,
             delay: isResultStep ? 0 : 0.9
-          }
+          },
+          scale: BOUNCE_TRANSITION
         }}
         src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
         className={cn('pointer-events-none absolute z-10 translate-z-0 rounded-2xl')}
