@@ -25,7 +25,6 @@ const LayoutBackground = ({ layout, rect, currentStep }: LayoutBackgroundProps) 
 
   // 進入第二步的保護期內鎖死動畫，避免從第一步座標滑動
   const shouldSnap = currentStep === InteractiveStep.Layout && isTransitioning;
-
   return (
     <motion.div
       initial={{
@@ -95,7 +94,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   return (
     <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
       <AnimatePresence mode="wait">
-        {1 && (
+        {!isAIStyleStep && (
           <LayoutBackground
             key={photoConfig.layout}
             layout={photoConfig.layout}
