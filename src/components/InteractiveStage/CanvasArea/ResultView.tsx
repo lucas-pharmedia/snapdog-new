@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { cn } from '@/utils';
 import MarqueeBackground from '@/components/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
+import { LayoutConfig } from '@/constants';
 
 enum Mode {
   Wall = 'wall',
@@ -48,17 +49,54 @@ const ModeSwitch = ({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
 
 const ResultView = () => {
   const [mode, setMode] = useState<Mode>(Mode.Wall);
-  const { photoConfig } = usePhotoStore();
+  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mode === Mode.Wall && containerRef.current) {
+      const updateTargetRect = () => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+        const layoutSize = LayoutConfig[photoConfig.layout].layoutSize;
+
+        // Calculate scale to fit container or use a fixed scale
+        const scale = 1.1; // Desired scale in ResultView
+        const targetW = layoutSize.width * scale;
+        const targetH = layoutSize.height * scale;
+
+        const targetLeft = rect.left + (rect.width - targetW) / 2;
+        const targetTop = rect.top + (rect.height - targetH) / 2;
+
+        setFixedPhotoRect({
+          width: targetW,
+          height: targetH,
+          left: targetLeft,
+          top: targetTop
+        });
+      };
+
+      // Initial update
+      updateTargetRect();
+
+      // Update on resize
+      window.addEventListener('resize', updateTargetRect);
+      return () => window.removeEventListener('resize', updateTargetRect);
+    }
+  }, [mode, photoConfig.layout, setFixedPhotoRect]);
+
   console.log('result ', photoConfig);
   return (
-    <div className="relative flex h-full w-full flex-col items-center">
+    <>
       <MarqueeBackground isVisible={mode === Mode.Wall} />
-      <ModeSwitch mode={mode} onChange={setMode} />
-
-      <div className="relative z-10 mt-12 flex grow items-center justify-center">
-        <PhotoResult config={photoConfig} scale={1.2} />
+      <div className="relative flex h-full w-full flex-col items-center">
+        <ModeSwitch mode={mode} onChange={setMode} />
+        <div ref={containerRef} className="relative flex w-full grow items-center justify-center">
+          {/* FixedPhoto will be moved here by setFixedPhotoRect */}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

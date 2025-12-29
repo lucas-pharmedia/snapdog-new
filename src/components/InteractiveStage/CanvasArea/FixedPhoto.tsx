@@ -134,6 +134,25 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           />
         );
       })}
+      {/* Frame Overlay */}
+      {/* <motion.img
+        key={`frame-${photoConfig.layout}-${photoConfig.frame}`}
+        initial={false}
+        animate={{
+          left: fixedPhotoRect.left,
+          top: fixedPhotoRect.top,
+          width: fixedPhotoRect.width,
+          height: fixedPhotoRect.height,
+          opacity: isAIStyleStep ? 0 : 1
+        }}
+        transition={{ duration: 0.4 }}
+        src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
+        className="pointer-events-none absolute z-20 block"
+        alt="frame"
+        style={{
+          transform: 'translateZ(0)'
+        }}
+      /> */}
     </div>
   );
 };
