@@ -22,14 +22,14 @@ const PhotoResult = ({ config, scale = 1, className }: PhotoResultProps) => {
         height: `calc(${lH}px * ${scaleStr})`
       }}
     >
-      {/* Frame / Background */}
+      {/* 1. Layout Background (The paper/base) */}
       <img
-        src={`/frame/${config.layout}/${config.frame}.png`}
-        alt="frame"
+        src={`/layout/background/${config.layout}.png`}
+        alt="layout-background"
         className="absolute inset-0 block h-full w-full object-contain"
       />
 
-      {/* Photo Slots */}
+      {/* 2. Photo Slots */}
       {layoutConfig.slots.map((slot, i) => {
         const characterIndex = config.characterIndex ?? i + 1;
         const photoUrl = getAIAssetPath({
@@ -46,13 +46,17 @@ const PhotoResult = ({ config, scale = 1, className }: PhotoResultProps) => {
               top: `calc(${slot.y}px * ${scaleStr})`,
               left: `calc(${slot.x}px * ${scaleStr})`,
               width: `calc(${slot.width}px * ${scaleStr})`,
-              height: `calc(${slot.height}px * ${scaleStr})`
+              height: `calc(${slot.height}px * ${scaleStr})`,
+              zIndex: 10
             }}
             src={photoUrl}
             alt={`picture`}
           />
         );
       })}
+
+      {/* 3. Frame Overlay (The decorative frame) */}
+      <img src={`/frame/${config.layout}/${config.frame}.png`} alt="frame" className="absolute inset-0 h-full w-full" />
     </div>
   );
 };

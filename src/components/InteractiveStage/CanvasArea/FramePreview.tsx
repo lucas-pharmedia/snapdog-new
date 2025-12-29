@@ -9,6 +9,7 @@ import { usePhotoStore } from '@/store/usePhotoStore';
 const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Frame;
   const photoConfig = usePhotoStore((state) => state.photoConfig);
+  const setPhotoConfig = usePhotoStore((state) => state.setPhotoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
 
   const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
@@ -22,7 +23,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const mobileMaxHeight = desktopMaxHeight * 0.6;
 
   const updateRect = (swiper: SwiperClass) => {
-    if (!isCurrentStep) return; // 關鍵修正：不是當前步驟時不准更新座標
+    if (!isCurrentStep) return;
     const activeSlide = swiper.slides[swiper.activeIndex];
     const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
     if (imgDom) {
@@ -44,6 +45,11 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
         }
       }
     }
+  };
+
+  const handleSlideChange = (swiper: SwiperClass) => {
+    const newFrame = FRAME_OPTIONS[swiper.activeIndex].value;
+    setPhotoConfig({ frame: newFrame });
   };
 
   useEffect(() => {
@@ -81,6 +87,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
           className="h-full w-full"
           onAfterInit={updateRect}
           onResize={updateRect}
+          onSlideChange={handleSlideChange}
           initialSlide={0}
           breakpoints={{
             768: {
