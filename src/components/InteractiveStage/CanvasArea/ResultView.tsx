@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { cn } from '@/utils';
 import MarqueeBackground from '@/components/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 import { InteractiveStep, LayoutConfig } from '@/constants';
 import { useElementSize } from '@/hooks/useElementSize';
 
@@ -99,6 +98,9 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
               pointerEvents: 'none'
             }}
           />
+        </div>
+        <div className="flex shrink-0 justify-center">
+          <img src="/result-text.png" className="w-[151px]" alt="" />
         </div>
       </div>
     </>
