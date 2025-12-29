@@ -27,7 +27,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
         {/* Step Previews */}
         <div
           className={cn(
-            'absolute inset-0 transition duration-0',
+            'absolute inset-0 z-1 transition duration-0',
             currentStep === InteractiveStep.AIStyle ? 'opacity-100 delay-500' : 'pointer-events-none opacity-0'
           )}
         >

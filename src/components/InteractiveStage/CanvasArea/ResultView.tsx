@@ -6,6 +6,8 @@ import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 import { InteractiveStep, LayoutConfig } from '@/constants';
 import { useElementSize } from '@/hooks/useElementSize';
 
+import { useResizeObserver } from '@/hooks/useResizeObserver';
+
 enum Mode {
   Wall = 'wall',
   Print = 'print'
@@ -78,20 +80,7 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
     }
   };
 
-  useEffect(() => {
-    if (!imageBoxRef.current) return;
-    const observer = new ResizeObserver(() => {
-      requestAnimationFrame(() => {
-        updateRect();
-      });
-    });
-    observer.observe(imageBoxRef.current);
-    window.addEventListener('resize', updateRect);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', updateRect);
-    };
-  }, [updateRect]);
+  useResizeObserver(imageBoxRef.current, updateRect, [isCurrentStep, photoRenderScale, photoConfig.layout]);
 
   return (
     <>

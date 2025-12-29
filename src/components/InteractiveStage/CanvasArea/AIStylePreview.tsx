@@ -5,7 +5,9 @@ import Female from '@/assets/characters/female.svg?react';
 import Animal from '@/assets/characters/animal.svg?react';
 import { AI_STYLE_OPTIONS, AIStyle, Character, InteractiveStep } from '@/constants';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+
+import { useResizeObserver } from '@/hooks/useResizeObserver';
 
 const ImageStyleLabel = ({ style }: { style: AIStyle }) => {
   const label = style === AIStyle.None ? '原圖' : AI_STYLE_OPTIONS.find((option) => option.value === style)?.label;
@@ -68,20 +70,7 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
     }
   };
 
-  useEffect(() => {
-    if (!previewRef.current) return;
-    const observer = new ResizeObserver(() => {
-      requestAnimationFrame(() => {
-        updateRect();
-      });
-    });
-    observer.observe(previewRef.current);
-    window.addEventListener('resize', updateRect);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', updateRect);
-    };
-  }, [updateRect]);
+  useResizeObserver(previewRef.current, updateRect, [isCurrentStep]);
 
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
