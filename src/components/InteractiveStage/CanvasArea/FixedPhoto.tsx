@@ -1,30 +1,16 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutConfig, InteractiveStep, Layout } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { cn, getAIAssetPath } from '@/utils';
+import type { Rect } from '@/types';
 
 interface LayoutBackgroundProps {
   layout: Layout;
-  rect: { top: number; left: number; width: number; height: number };
-  currentStep: InteractiveStep;
+  rect: Rect;
 }
 
-const LayoutBackground = ({ layout, rect, currentStep }: LayoutBackgroundProps) => {
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const prevStepRef = useRef(currentStep);
-
-  useEffect(() => {
-    if (currentStep !== prevStepRef.current) {
-      setIsTransitioning(true);
-      const timer = setTimeout(() => setIsTransitioning(false), 600);
-      return () => clearTimeout(timer);
-    }
-    prevStepRef.current = currentStep;
-  }, [currentStep]);
-
-  // 進入第二步的保護期內鎖死動畫，避免從第一步座標滑動
-  const shouldSnap = currentStep === InteractiveStep.Layout && isTransitioning;
+const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
   return (
     <motion.div
       initial={{
@@ -43,14 +29,12 @@ const LayoutBackground = ({ layout, rect, currentStep }: LayoutBackgroundProps) 
       }}
       exit={{ opacity: 0 }}
       transition={{
-        opacity: { duration: 0.4 },
-        default: { duration: shouldSnap ? 0 : 0.4 }
+        duration: 0.4
       }}
       style={{
         position: 'absolute',
         pointerEvents: 'none',
-        transform: 'translateZ(0)',
-        willChange: 'top, left, width, height'
+        transform: 'translateZ(0)'
       }}
     >
       <img
@@ -61,7 +45,6 @@ const LayoutBackground = ({ layout, rect, currentStep }: LayoutBackgroundProps) 
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
       />
-      {/* <div className="absolute inset-0 bg-white"></div> */}
     </motion.div>
   );
 };
@@ -79,29 +62,14 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const layoutBase = selectedLayoutConfig.layoutSize;
   const containerW = fixedPhotoRect.width;
   const containerH = fixedPhotoRect.height;
-
-  const scaleW = containerW / layoutBase.width || 0;
-  const scaleH = containerH / layoutBase.height || 0;
-  const actualScale = Math.min(scaleW, scaleH);
-
-  const actualW = layoutBase.width * actualScale;
-  const actualH = layoutBase.height * actualScale;
-  const offsetX = (containerW - actualW) / 2;
-  const offsetY = (containerH - actualH) / 2;
+  const actualScale = containerW / layoutBase.width || 0;
 
   const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
 
   return (
-    <div className="FIXED-PHOTO pointer-events-none fixed inset-0 z-0">
+    <div className="aaa pointer-events-none fixed inset-0 z-0">
       <AnimatePresence mode="wait">
-        {!isAIStyleStep && (
-          <LayoutBackground
-            key={photoConfig.layout}
-            layout={photoConfig.layout}
-            rect={fixedPhotoRect}
-            currentStep={currentStep}
-          />
-        )}
+        {1 && <LayoutBackground key={photoConfig.layout} layout={photoConfig.layout} rect={fixedPhotoRect} />}
       </AnimatePresence>
 
       {[...Array(3)].map((_, index) => {
@@ -136,8 +104,8 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           // 佈局步驟：正確加上中心偏移量 offsetX/offsetY
           animWidth = displaySlot.width * actualScale;
           animHeight = displaySlot.height * actualScale;
-          animLeft = fixedPhotoRect.left + offsetX + displaySlot.x * actualScale;
-          animTop = fixedPhotoRect.top + offsetY + displaySlot.y * actualScale;
+          animLeft = fixedPhotoRect.left + displaySlot.x * actualScale;
+          animTop = fixedPhotoRect.top + displaySlot.y * actualScale;
         }
 
         const stepOpacity = isUsed ? 1 : 0;
@@ -147,10 +115,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             key={`photo-slot-${index}`}
             initial={false}
             animate={{
-              left: Math.round(animLeft),
-              top: Math.round(animTop),
-              width: Math.round(animWidth),
-              height: Math.round(animHeight),
+              left: animLeft,
+              top: animTop,
+              width: animWidth,
+              height: animHeight,
               opacity: stepOpacity
             }}
             transition={{ duration: 0.4 }}
@@ -161,8 +129,8 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             )}
             alt="picture"
             style={{
-              transform: 'translateZ(0)',
-              willChange: 'left, top, width, height'
+              transform: 'translateZ(0)'
+              // willChange: 'left, top, width, height'
             }}
           />
         );
