@@ -25,7 +25,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   }, [containerSize, selectedLayoutConfig]);
 
   const updateRect = () => {
-    if (!imageBoxRef.current) return;
+    if (!imageBoxRef.current || !isCurrentStep) return;
     const rect = imageBoxRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       setFixedPhotoRect({
@@ -38,7 +38,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   };
 
   useEffect(() => {
-    if (currentStep !== InteractiveStep.Layout || !imageBoxRef.current) return;
+    if (!imageBoxRef.current) return;
 
     // 使用 ResizeObserver 確保在 DOM 真正完成渲染與縮放後才測量
     const observer = new ResizeObserver(() => {
@@ -56,7 +56,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
       observer.disconnect();
       window.removeEventListener('resize', updateRect);
     };
-  }, [isCurrentStep, photoRenderScale, photoConfig.layout]);
+  }, [updateRect]);
 
   return (
     <div className="flex h-full w-full items-center justify-center px-6 pb-3" ref={containerRef}>

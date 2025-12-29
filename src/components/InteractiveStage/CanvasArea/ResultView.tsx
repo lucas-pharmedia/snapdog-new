@@ -4,6 +4,7 @@ import MarqueeBackground from '@/components/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 import { InteractiveStep, LayoutConfig } from '@/constants';
+import { useElementSize } from '@/hooks/useElementSize';
 
 enum Mode {
   Wall = 'wall',
@@ -51,46 +52,70 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Result;
   const [mode, setMode] = useState<Mode>(Mode.Wall);
   const { photoConfig, setFixedPhotoRect } = usePhotoStore();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [photoRenderScale, setPhotoRenderScale] = useState(0);
+  const imageBoxRef = useRef<HTMLDivElement>(null);
+  const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
+  const selectedLayoutConfig = LayoutConfig[photoConfig.layout];
 
   useEffect(() => {
-    if (!isCurrentStep || !containerRef.current) return;
-    const updateTargetRect = () => {
-      const container = containerRef.current;
-      if (!container) return;
-      const rect = container.getBoundingClientRect();
+    const scale = Math.min(
+      containerSize.width / selectedLayoutConfig.layoutSize.width,
+      containerSize.height / selectedLayoutConfig.layoutSize.height
+    );
+    setPhotoRenderScale(scale);
+  }, [containerSize, selectedLayoutConfig]);
+
+  const updateRect = () => {
+    if (!imageBoxRef.current || !isCurrentStep) return;
+    const rect = imageBoxRef.current.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      console.log(rect);
       setFixedPhotoRect({
         width: rect.width,
         height: rect.height,
         top: rect.top,
         left: rect.left
       });
-    };
+    }
+  };
+
+  useEffect(() => {
+    if (!isCurrentStep || !imageBoxRef.current) return;
 
     const observer = new ResizeObserver(() => {
       requestAnimationFrame(() => {
-        updateTargetRect();
+        updateRect();
       });
     });
 
-    observer.observe(containerRef.current);
+    observer.observe(imageBoxRef.current);
 
     // Update on resize
-    window.addEventListener('resize', updateTargetRect);
+    window.addEventListener('resize', updateRect);
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', updateTargetRect);
+      window.removeEventListener('resize', updateRect);
     };
-  }, [isCurrentStep, mode, photoConfig.layout, setFixedPhotoRect]);
+  }, [updateRect]);
 
-  console.log('result ', photoConfig);
   return (
     <>
       <MarqueeBackground isVisible={mode === Mode.Wall} />
-      <div className="relative flex h-full w-full flex-col items-center">
+      <div className="relative flex h-full w-full flex-col items-center gap-6 md:gap-8">
         <ModeSwitch mode={mode} onChange={setMode} />
-        <div ref={containerRef} className="relative flex w-full grow items-center justify-center">
+        <div ref={containerRef} className="relative flex h-[80%] w-full items-center justify-center overflow-hidden">
           {/* FixedPhoto will be moved here by setFixedPhotoRect */}
+          <div
+            ref={imageBoxRef}
+            className="relative shrink-0"
+            style={{
+              transform: `scale(${photoRenderScale})`,
+              width: selectedLayoutConfig.layoutSize.width,
+              height: selectedLayoutConfig.layoutSize.height,
+              visibility: 'hidden',
+              pointerEvents: 'none'
+            }}
+          />
         </div>
       </div>
     </>

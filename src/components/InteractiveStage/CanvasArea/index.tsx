@@ -22,7 +22,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
     >
       <div className="relative h-full w-full">
         {/* Fixed Photo Overlay - Always visible, moves based on fixedPhotoRect */}
-        <div className="absolute inset-0 z-1">
+        <div className="pointer-events-none absolute inset-0 z-1">
           <FixedPhoto currentStep={currentStep} />
         </div>
 
@@ -65,7 +65,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
               : 'pointer-events-none opacity-0'
           )}
         >
-          <ResultView />
+          <ResultView currentStep={currentStep} />
         </div>
       </div>
     </div>
