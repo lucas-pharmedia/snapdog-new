@@ -52,11 +52,11 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setPhotoConfig = usePhotoStore((state) => state.setPhotoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
-
+  const isCurrentStep = currentStep === InteractiveStep.AIStyle;
   const previewRef = useRef<HTMLDivElement>(null);
 
   const updateRect = () => {
-    if (!previewRef.current || currentStep !== InteractiveStep.AIStyle) return;
+    if (!previewRef.current || !isCurrentStep) return;
     const rect = previewRef.current.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       setFixedPhotoRect({
@@ -69,23 +69,19 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   };
 
   useEffect(() => {
-    if (currentStep === InteractiveStep.AIStyle) {
-      const observer = new ResizeObserver(() => {
+    if (!previewRef.current) return;
+    const observer = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
         updateRect();
       });
-      if (previewRef.current) {
-        observer.observe(previewRef.current);
-      }
-
-      window.addEventListener('resize', updateRect);
-      updateRect();
-
-      return () => {
-        observer.disconnect();
-        window.removeEventListener('resize', updateRect);
-      };
-    }
-  }, [currentStep]);
+    });
+    observer.observe(previewRef.current);
+    window.addEventListener('resize', updateRect);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateRect);
+    };
+  }, [updateRect]);
 
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,

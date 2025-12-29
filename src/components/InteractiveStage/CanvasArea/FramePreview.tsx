@@ -1,5 +1,5 @@
 import { FRAME_OPTIONS, InteractiveStep, LayoutConfig } from '@/constants';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { cn } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperClass } from 'swiper/react';
@@ -22,11 +22,13 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const desktopMaxHeight = lH * 0.89; // 高度限制同步比例
   const mobileMaxHeight = desktopMaxHeight * 0.6;
 
-  const updateRect = (swiper: SwiperClass) => {
-    if (!isCurrentStep) return;
-    const activeSlide = swiper.slides[swiper.activeIndex];
-    const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
-    if (imgDom) {
+  const updateRect = useCallback(
+    (swiper: SwiperClass) => {
+      if (!isCurrentStep) return;
+      const activeSlide = swiper.slides[swiper.activeIndex];
+      const imgDom = activeSlide?.querySelector('img') as HTMLImageElement;
+      if (!imgDom) return;
+
       const rect = imgDom.getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
         setFixedPhotoRect({
@@ -36,27 +38,27 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
           left: rect.left
         });
       }
-    }
-  };
+    },
+    [isCurrentStep, setFixedPhotoRect]
+  );
 
-  const handleSlideChange = (swiper: SwiperClass) => {
+  useEffect(() => {
+    if (!isCurrentStep) return;
+    const timer = setTimeout(() => {
+      const swiperEl = document.querySelector('.swiper')?.shadowRoot || document.querySelector('.swiper');
+      // @ts-ignore
+      if (swiperEl && swiperEl.swiper) {
+        // @ts-ignore
+        updateRect(swiperEl.swiper);
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [isCurrentStep, updateRect]);
+
+  const handleSlideChangeTransitionEnd = (swiper: SwiperClass) => {
     const newFrame = FRAME_OPTIONS[swiper.activeIndex].value;
     setPhotoConfig({ frame: newFrame });
   };
-
-  useEffect(() => {
-    if (isCurrentStep) {
-      const timer = setTimeout(() => {
-        const swiperEl = document.querySelector('.swiper')?.shadowRoot || document.querySelector('.swiper');
-        // @ts-ignore
-        if (swiperEl && swiperEl.swiper) {
-          // @ts-ignore
-          updateRect(swiperEl.swiper);
-        }
-      }, 150);
-      return () => clearTimeout(timer);
-    }
-  }, [isCurrentStep, photoConfig.layout]);
 
   return (
     <div
@@ -79,7 +81,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
           className="h-full w-full"
           onAfterInit={updateRect}
           onResize={updateRect}
-          onSlideChange={handleSlideChange}
+          onSlideChangeTransitionEnd={handleSlideChangeTransitionEnd}
           initialSlide={0}
           breakpoints={{
             768: {

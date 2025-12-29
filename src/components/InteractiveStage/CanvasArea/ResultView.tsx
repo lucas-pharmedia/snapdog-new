@@ -80,17 +80,13 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   };
 
   useEffect(() => {
-    if (!isCurrentStep || !imageBoxRef.current) return;
-
+    if (!imageBoxRef.current) return;
     const observer = new ResizeObserver(() => {
       requestAnimationFrame(() => {
         updateRect();
       });
     });
-
     observer.observe(imageBoxRef.current);
-
-    // Update on resize
     window.addEventListener('resize', updateRect);
     return () => {
       observer.disconnect();

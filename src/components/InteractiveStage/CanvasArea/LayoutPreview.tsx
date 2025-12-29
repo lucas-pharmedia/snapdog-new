@@ -39,7 +39,6 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
 
   useEffect(() => {
     if (!imageBoxRef.current) return;
-
     // 使用 ResizeObserver 確保在 DOM 真正完成渲染與縮放後才測量
     const observer = new ResizeObserver(() => {
       // 使用 requestAnimationFrame 確保在瀏覽器下一次重繪前更新座標，保證數據穩定
@@ -47,10 +46,7 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
         updateRect();
       });
     });
-
     observer.observe(imageBoxRef.current);
-
-    // 同時監聽視窗縮放
     window.addEventListener('resize', updateRect);
     return () => {
       observer.disconnect();

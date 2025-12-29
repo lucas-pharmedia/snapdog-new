@@ -47,7 +47,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
 
         <div
           className={cn(
-            'absolute inset-0',
+            'absolute inset-0 z-1',
             currentStep === InteractiveStep.Frame
               ? 'opacity-100 transition delay-400 duration-500'
               : 'pointer-events-none opacity-0'
