@@ -162,8 +162,8 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           transition={{
             default: { duration: DEFAULT_DURATION },
             opacity: {
-              duration: 0,
-              delay: isResultStep ? 0 : 0.9
+              duration: isResultStep ? 1.5 : 0,
+              delay: isResultStep ? 0 : 0.8
             }
           }}
           src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
