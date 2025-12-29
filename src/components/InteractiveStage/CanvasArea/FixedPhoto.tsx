@@ -8,18 +8,17 @@ import type { Rect } from '@/types';
 interface LayoutBackgroundProps {
   layout: Layout;
   rect: Rect;
-  isResultStep: boolean;
 }
 const DEFAULT_DURATION = 0.4;
 
-const BOUNCE_SCALE = [1, 0.9, 1.1, 1];
+const BOUNCE_SCALE = [1, 0.85, 1.1, 1];
 const BOUNCE_TRANSITION = {
   delay: 0.8,
   duration: 0.8,
   times: [0, 0.6, 0.8, 1],
   ease: 'easeInOut' as const
 };
-const LayoutBackground = ({ layout, rect, isResultStep }: LayoutBackgroundProps) => {
+const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
   return (
     <motion.div
       initial={{
@@ -35,13 +34,11 @@ const LayoutBackground = ({ layout, rect, isResultStep }: LayoutBackgroundProps)
         top: Math.round(rect.top),
         left: Math.round(rect.left),
         width: Math.round(rect.width),
-        height: Math.round(rect.height),
-        scale: isResultStep ? BOUNCE_SCALE : 1
+        height: Math.round(rect.height)
       }}
       exit={{ opacity: 0 }}
       transition={{
-        default: { duration: DEFAULT_DURATION },
-        scale: BOUNCE_TRANSITION
+        default: { duration: DEFAULT_DURATION }
       }}
       className="pointer-events-none absolute translate-z-0"
     >
@@ -76,103 +73,104 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-1">
-      <AnimatePresence mode="wait">
-        {!isAIStyleStep && (
-          <LayoutBackground
-            key={photoConfig.layout}
-            layout={photoConfig.layout}
-            rect={fixedPhotoRect}
-            isResultStep={isResultStep}
-          />
-        )}
-      </AnimatePresence>
-
-      {[...Array(3)].map((_, index) => {
-        const targetSlot = selectedLayoutConfig.slots[index];
-        const firstSlot = selectedLayoutConfig.slots[0];
-        const isUsed = isAIStyleStep ? index === 0 : !!targetSlot;
-        const displaySlot = targetSlot || firstSlot;
-
-        const photoUrl = getAIAssetPath({
-          character: photoConfig.character,
-          characterIndex: index + 1,
-          style: photoConfig.style
-        });
-
-        // 計算絕對螢幕座標
-        let animLeft, animTop, animWidth, animHeight;
-
-        if (isAIStyleStep) {
-          // 第一步時：照片強制在容器中心顯示為正方形，與第二步佈局中心對齊
-          const squareSize = Math.min(containerW, containerH);
-          animWidth = index === 0 ? squareSize : 0;
-          animHeight = index === 0 ? squareSize : 0;
-          animLeft = fixedPhotoRect.left + (containerW - squareSize) / 2;
-          animTop = fixedPhotoRect.top + (containerH - squareSize) / 2;
-
-          // 刻意將圖片縮小一點，避免在圖片比較區邊緣露出底圖
-          animLeft = animLeft + 1;
-          animTop = animTop + 1;
-          animWidth = animWidth - 1;
-          animHeight = animHeight - 1;
-        } else {
-          // 佈局步驟：正確加上中心偏移量 offsetX/offsetY
-          animWidth = displaySlot.width * actualScale;
-          animHeight = displaySlot.height * actualScale;
-          animLeft = fixedPhotoRect.left + displaySlot.x * actualScale;
-          animTop = fixedPhotoRect.top + displaySlot.y * actualScale;
-        }
-
-        const stepOpacity = isUsed ? 1 : 0;
-
-        return (
-          <motion.img
-            key={`photo-slot-${index}`}
-            initial={false}
-            animate={{
-              left: animLeft,
-              top: animTop,
-              width: animWidth,
-              height: animHeight,
-              opacity: stepOpacity,
-              scale: isResultStep ? BOUNCE_SCALE : 1
-            }}
-            transition={{
-              default: { duration: DEFAULT_DURATION },
-              scale: BOUNCE_TRANSITION
-            }}
-            src={photoUrl}
-            className={cn(
-              'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
-              isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
-            )}
-            alt="picture"
-          />
-        );
-      })}
-      {/* Frame Overlay */}
-      <motion.img
-        initial={{ opacity: 0 }}
+      <motion.div
         animate={{
-          left: fixedPhotoRect.left,
-          top: fixedPhotoRect.top,
-          width: fixedPhotoRect.width,
-          height: fixedPhotoRect.height,
-          opacity: isResultStep ? 1 : 0,
           scale: isResultStep ? BOUNCE_SCALE : 1
         }}
         transition={{
-          default: { duration: DEFAULT_DURATION },
-          opacity: {
-            duration: 0,
-            delay: isResultStep ? 0 : 0.9
-          },
           scale: BOUNCE_TRANSITION
         }}
-        src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
-        className={cn('pointer-events-none absolute z-10 translate-z-0 rounded-2xl')}
-        alt="frame"
-      />
+        className="absolute inset-0"
+      >
+        <AnimatePresence mode="wait">
+          {!isAIStyleStep && (
+            <LayoutBackground key={photoConfig.layout} layout={photoConfig.layout} rect={fixedPhotoRect} />
+          )}
+        </AnimatePresence>
+
+        {[...Array(3)].map((_, index) => {
+          const targetSlot = selectedLayoutConfig.slots[index];
+          const firstSlot = selectedLayoutConfig.slots[0];
+          const isUsed = isAIStyleStep ? index === 0 : !!targetSlot;
+          const displaySlot = targetSlot || firstSlot;
+
+          const photoUrl = getAIAssetPath({
+            character: photoConfig.character,
+            characterIndex: index + 1,
+            style: photoConfig.style
+          });
+
+          // 計算絕對螢幕座標
+          let animLeft, animTop, animWidth, animHeight;
+
+          if (isAIStyleStep) {
+            // 第一步時：照片強制在容器中心顯示為正方形，與第二步佈局中心對齊
+            const squareSize = Math.min(containerW, containerH);
+            animWidth = index === 0 ? squareSize : 0;
+            animHeight = index === 0 ? squareSize : 0;
+            animLeft = fixedPhotoRect.left + (containerW - squareSize) / 2;
+            animTop = fixedPhotoRect.top + (containerH - squareSize) / 2;
+
+            // 刻意將圖片縮小一點，避免在圖片比較區邊緣露出底圖
+            animLeft = animLeft + 1;
+            animTop = animTop + 1;
+            animWidth = animWidth - 1;
+            animHeight = animHeight - 1;
+          } else {
+            // 佈局步驟：正確加上中心偏移量 offsetX/offsetY
+            animWidth = displaySlot.width * actualScale;
+            animHeight = displaySlot.height * actualScale;
+            animLeft = fixedPhotoRect.left + displaySlot.x * actualScale;
+            animTop = fixedPhotoRect.top + displaySlot.y * actualScale;
+          }
+
+          const stepOpacity = isUsed ? 1 : 0;
+
+          return (
+            <motion.img
+              key={`photo-slot-${index}`}
+              initial={false}
+              animate={{
+                left: animLeft,
+                top: animTop,
+                width: animWidth,
+                height: animHeight,
+                opacity: stepOpacity
+              }}
+              transition={{
+                default: { duration: DEFAULT_DURATION }
+              }}
+              src={photoUrl}
+              className={cn(
+                'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
+                isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
+              )}
+              alt="picture"
+            />
+          );
+        })}
+        {/* Frame Overlay */}
+        <motion.img
+          initial={{ opacity: 0 }}
+          animate={{
+            left: fixedPhotoRect.left,
+            top: fixedPhotoRect.top,
+            width: fixedPhotoRect.width,
+            height: fixedPhotoRect.height,
+            opacity: isResultStep ? 1 : 0
+          }}
+          transition={{
+            default: { duration: DEFAULT_DURATION },
+            opacity: {
+              duration: 0,
+              delay: isResultStep ? 0 : 0.9
+            }
+          }}
+          src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
+          className={cn('pointer-events-none absolute z-10 translate-z-0 rounded-2xl')}
+          alt="frame"
+        />
+      </motion.div>
     </div>
   );
 };
