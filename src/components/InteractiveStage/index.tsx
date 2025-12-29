@@ -60,7 +60,11 @@ const InteractiveStage = () => {
 
       {/* Scroll Sections */}
       {INTERACTIVE_STAGE_STEPS.map((step, idx) => (
-        <div key={idx} className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-dvh" id={step.id}></div>
+        <div
+          key={idx}
+          className="scroll-section bg-opacity-30 pointer-events-none h-dvh md:h-[135dvh]"
+          id={step.id}
+        ></div>
       ))}
     </section>
   );

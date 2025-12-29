@@ -112,7 +112,11 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
                         }}
                       >
                         <div className="h-full w-full overflow-hidden rounded-[12px] shadow-lg md:rounded-[15px]">
-                          <img src={frameUrl} className="block h-full w-full object-contain" alt={frame.label} />
+                          <img
+                            src={frameUrl}
+                            className="block h-full w-full object-contain select-none"
+                            alt={frame.label}
+                          />
                         </div>
 
                         <span

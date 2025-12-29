@@ -22,9 +22,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
     >
       <div className="relative h-full w-full">
         {/* Fixed Photo Overlay - Always visible, moves based on fixedPhotoRect */}
-        <div className="pointer-events-none absolute inset-0 z-1">
-          <FixedPhoto currentStep={currentStep} />
-        </div>
+        <FixedPhoto currentStep={currentStep} />
 
         {/* Step Previews */}
         <div

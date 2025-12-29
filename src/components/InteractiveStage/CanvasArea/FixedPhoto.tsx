@@ -9,7 +9,7 @@ interface LayoutBackgroundProps {
   layout: Layout;
   rect: Rect;
 }
-
+const DEFAULT_DURATION = 0.4;
 const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
   return (
     <motion.div
@@ -29,17 +29,13 @@ const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
       }}
       exit={{ opacity: 0 }}
       transition={{
-        duration: 0.4
+        duration: DEFAULT_DURATION
       }}
-      style={{
-        position: 'absolute',
-        pointerEvents: 'none',
-        transform: 'translateZ(0)'
-      }}
+      className="pointer-events-none absolute translate-z-0"
     >
       <img
         src={`/layout/background/${layout}.png`}
-        className="absolute inset-0 block h-full w-full object-contain"
+        className="absolute inset-0 block h-full w-full rounded-2xl object-contain"
         alt="layout"
         style={{
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
@@ -52,7 +48,6 @@ const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
 const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const { photoConfig, fixedPhotoRect } = usePhotoStore();
   const prevStepRef = useRef<InteractiveStep>(currentStep);
-
   useEffect(() => {
     prevStepRef.current = currentStep;
   }, [currentStep]);
@@ -65,9 +60,10 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const actualScale = containerW / layoutBase.width || 0;
 
   const isAIStyleStep = currentStep === InteractiveStep.AIStyle;
+  const isResultStep = currentStep === InteractiveStep.Result;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0">
+    <div className="pointer-events-none fixed inset-0 z-1">
       <AnimatePresence mode="wait">
         {!isAIStyleStep && (
           <LayoutBackground key={photoConfig.layout} layout={photoConfig.layout} rect={fixedPhotoRect} />
@@ -123,38 +119,37 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
               height: animHeight,
               opacity: stepOpacity
             }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: DEFAULT_DURATION }}
             src={photoUrl}
             className={cn(
-              'absolute z-10 block object-cover transition-[border-radius]',
+              'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
               isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
             )}
             alt="picture"
-            style={{
-              transform: 'translateZ(0)'
-            }}
           />
         );
       })}
       {/* Frame Overlay */}
-      {/* <motion.img
-        key={`frame-${photoConfig.layout}-${photoConfig.frame}`}
-        initial={false}
+      <motion.img
+        initial={{ opacity: 0 }}
         animate={{
           left: fixedPhotoRect.left,
           top: fixedPhotoRect.top,
           width: fixedPhotoRect.width,
           height: fixedPhotoRect.height,
-          opacity: isAIStyleStep ? 0 : 1
+          opacity: isResultStep ? 1 : 0
         }}
-        transition={{ duration: 0.4 }}
+        transition={{
+          default: { duration: DEFAULT_DURATION },
+          opacity: {
+            duration: 0,
+            delay: isResultStep ? 0 : 0.9
+          }
+        }}
         src={`/frame/${photoConfig.layout}/${photoConfig.frame}.png`}
-        className="pointer-events-none absolute z-20 block"
+        className={cn('pointer-events-none absolute z-10 translate-z-0 rounded-2xl')}
         alt="frame"
-        style={{
-          transform: 'translateZ(0)'
-        }}
-      /> */}
+      />
     </div>
   );
 };
