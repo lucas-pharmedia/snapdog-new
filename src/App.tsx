@@ -6,7 +6,7 @@ import MarketingSections from '@/components/Marketing/MarketingSections';
 import MarqueeBackground from '@/components/InteractiveStage/CanvasArea/MarqueeBackground';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
-import { FRAME_OPTIONS } from '@/constants';
+import { AIStyle, Character, FRAME_OPTIONS } from '@/constants';
 import LineModal from '@/components/LineModal';
 import ParallaxBackground from '@/components/ParallaxBackground';
 
@@ -41,11 +41,17 @@ function App() {
           {Object.values(Character).map((character) => {
             return (
               <>
-                {['01', '02', '03'].map((index) => {
+                {Array.from({ length: 3 }, (_, index) => index + 1).map((index) => {
                   return (
                     <div className="flex">
                       {Object.values(AIStyle).map((style) => {
-                        return <img src={`ai/${character}/${index}/${style}.jpg`} alt="" className="w-[100px]" />;
+                        return (
+                          <img
+                            src={`ai/${character}/pose-${Number(index)}/${style}.jpg`}
+                            alt=""
+                            className="w-[100px]"
+                          />
+                        );
                       })}
                     </div>
                   );

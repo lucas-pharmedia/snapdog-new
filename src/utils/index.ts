@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { AIStyle, Character, Layout, Frame, CHARACTER_INDEX_COUNT } from '@/constants';
+import { AIStyle, Character, Layout, Frame, POSE_COUNT } from '@/constants';
 import type { PhotoConfig } from '@/types';
 
 export const cn = (...inputs: ClassValue[]) => {
@@ -10,13 +10,13 @@ export const cn = (...inputs: ClassValue[]) => {
 export const getAIAssetPath = ({
   character,
   style,
-  characterIndex
+  poseIndex
 }: {
   character: Character;
-  characterIndex: number;
+  poseIndex: number;
   style: AIStyle;
 }) => {
-  return `/ai/${character}/${String(characterIndex).padStart(2, '0')}/${style}.jpg`;
+  return `/ai/${character}/pose-${poseIndex}/${style}.jpg`;
 };
 
 export const generateRandomPhotoConfigs = (count = 5): PhotoConfig[] => {
@@ -25,13 +25,13 @@ export const generateRandomPhotoConfigs = (count = 5): PhotoConfig[] => {
   // 1. 遍歷所有維度，建立完整清單
   Object.values(Character).forEach((character) => {
     Object.values(AIStyle).forEach((style) => {
-      const characterIndex = Math.floor(Math.random() * CHARACTER_INDEX_COUNT) + 1;
+      const poseIndex = Math.floor(Math.random() * POSE_COUNT) + 1;
       allConfigs.push({
         character,
         style,
         layout: Layout.Portrait,
         frame: Frame.None,
-        characterIndex
+        poseIndex
       });
     });
   });

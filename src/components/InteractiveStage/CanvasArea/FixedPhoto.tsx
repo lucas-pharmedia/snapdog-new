@@ -96,7 +96,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
 
           const photoUrl = getAIAssetPath({
             character: photoConfig.character,
-            characterIndex: index + 1,
+            poseIndex: index + 1,
             style: photoConfig.style
           });
 

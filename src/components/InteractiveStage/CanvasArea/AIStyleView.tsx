@@ -74,12 +74,12 @@ const AIStyleView = ({ currentStep }: { currentStep: number }) => {
 
   const aiStyleImageUrl = getAIAssetPath({
     character: photoConfig.character,
-    characterIndex: 1,
+    poseIndex: 1,
     style: photoConfig.style
   });
   const originImageUrl = getAIAssetPath({
     character: photoConfig.character,
-    characterIndex: 1,
+    poseIndex: 1,
     style: AIStyle.None
   });
 
