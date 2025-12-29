@@ -53,7 +53,7 @@ export enum Character {
   Animal = 'animal'
 }
 
-export const CHARACTER_POSES = [1, 2, 3];
+export const CHARACTER_INDEX_COUNT = 3;
 
 export enum AIStyle {
   None = 'none',

@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { AIStyle, Character, Layout, Frame, CHARACTER_POSES } from '@/constants';
+import { AIStyle, Character, Layout, Frame, CHARACTER_INDEX_COUNT } from '@/constants';
 import type { PhotoConfig } from '@/types';
 
 export const cn = (...inputs: ClassValue[]) => {
@@ -25,7 +25,7 @@ export const generateRandomPhotoConfigs = (count = 5): PhotoConfig[] => {
   // 1. 遍歷所有維度，建立完整清單
   Object.values(Character).forEach((character) => {
     Object.values(AIStyle).forEach((style) => {
-      const characterIndex = CHARACTER_POSES[Math.floor(Math.random() * CHARACTER_POSES.length)];
+      const characterIndex = Math.floor(Math.random() * CHARACTER_INDEX_COUNT) + 1;
       allConfigs.push({
         character,
         style,
