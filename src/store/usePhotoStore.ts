@@ -6,8 +6,10 @@ import { isRectDifferent } from '@/utils';
 interface PhotoState {
   photoConfig: PhotoConfig;
   fixedPhotoRect: Rect;
+  isParallaxVisible: boolean;
   setPhotoConfig: (update: Partial<PhotoConfig> | ((prev: PhotoConfig) => PhotoConfig)) => void;
   setFixedPhotoRect: (rect: Rect) => void;
+  setIsParallaxVisible: (visible: boolean) => void;
 }
 
 export const usePhotoStore = create<PhotoState>((set, get) => ({
@@ -23,6 +25,7 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
     top: 0,
     left: 0
   },
+  isParallaxVisible: true,
   setPhotoConfig: (update) =>
     set((state) => ({
       photoConfig: typeof update === 'function' ? update(state.photoConfig) : { ...state.photoConfig, ...update }
@@ -32,5 +35,6 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
     if (isRectDifferent(currentRect, rect)) {
       set({ fixedPhotoRect: rect });
     }
-  }
+  },
+  setIsParallaxVisible: (visible) => set({ isParallaxVisible: visible })
 }));

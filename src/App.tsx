@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import InteractiveStage from '@/components/InteractiveStage';
 import MarketingSections from '@/components/Marketing/MarketingSections';
-import MarqueeBackground from '@/components/MarqueeBackground';
+import MarqueeBackground from '@/components/InteractiveStage/CanvasArea/MarqueeBackground';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import { FRAME_OPTIONS } from '@/constants';

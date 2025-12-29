@@ -1,10 +1,9 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { cn } from '@/utils';
-import MarqueeBackground from '@/components/MarqueeBackground';
+import MarqueeBackground from '@/components/InteractiveStage/CanvasArea/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { InteractiveStep, LayoutConfig } from '@/constants';
 import { useElementSize } from '@/hooks/useElementSize';
-
 import { useResizeObserver } from '@/hooks/useResizeObserver';
 
 enum Mode {
@@ -52,7 +51,7 @@ const ModeSwitch = ({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
 const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Result;
   const [mode, setMode] = useState<Mode>(Mode.Wall);
-  const { photoConfig, setFixedPhotoRect } = usePhotoStore();
+  const { photoConfig, setFixedPhotoRect, setIsParallaxVisible } = usePhotoStore();
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const imageBoxRef = useRef<HTMLDivElement>(null);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
@@ -65,6 +64,17 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
     );
     setPhotoRenderScale(scale);
   }, [containerSize, selectedLayoutConfig]);
+
+  // 控制背景顯示：只有在 Result 步驟且模式為 Wall 時才隱藏背景
+  useEffect(() => {
+    if (isCurrentStep) {
+      setIsParallaxVisible(mode !== Mode.Wall);
+    }
+    // 離開 Result 步驟時在父元件會處理，或這裡可以用 cleanup
+    return () => {
+      if (isCurrentStep) setIsParallaxVisible(true);
+    };
+  }, [isCurrentStep, mode, setIsParallaxVisible]);
 
   const updateRect = () => {
     if (!imageBoxRef.current || !isCurrentStep) return;
