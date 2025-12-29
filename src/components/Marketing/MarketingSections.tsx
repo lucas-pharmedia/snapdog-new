@@ -8,7 +8,6 @@ const Scenarios = () => {
   const controls = useAnimationControls();
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
   const [resizeKey, setResizeKey] = useState(0);
-  const tags = ['展場', '活動', '快閃品牌'];
   const cards = [
     {
       icon: <BookOpen className="h-6 w-6 text-blue-400" />,
@@ -65,14 +64,9 @@ const Scenarios = () => {
           滿足多樣化的活動場景
         </h2>
         <div className="mb-5 flex justify-center gap-1 md:mb-10">
-          {tags.map((tag, i) => (
-            <div
-              key={i}
-              className="rounded-full bg-slate-900 px-6 py-1.5 text-base text-white md:px-10 md:py-2 md:text-lg"
-            >
-              {tag}
-            </div>
-          ))}
+          <div className="rounded-full bg-slate-900 px-6 py-1.5 text-base text-white md:px-10 md:py-2 md:text-lg">
+            展場 · 活動 · 品牌快閃
+          </div>
         </div>
         <div className="overflow-hidden" ref={containerRef} key={resizeKey}>
           <motion.div
