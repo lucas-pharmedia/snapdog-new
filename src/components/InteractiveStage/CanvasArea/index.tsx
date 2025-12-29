@@ -1,7 +1,7 @@
 import { cn } from '@/utils';
-import AIStylePreview from '@/components/InteractiveStage/CanvasArea/AIStylePreview';
-import LayoutPreview from '@/components/InteractiveStage/CanvasArea/LayoutPreview';
-import FramePreview from '@/components/InteractiveStage/CanvasArea/FramePreview';
+import AIStyleView from '@/components/InteractiveStage/CanvasArea/AIStyleView';
+import LayoutView from '@/components/InteractiveStage/CanvasArea/LayoutView';
+import FrameView from '@/components/InteractiveStage/CanvasArea/FrameView';
 import FixedPhoto from '@/components/InteractiveStage/CanvasArea/FixedPhoto';
 import { InteractiveStep } from '@/constants';
 import ResultView from '@/components/InteractiveStage/CanvasArea/ResultView';
@@ -31,7 +31,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
             currentStep === InteractiveStep.AIStyle ? 'opacity-100 delay-500' : 'pointer-events-none opacity-0'
           )}
         >
-          <AIStylePreview currentStep={currentStep} />
+          <AIStyleView currentStep={currentStep} />
         </div>
 
         <div
@@ -40,7 +40,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
             currentStep === InteractiveStep.Layout ? 'opacity-100' : 'pointer-events-none opacity-0'
           )}
         >
-          <LayoutPreview currentStep={currentStep} />
+          <LayoutView currentStep={currentStep} />
         </div>
 
         <div
@@ -51,7 +51,7 @@ const CanvasArea = ({ isInView, currentStep }: CanvasAreaProps) => {
               : 'pointer-events-none opacity-0'
           )}
         >
-          <FramePreview currentStep={currentStep} />
+          <FrameView currentStep={currentStep} />
         </div>
 
         {/* Result View Overlay */}

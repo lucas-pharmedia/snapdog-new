@@ -1,15 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import AIStyleSelector from '@/components/InteractiveStage/UIControls/AIStyleSelector';
-import LayoutSelector from '@/components/InteractiveStage/UIControls/LayoutSelector';
+import AIStyleSelector from '@/components/InteractiveStage/ControlPanel/AIStyleSelector';
+import LayoutSelector from '@/components/InteractiveStage/ControlPanel/LayoutSelector';
 import { InteractiveStep } from '@/constants';
 import { cn } from '@/utils';
 
-interface UIControlsProps {
+interface ControlPanelProps {
   isInView: boolean;
   currentStep: InteractiveStep;
 }
 
-const UIControls = ({ isInView, currentStep }: UIControlsProps) => {
+const ControlPanel = ({ isInView, currentStep }: ControlPanelProps) => {
   const showController = currentStep === InteractiveStep.AIStyle || currentStep === InteractiveStep.Layout;
   return (
     <div className={cn('shrink-0', showController ? 'h-[100px] md:h-[120px]' : 'h-0')}>
@@ -32,4 +32,4 @@ const UIControls = ({ isInView, currentStep }: UIControlsProps) => {
   );
 };
 
-export default UIControls;
+export default ControlPanel;

@@ -50,7 +50,7 @@ const CharacterButtons = ({
   );
 };
 
-const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
+const AIStyleView = ({ currentStep }: { currentStep: number }) => {
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setPhotoConfig = usePhotoStore((state) => state.setPhotoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
@@ -133,4 +133,4 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   );
 };
 
-export default AIStylePreview;
+export default AIStyleView;

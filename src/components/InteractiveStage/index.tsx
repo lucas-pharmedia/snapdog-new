@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import StageTitle from '@/components/InteractiveStage/StageTitle';
-import UIControls from '@/components/InteractiveStage/UIControls';
+import ControlPanel from '@/components/InteractiveStage/ControlPanel';
 import StepIndicator from '@/components/InteractiveStage/StepIndicator';
 import NavControls from '@/components/InteractiveStage/NavControls';
 import { Layout, SectionId, INTERACTIVE_STAGE_STEPS, InteractiveStep } from '@/constants';
@@ -40,7 +40,7 @@ const InteractiveStage = () => {
       >
         <StageTitle currentStep={currentStep} isInView={isInView} />
         <CanvasArea isInView={isInView} currentStep={currentStep} />
-        <UIControls isInView={isInView} currentStep={currentStep} />
+        <ControlPanel isInView={isInView} currentStep={currentStep} />
       </div>
 
       <NavControls

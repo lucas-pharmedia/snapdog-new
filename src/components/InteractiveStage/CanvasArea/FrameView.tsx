@@ -6,7 +6,7 @@ import type { SwiperClass } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { usePhotoStore } from '@/store/usePhotoStore';
 
-const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
+const FrameView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Frame;
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setPhotoConfig = usePhotoStore((state) => state.setPhotoConfig);
@@ -18,7 +18,7 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   // 動態計算比例與尺寸
   const aspectRatio = `${lW}/${lH}`;
   const desktopWidth = lW * 0.89; // 寬度比例保持 0.88 倍
-  const mobileWidth = desktopWidth * 0.6; // 手機端再縮小一點確保看到左右
+  const mobileWidth = desktopWidth * 0.6; // 手機端的再縮小一點確保看到左右
   const desktopMaxHeight = lH * 0.89; // 高度限制同步比例
   const mobileMaxHeight = desktopMaxHeight * 0.6;
 
@@ -140,4 +140,4 @@ const FramePreview = ({ currentStep }: { currentStep: InteractiveStep }) => {
   );
 };
 
-export default FramePreview;
+export default FrameView;

@@ -9,7 +9,7 @@ interface LayoutPreviewProps {
   currentStep: InteractiveStep;
 }
 
-const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
+const LayoutView = ({ currentStep }: LayoutPreviewProps) => {
   const isCurrentStep = currentStep === InteractiveStep.Layout;
   const photoConfig = usePhotoStore((state) => state.photoConfig);
   const setFixedPhotoRect = usePhotoStore((state) => state.setFixedPhotoRect);
@@ -62,4 +62,4 @@ const LayoutPreview = ({ currentStep }: LayoutPreviewProps) => {
   );
 };
 
-export default LayoutPreview;
+export default LayoutView;
