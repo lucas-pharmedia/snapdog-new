@@ -101,7 +101,11 @@ const AIStylePreview = ({ currentStep }: { currentStep: number }) => {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pb-3 md:px-0">
       <div className="relative flex w-full grow items-center justify-center overflow-hidden">
-        <div className={cn(`relative aspect-square max-h-full max-w-full`)} ref={previewRef}>
+        <div
+          ref={previewRef}
+          className={cn(`relative aspect-square max-h-full max-w-full`)}
+          style={{ filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))' }}
+        >
           <div className="relative h-full w-full overflow-hidden rounded-[1.25rem]">
             {/* 放一張圖片撐高度，並在載入後更新座標 */}
             <img src={originImageUrl} alt="" className="opacity-0" />

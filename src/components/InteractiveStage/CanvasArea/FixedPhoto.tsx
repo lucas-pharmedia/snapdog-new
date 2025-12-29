@@ -40,7 +40,7 @@ const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
       <img
         src={`/layout/background/${layout}.png`}
         className="absolute inset-0 block h-full w-full object-contain"
-        alt="layout-bg"
+        alt="layout"
         style={{
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
         }}
@@ -130,7 +130,6 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             alt="picture"
             style={{
               transform: 'translateZ(0)'
-              // willChange: 'left, top, width, height'
             }}
           />
         );
