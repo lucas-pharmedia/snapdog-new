@@ -3,26 +3,40 @@ import { cn, generateRandomPhotoConfigs } from '@/utils';
 import Marquee from 'react-fast-marquee';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 import type { PhotoConfig } from '@/types';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import { Breakpoints } from '@/constants';
 
-const MarqueePhoto = ({ config }: { config: PhotoConfig }) => {
+const MarqueePhoto = ({ config, scale }: { config: PhotoConfig; scale: number }) => {
   return (
     <div className="p-2">
-      <PhotoResult config={config} scale="var(--marquee-scale)" className="shadow-[0px_2px_10px_0px_#00000040]" />
+      <PhotoResult config={config} scale={scale} className="shadow-[0px_2px_10px_0px_#00000040]" />
     </div>
   );
 };
 
-const MarqueeRow = ({ configs, direction }: { configs: PhotoConfig[]; direction: 'left' | 'right' }) => (
+const MarqueeRow = ({
+  configs,
+  direction,
+  scale
+}: {
+  configs: PhotoConfig[];
+  direction: 'left' | 'right';
+  scale: number;
+}) => (
   <Marquee direction={direction}>
     <div className="flex items-center gap-1 md:gap-3">
       {configs.map((config, i) => (
-        <MarqueePhoto key={i} config={config} />
+        <MarqueePhoto key={i} config={config} scale={scale} />
       ))}
     </div>
   </Marquee>
 );
 
 const MarqueeBackground = ({ isVisible }: { isVisible: boolean }) => {
+  const { width } = useWindowSize();
+  const isMobile = width < Breakpoints.md;
+  const scale = isMobile ? 0.32 : 0.425;
+
   const rowCount = 3;
   const itemsPerRow = 12;
   const photoConfigs = useMemo(() => generateRandomPhotoConfigs(rowCount * itemsPerRow), []);
@@ -37,7 +51,7 @@ const MarqueeBackground = ({ isVisible }: { isVisible: boolean }) => {
       )}
     >
       {rows.map((rowConfigs, index) => (
-        <MarqueeRow key={index} configs={rowConfigs} direction={index % 2 === 0 ? 'left' : 'right'} />
+        <MarqueeRow key={index} configs={rowConfigs} direction={index % 2 === 0 ? 'left' : 'right'} scale={scale} />
       ))}
     </div>
   );

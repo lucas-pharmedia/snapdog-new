@@ -2,13 +2,6 @@
 
 :root {
   --font-sans: 'Noto Sans TC', sans-serif;
-  --marquee-scale: 0.32;
-}
-
-@media (min-width: 768px) {
-  :root {
-    --marquee-scale: 0.425;
-  }
 }
 
 body {
