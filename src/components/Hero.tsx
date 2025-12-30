@@ -1,8 +1,8 @@
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { SectionId } from '@/constants';
+import { SectionId, BASE_VIDEO_URL } from '@/constants';
 
-const HERO_VIDEO_URL = 'https://s3.ap-east-2.amazonaws.com/snapdog.io-official-website/video/snapdog-hero.mp4';
+const HERO_VIDEO_URL = `${BASE_VIDEO_URL}/hero.mp4`;
 const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
     <section className="relative z-5 flex h-dvh w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)]">

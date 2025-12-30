@@ -167,3 +167,5 @@ export const FRAME_OPTIONS = [
   { value: Frame.ScienceFiction, label: '科幻未來' },
   { value: Frame.Vacation, label: '渡假時間' }
 ];
+
+export const BASE_VIDEO_URL = 'https://s3.ap-east-2.amazonaws.com/snapdog.io-official-website/video';

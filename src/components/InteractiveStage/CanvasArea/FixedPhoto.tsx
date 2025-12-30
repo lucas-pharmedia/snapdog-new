@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutConfig, InteractiveStep, Layout } from '@/constants';
+import { LayoutConfig, InteractiveStep, Layout, AIStyle, BASE_VIDEO_URL } from '@/constants';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { cn, getAIAssetPath } from '@/utils';
 import type { Rect } from '@/types';
@@ -94,7 +94,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
           const isUsed = isAIStyleStep ? index === 0 : !!targetSlot;
           const displaySlot = targetSlot || firstSlot;
 
-          const photoUrl = getAIAssetPath({
+          const aiStyleAssetUrl = getAIAssetPath({
             character: photoConfig.character,
             poseIndex: index + 1,
             style: photoConfig.style
@@ -126,27 +126,33 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
 
           const stepOpacity = isUsed ? 1 : 0;
 
-          return (
-            <motion.img
-              key={`photo-slot-${index}`}
-              initial={false}
-              animate={{
-                left: animLeft,
-                top: animTop,
-                width: animWidth,
-                height: animHeight,
-                opacity: stepOpacity
-              }}
-              transition={{
-                default: { duration: DEFAULT_DURATION }
-              }}
-              src={photoUrl}
-              className={cn(
-                'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
-                isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
-              )}
-              alt="picture"
-            />
+          const isVideo = photoConfig.style === AIStyle.Video;
+          const videoUrl = `${BASE_VIDEO_URL}/${photoConfig.character}/pose-${index + 1}.mp4`;
+
+          const assetCommonProps = {
+            initial: false as const,
+            animate: {
+              left: animLeft,
+              top: animTop,
+              width: animWidth,
+              height: animHeight,
+              opacity: stepOpacity
+            },
+            transition: {
+              default: { duration: DEFAULT_DURATION }
+            },
+            className: cn(
+              'absolute z-10 block translate-z-0 object-cover transition-[border-radius]',
+              isAIStyleStep ? 'rounded-[1.25rem]' : 'rounded-none'
+            )
+          };
+
+          return isVideo ? (
+            <motion.video key={`video-slot-${index}-${videoUrl}`} {...assetCommonProps} autoPlay loop muted playsInline>
+              <source src={videoUrl} type="video/mp4" />
+            </motion.video>
+          ) : (
+            <motion.img key={`photo-slot-${index}`} {...assetCommonProps} src={aiStyleAssetUrl} alt="picture" />
           );
         })}
         {/* Frame Overlay */}

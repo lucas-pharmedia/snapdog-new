@@ -3,7 +3,7 @@ import { usePhotoStore } from '@/store/usePhotoStore';
 import Male from '@/assets/characters/male.svg?react';
 import Female from '@/assets/characters/female.svg?react';
 import Animal from '@/assets/characters/animal.svg?react';
-import { AI_STYLE_OPTIONS, AIStyle, Character, InteractiveStep } from '@/constants';
+import { AI_STYLE_OPTIONS, AIStyle, BASE_VIDEO_URL, Character, InteractiveStep } from '@/constants';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 import { useRef } from 'react';
 
@@ -72,16 +72,17 @@ const AIStyleView = ({ currentStep }: { currentStep: number }) => {
 
   useResizeObserver(previewRef.current, updateRect, [isCurrentStep]);
 
-  const aiStyleImageUrl = getAIAssetPath({
-    character: photoConfig.character,
-    poseIndex: 1,
-    style: photoConfig.style
-  });
   const originImageUrl = getAIAssetPath({
     character: photoConfig.character,
     poseIndex: 1,
     style: AIStyle.None
   });
+  const aiStyleImageUrl = getAIAssetPath({
+    character: photoConfig.character,
+    poseIndex: 1,
+    style: photoConfig.style
+  });
+  const videoUrl = `${BASE_VIDEO_URL}/${photoConfig.character}/pose-1.mp4`;
 
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center px-12 pb-3 md:px-0">
@@ -93,7 +94,15 @@ const AIStyleView = ({ currentStep }: { currentStep: number }) => {
             <div className="absolute inset-0">
               <ReactCompareSlider
                 itemOne={<ReactCompareSliderImage src={originImageUrl} alt="Item one" className="object-cover" />}
-                itemTwo={<ReactCompareSliderImage src={aiStyleImageUrl} alt="Item two" className="object-cover" />}
+                itemTwo={
+                  photoConfig.style === AIStyle.Video ? (
+                    <video key={videoUrl} autoPlay loop muted playsInline className="h-full w-full object-cover">
+                      <source src={videoUrl} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <ReactCompareSliderImage src={aiStyleImageUrl} alt="Item two" className="object-cover" />
+                  )
+                }
                 handle={
                   <div className="relative h-full cursor-col-resize">
                     {/* 中線 */}
