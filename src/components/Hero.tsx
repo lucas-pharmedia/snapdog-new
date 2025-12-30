@@ -81,7 +81,7 @@ const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="z-10 flex w-full justify-center md:hidden md:w-auto md:justify-end"
         >
-          <div className="relative aspect-[1.5/1] w-full max-w-[500px] overflow-hidden rounded-2xl shadow-2xl">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl">
             <video autoPlay loop muted playsInline className="h-full w-full object-cover">
               <source src={HERO_VIDEO_URL} type="video/mp4" />
             </video>
