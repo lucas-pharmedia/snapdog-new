@@ -126,7 +126,9 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   return (
     <>
       <MarqueeBackground isVisible={mode === Mode.Wall} />
-      <AnimatePresence>{mode === Mode.Print && <PrintModeLayer photoConfig={photoConfig} />}</AnimatePresence>
+      <AnimatePresence>
+        {isCurrentStep && mode === Mode.Print && <PrintModeLayer key="print-layer" photoConfig={photoConfig} />}
+      </AnimatePresence>
       <div className="relative flex h-full w-full flex-col items-center gap-6 md:gap-8">
         <ModeSwitch mode={mode} onChange={setMode} />
         <div ref={containerRef} className="relative flex h-[80%] w-full items-center justify-center overflow-hidden">
