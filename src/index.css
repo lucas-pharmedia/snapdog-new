@@ -22,3 +22,9 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
 }
+
+input[type='date'] {
+  -webkit-appearance: none; /* 取消 iOS 預設樣式 */
+  appearance: none;
+  box-sizing: border-box; /* 確保寬度包含 padding 與 border */
+}
