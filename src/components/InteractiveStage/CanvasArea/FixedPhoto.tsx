@@ -44,7 +44,7 @@ const LayoutBackground = ({ layout, rect }: LayoutBackgroundProps) => {
     >
       <img
         src={`/layout/background/${layout}.png`}
-        className="absolute inset-0 block h-full w-full rounded-2xl object-contain"
+        className="absolute inset-0 block h-full w-full translate-z-0 rounded-2xl object-contain"
         alt="layout"
         style={{
           filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))'
