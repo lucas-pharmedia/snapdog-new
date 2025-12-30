@@ -111,7 +111,7 @@ const FrameView = ({ currentStep }: { currentStep: InteractiveStep }) => {
                           aspectRatio
                         }}
                       >
-                        <div className="h-full w-full overflow-hidden rounded-[12px] shadow-lg md:rounded-[15px]">
+                        <div className="h-full w-full overflow-hidden rounded-xl shadow-lg md:rounded-2xl">
                           <img
                             src={frameUrl}
                             className="block h-full w-full object-contain select-none"
