@@ -91,7 +91,7 @@ const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
 
 const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Result;
-  const [mode, setMode] = useState<Mode>(Mode.Print);
+  const [mode, setMode] = useState<Mode>(Mode.Wall);
   const { photoConfig, setFixedPhotoRect, setIsParallaxVisible, setIsFixedPhotoVisible } = usePhotoStore();
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const imageBoxRef = useRef<HTMLDivElement>(null);

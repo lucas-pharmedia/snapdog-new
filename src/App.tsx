@@ -46,11 +46,7 @@ function App() {
                     <div className="flex">
                       {Object.values(AIStyle).map((style) => {
                         return (
-                          <img
-                            src={`ai/${character}/pose-${Number(index)}/${style}.jpg`}
-                            alt=""
-                            className="w-[100px]"
-                          />
+                          <img src={`ai/${character}/pose-${Number(index)}/${style}.jpg`} alt="" className="w-[70px]" />
                         );
                       })}
                     </div>

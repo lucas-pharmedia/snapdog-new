@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { cn, generateRandomPhotoConfigs } from '@/utils';
+import { cn, generateMarqueeConfigs } from '@/utils';
 import Marquee from 'react-fast-marquee';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 import type { PhotoConfig } from '@/types';
@@ -39,7 +39,7 @@ const MarqueeBackground = ({ isVisible }: { isVisible: boolean }) => {
 
   const rowCount = 3;
   const itemsPerRow = 12;
-  const photoConfigs = useMemo(() => generateRandomPhotoConfigs(rowCount * itemsPerRow), []);
+  const photoConfigs = useMemo(() => generateMarqueeConfigs(rowCount * itemsPerRow), []);
   const rows = Array.from({ length: rowCount }, (_, i) => photoConfigs.slice(i * itemsPerRow, (i + 1) * itemsPerRow));
   return (
     <div

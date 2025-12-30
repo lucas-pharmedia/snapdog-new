@@ -19,12 +19,13 @@ export const getAIAssetPath = ({
   return `/ai/${character}/pose-${poseIndex}/${style}.jpg`;
 };
 
-export const generateRandomPhotoConfigs = (count = 5): PhotoConfig[] => {
+export const generateMarqueeConfigs = (count = 5): PhotoConfig[] => {
   const allConfigs: PhotoConfig[] = [];
 
   // 1. 遍歷所有維度，建立完整清單
   Object.values(Character).forEach((character) => {
     Object.values(AIStyle).forEach((style) => {
+      if (style === AIStyle.Video) return;
       const poseIndex = Math.floor(Math.random() * POSE_COUNT) + 1;
       allConfigs.push({
         character,
