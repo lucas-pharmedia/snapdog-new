@@ -1,10 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils';
 import MarqueeBackground from '@/components/InteractiveStage/CanvasArea/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
 import { InteractiveStep, LayoutConfig } from '@/constants';
 import { useElementSize } from '@/hooks/useElementSize';
 import { useResizeObserver } from '@/hooks/useResizeObserver';
+import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 
 enum Mode {
   Wall = 'wall',
@@ -48,10 +50,38 @@ const ModeSwitch = ({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
   );
 };
 
+const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="pointer-events-none fixed inset-0 flex flex-col items-center"
+    >
+      <img src="/printer.png" alt="printer" className="mt-[120px]" />
+      <div className="mt-[-150px] flex w-full justify-center overflow-hidden">
+        <div className="px-4 pb-4">
+          <motion.div
+            initial={{ y: '-100%' }}
+            animate={{ y: 10 }}
+            transition={{
+              duration: 1.5,
+              ease: 'easeOut',
+              delay: 0.2
+            }}
+          >
+            <PhotoResult config={photoConfig} scale={0.7} className="shadow-[0px_2px_10px_0px_#00000040]" />
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   const isCurrentStep = currentStep === InteractiveStep.Result;
-  const [mode, setMode] = useState<Mode>(Mode.Wall);
-  const { photoConfig, setFixedPhotoRect, setIsParallaxVisible } = usePhotoStore();
+  const [mode, setMode] = useState<Mode>(Mode.Print);
+  const { photoConfig, setFixedPhotoRect, setIsParallaxVisible, setIsFixedPhotoVisible } = usePhotoStore();
   const [photoRenderScale, setPhotoRenderScale] = useState(0);
   const imageBoxRef = useRef<HTMLDivElement>(null);
   const { ref: containerRef, size: containerSize } = useElementSize<HTMLDivElement>();
@@ -65,16 +95,18 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
     setPhotoRenderScale(scale);
   }, [containerSize, selectedLayoutConfig]);
 
-  // 控制背景顯示：只有在 Result 步驟且模式為 Wall 時才隱藏背景
   useEffect(() => {
     if (isCurrentStep) {
       setIsParallaxVisible(mode !== Mode.Wall);
+      setIsFixedPhotoVisible(mode !== Mode.Print);
     }
-    // 離開 Result 步驟時在父元件會處理，或這裡可以用 cleanup
     return () => {
-      if (isCurrentStep) setIsParallaxVisible(true);
+      if (isCurrentStep) {
+        setIsParallaxVisible(true);
+        setIsFixedPhotoVisible(true);
+      }
     };
-  }, [isCurrentStep, mode, setIsParallaxVisible]);
+  }, [isCurrentStep, mode, setIsParallaxVisible, setIsFixedPhotoVisible]);
 
   const updateRect = () => {
     if (!imageBoxRef.current || !isCurrentStep) return;
@@ -94,6 +126,7 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
   return (
     <>
       <MarqueeBackground isVisible={mode === Mode.Wall} />
+      <AnimatePresence>{mode === Mode.Print && <PrintModeLayer photoConfig={photoConfig} />}</AnimatePresence>
       <div className="relative flex h-full w-full flex-col items-center gap-6 md:gap-8">
         <ModeSwitch mode={mode} onChange={setMode} />
         <div ref={containerRef} className="relative flex h-[80%] w-full items-center justify-center overflow-hidden">

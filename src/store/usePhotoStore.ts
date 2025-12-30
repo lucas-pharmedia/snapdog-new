@@ -7,9 +7,11 @@ interface PhotoState {
   photoConfig: PhotoConfig;
   fixedPhotoRect: Rect;
   isParallaxVisible: boolean;
+  isFixedPhotoVisible: boolean;
   setPhotoConfig: (update: Partial<PhotoConfig> | ((prev: PhotoConfig) => PhotoConfig)) => void;
   setFixedPhotoRect: (rect: Rect) => void;
   setIsParallaxVisible: (visible: boolean) => void;
+  setIsFixedPhotoVisible: (visible: boolean) => void;
 }
 
 export const usePhotoStore = create<PhotoState>((set, get) => ({
@@ -26,6 +28,7 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
     left: 0
   },
   isParallaxVisible: true,
+  isFixedPhotoVisible: true,
   setPhotoConfig: (update) =>
     set((state) => ({
       photoConfig: typeof update === 'function' ? update(state.photoConfig) : { ...state.photoConfig, ...update }
@@ -36,5 +39,6 @@ export const usePhotoStore = create<PhotoState>((set, get) => ({
       set({ fixedPhotoRect: rect });
     }
   },
-  setIsParallaxVisible: (visible) => set({ isParallaxVisible: visible })
+  setIsParallaxVisible: (visible) => set({ isParallaxVisible: visible }),
+  setIsFixedPhotoVisible: (visible) => set({ isFixedPhotoVisible: visible })
 }));

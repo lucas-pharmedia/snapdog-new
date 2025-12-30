@@ -31,7 +31,7 @@ const PhotoResult = ({ config, scale = 1, className }: PhotoResultProps) => {
 
       {/* 2. Photo Slots */}
       {layoutConfig.slots.map((slot, i) => {
-        const poseIndex = config.poseIndex ?? i + 1;
+        const poseIndex = i + 1;
         const photoUrl = getAIAssetPath({
           character: config.character,
           poseIndex,
