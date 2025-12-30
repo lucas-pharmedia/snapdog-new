@@ -22,7 +22,7 @@ const PhotoResult = ({ config, scale = 1, className }: PhotoResultProps) => {
         height: `calc(${lH}px * ${scaleStr})`
       }}
     >
-      {/* 1. Layout Background (The paper/base) */}
+      {/* 1. Layout Background  */}
       <img
         src={`/layout/background/${config.layout}.png`}
         alt="layout-background"
