@@ -1,4 +1,4 @@
-import { LayoutConfig } from '@/constants';
+import { LayoutConfig, AIStyle, BASE_VIDEO_URL } from '@/constants';
 import { getAIAssetPath, cn } from '@/utils';
 import type { PhotoConfig } from '@/types';
 
@@ -32,26 +32,28 @@ const PhotoResult = ({ config, scale = 1, className }: PhotoResultProps) => {
       {/* 2. Photo Slots */}
       {layoutConfig.slots.map((slot, i) => {
         const poseIndex = i + 1;
-        const photoUrl = getAIAssetPath({
+        const assetUrl = getAIAssetPath({
           character: config.character,
           poseIndex,
           style: config.style
         });
 
-        return (
-          <img
-            key={i}
-            className="absolute object-cover"
-            style={{
-              top: `calc(${slot.y}px * ${scaleStr})`,
-              left: `calc(${slot.x}px * ${scaleStr})`,
-              width: `calc(${slot.width}px * ${scaleStr})`,
-              height: `calc(${slot.height}px * ${scaleStr})`,
-              zIndex: 10
-            }}
-            src={photoUrl}
-            alt={`picture`}
-          />
+        const isVideo = config.style === AIStyle.Video;
+        const videoUrl = `${BASE_VIDEO_URL}/${config.character}/pose-${poseIndex}.mp4`;
+
+        const commonStyle = {
+          top: `calc(${slot.y}px * ${scaleStr})`,
+          left: `calc(${slot.x}px * ${scaleStr})`,
+          width: `calc(${slot.width}px * ${scaleStr})`,
+          height: `calc(${slot.height}px * ${scaleStr})`
+        };
+
+        return isVideo ? (
+          <video key={videoUrl} className="absolute object-cover" style={commonStyle} autoPlay loop muted playsInline>
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+        ) : (
+          <img key={i} className="absolute object-cover" style={commonStyle} src={assetUrl} alt={`picture`} />
         );
       })}
 
