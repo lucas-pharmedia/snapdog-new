@@ -3,6 +3,7 @@ import type { InteractiveStageStep } from '@/types';
 export const LINE_OA_URL = 'https://bit.ly/SnapDog?r=qr';
 
 export enum SectionId {
+  Hero = 'hero',
   InteractiveStage = 'interactive-stage',
   Scenarios = 'scenarios',
   BusinessValue = 'business-value',

@@ -5,7 +5,10 @@ import { SectionId, BASE_VIDEO_URL } from '@/constants';
 const HERO_VIDEO_URL = `${BASE_VIDEO_URL}/hero.mp4`;
 const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
-    <section className="relative z-5 flex h-dvh w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+    <section
+      id={SectionId.Hero}
+      className="relative z-5 flex h-dvh w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)]"
+    >
       {/* Background Image - Visible only on Desktop */}
       <div className="absolute inset-0 z-10 hidden md:block">
         <video autoPlay loop muted playsInline className="h-full w-full object-cover object-right">

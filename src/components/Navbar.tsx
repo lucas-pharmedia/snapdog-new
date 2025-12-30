@@ -59,10 +59,7 @@ const Navbar = () => {
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-12">
-        <div
-          className="flex cursor-pointer items-center"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        >
+        <div className="flex cursor-pointer items-center" onClick={() => scrollToSection(SectionId.Hero)}>
           <img
             src="/logo.png"
             alt="Snapdog Logo"
