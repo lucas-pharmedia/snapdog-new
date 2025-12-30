@@ -170,3 +170,7 @@ export const FRAME_OPTIONS = [
 ];
 
 export const BASE_VIDEO_URL = 'https://s3.ap-east-2.amazonaws.com/snapdog.io-official-website/video';
+
+export const Breakpoints = {
+  md: 768
+};

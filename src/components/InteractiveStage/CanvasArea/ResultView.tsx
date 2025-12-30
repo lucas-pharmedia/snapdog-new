@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils';
 import MarqueeBackground from '@/components/InteractiveStage/CanvasArea/MarqueeBackground';
 import { usePhotoStore } from '@/store/usePhotoStore';
-import { InteractiveStep, LayoutConfig } from '@/constants';
+import { InteractiveStep, LayoutConfig, Breakpoints } from '@/constants';
 import { useElementSize } from '@/hooks/useElementSize';
 import { useResizeObserver } from '@/hooks/useResizeObserver';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import PhotoResult from '@/components/InteractiveStage/CanvasArea/PhotoResult';
 
 enum Mode {
@@ -51,6 +52,9 @@ const ModeSwitch = ({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
 };
 
 const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
+  const { width } = useWindowSize();
+  const isMobile = width < Breakpoints.md;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -58,21 +62,28 @@ const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
       exit={{ opacity: 0 }}
       className="pointer-events-none fixed inset-0 flex flex-col items-center"
     >
-      <img src="/printer.png" alt="printer" className="mt-[120px]" />
-      <div className="mt-[-150px] flex w-full justify-center overflow-hidden">
-        <div className="px-4 pb-4">
-          <motion.div
-            initial={{ y: '-100%' }}
-            animate={{ y: 10 }}
-            transition={{
-              duration: 1.5,
-              ease: 'easeOut',
-              delay: 0.8
-            }}
-          >
-            <PhotoResult config={photoConfig} scale={0.7} className="shadow-[0px_2px_10px_0px_#00000040]" />
-          </motion.div>
-        </div>
+      <img
+        src="/printer.png"
+        alt="printer"
+        className="absolute top-[30px] left-[50%] w-[554px] max-w-none -translate-x-1/2 md:top-[60px] md:w-[857px]"
+      />
+      <div className="mt-[calc(30px+210px)] flex w-full justify-center overflow-hidden md:mt-[calc(60px+320px)]">
+        <motion.div
+          initial={{ y: '-100%' }}
+          animate={{ y: 10 }}
+          transition={{
+            duration: 1.5,
+            ease: 'easeOut',
+            delay: 0.8
+          }}
+          className="px-4 pb-20"
+        >
+          <PhotoResult
+            config={photoConfig}
+            scale={isMobile ? 0.48 : 0.7}
+            className="shadow-[0px_26px_34.3px_0px_#0000004D]"
+          />
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -127,11 +138,14 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
     <>
       <MarqueeBackground isVisible={mode === Mode.Wall} />
       <AnimatePresence>
-        {isCurrentStep && mode === Mode.Print && <PrintModeLayer key="print-layer" photoConfig={photoConfig} />}
+        {isCurrentStep && mode === Mode.Print && <PrintModeLayer photoConfig={photoConfig} />}
       </AnimatePresence>
       <div className="relative flex h-full w-full flex-col items-center gap-6 md:gap-8">
         <ModeSwitch mode={mode} onChange={setMode} />
-        <div ref={containerRef} className="relative flex h-[80%] w-full items-center justify-center overflow-hidden">
+        <div
+          ref={containerRef}
+          className="relative flex h-[80%] w-full items-center justify-center overflow-hidden px-9"
+        >
           <div
             ref={imageBoxRef}
             className="relative shrink-0"
@@ -145,7 +159,7 @@ const ResultView = ({ currentStep }: { currentStep: InteractiveStep }) => {
           />
         </div>
         <div className="flex shrink-0 justify-center">
-          <img src="/result-text.png" className="w-[151px]" alt="" />
+          <img src="/result-text.png" className="w-[121px] md:w-[151px]" alt="" />
         </div>
       </div>
     </>

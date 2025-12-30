@@ -13,7 +13,7 @@ const StageTitle = ({ currentStep, isInView }: StageTitleProps) => {
   return (
     <div
       className={cn(
-        'relative z-15 flex h-[10dvh] min-h-[80px] w-full shrink-0 items-end justify-center transition-opacity duration-1200 md:h-[15dvh]',
+        'relative z-15 flex w-full shrink-0 items-start justify-center transition-opacity duration-1200',
         `${currentStep === InteractiveStep.Result ? 'mb-1 md:mb-5' : 'mb-4'}`,
         isInView ? 'opacity-100' : 'opacity-0'
       )}
