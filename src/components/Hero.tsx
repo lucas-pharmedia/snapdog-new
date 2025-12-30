@@ -39,7 +39,7 @@ const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
             <span className="block bg-linear-to-l from-[#06B6D4] to-[#2563EB] bg-clip-text leading-none font-black text-transparent drop-shadow-sm md:font-extrabold">
               玩轉回憶
             </span>
-            <span className="mt-3 mb-9 block leading-none font-black text-gray-900 md:mb-10 md:font-extrabold md:text-white">
+            <span className="mt-3 mb-4 block leading-none font-black text-gray-900 md:mb-10 md:font-extrabold md:text-white">
               創造有效互動
             </span>
           </h1>

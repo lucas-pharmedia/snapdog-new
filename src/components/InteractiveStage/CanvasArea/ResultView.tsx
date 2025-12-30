@@ -67,10 +67,10 @@ const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
         alt="printer"
         className="absolute top-[30px] left-[50%] w-[554px] max-w-none -translate-x-1/2 md:top-[60px] md:w-[857px]"
       />
-      <div className="mt-[calc(30px+210px)] flex w-full justify-center overflow-hidden md:mt-[calc(60px+320px)]">
+      <div className="mt-[calc(30px+205px)] flex w-full justify-center overflow-hidden md:mt-[calc(60px+320px)]">
         <motion.div
           initial={{ y: '-100%' }}
-          animate={{ y: 10 }}
+          animate={{ y: 20 }}
           transition={{
             duration: 1.5,
             ease: 'easeOut',

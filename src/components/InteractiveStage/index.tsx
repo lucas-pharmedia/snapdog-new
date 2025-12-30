@@ -35,7 +35,7 @@ const InteractiveStage = () => {
       <div
         className={cn(
           `fixed top-0 left-0 flex h-dvh w-full flex-col items-center justify-center`,
-          `pt-20 pb-5 md:pt-25`
+          `pt-17 pb-5 md:pt-25`
         )}
       >
         <StageTitle currentStep={currentStep} isInView={isInView} />
