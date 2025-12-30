@@ -2,12 +2,15 @@ import { ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SectionId } from '@/constants';
 
+const HERO_VIDEO_URL = 'https://s3.ap-east-2.amazonaws.com/snapdog.io-official-website/video/snapdog-hero.mp4';
 const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
   return (
     <section className="relative z-5 flex h-dvh w-full flex-col items-center justify-start overflow-hidden bg-white pt-12 shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
       {/* Background Image - Visible only on Desktop */}
       <div className="absolute inset-0 z-10 hidden md:block">
-        <img src="/hero.jpg" alt="Hero background" className="h-full w-full object-cover object-right" />
+        <video autoPlay loop muted playsInline className="h-full w-full object-cover object-right">
+          <source src={HERO_VIDEO_URL} type="video/mp4" />
+        </video>
         {/* Specific Dual-Layer Mask */}
         <div
           className="absolute inset-0"
@@ -76,7 +79,9 @@ const Hero = ({ onLineButtonClick }: { onLineButtonClick: () => void }) => {
           className="z-10 flex w-full justify-center md:hidden md:w-auto md:justify-end"
         >
           <div className="relative aspect-[1.5/1] w-full max-w-[500px] overflow-hidden rounded-2xl shadow-2xl">
-            <img src="/hero.jpg" className="h-full w-full object-cover" />
+            <video autoPlay loop muted playsInline className="h-full w-full object-cover">
+              <source src={HERO_VIDEO_URL} type="video/mp4" />
+            </video>
           </div>
         </motion.div>
       </div>
