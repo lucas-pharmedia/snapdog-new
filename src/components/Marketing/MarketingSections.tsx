@@ -107,17 +107,17 @@ const Scenarios = () => {
 const BusinessValue = () => {
   const cards = [
     {
-      icon: <img src="/business-value-icon-1.jpg" />,
+      icon: <img src="/marketing/business-value-icon-1.jpg" />,
       title: '低門檻無痛導流',
       desc: '用戶掃描 QR Code 獲取照片時，即可引導加入 LINE 官方帳號，為品牌快速累積好友名單，擴大流量池。'
     },
     {
-      icon: <img src="/business-value-icon-2.jpg" />,
+      icon: <img src="/marketing/business-value-icon-2.jpg" />,
       title: '活動數據標籤化',
       desc: '後台紀錄活動成效與用戶 Tagging，清楚掌握潛在客戶輪廓與關注議題，為未來的再行銷做好精準佈局。'
     },
     {
-      icon: <img src="/business-value-icon-3.jpg" />,
+      icon: <img src="/marketing/business-value-icon-3.jpg" />,
       title: '延續互動熱度',
       desc: '運用官方帳號一對一私訊功能，持續與潛在客戶互動，提供專屬優惠或下單引導，將互動轉化為實際收益。'
     }
