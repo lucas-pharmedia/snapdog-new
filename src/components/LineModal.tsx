@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { LINE_OA_URL } from '@/constants';
 
 const LineModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
   return (
     <>
       <AnimatePresence>
