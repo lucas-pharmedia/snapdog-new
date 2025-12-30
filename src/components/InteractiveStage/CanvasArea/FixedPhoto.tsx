@@ -73,23 +73,21 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-1">
-      <motion.div
-        animate={{
-          scale: isResultStep ? BOUNCE_SCALE : 1
-        }}
-        transition={{
-          scale: BOUNCE_TRANSITION
-        }}
-        className="absolute inset-0"
-      >
+      <div className="absolute inset-0">
         <AnimatePresence mode="wait">
           {isFixedPhotoVisible && (
             <motion.div
               key="fixed-photo-content"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, scale: 1 }}
+              animate={{
+                opacity: 1,
+                scale: isResultStep ? BOUNCE_SCALE : 1
+              }}
               exit={{ opacity: 0 }}
-              transition={{ duration: DEFAULT_DURATION }}
+              transition={{
+                opacity: { duration: DEFAULT_DURATION },
+                scale: BOUNCE_TRANSITION
+              }}
               className="absolute inset-0"
             >
               <AnimatePresence mode="wait">
@@ -202,7 +200,7 @@ const FixedPhoto = ({ currentStep }: { currentStep: InteractiveStep }) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 };

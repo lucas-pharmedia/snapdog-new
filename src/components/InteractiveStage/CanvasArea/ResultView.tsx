@@ -67,7 +67,7 @@ const PrintModeLayer = ({ photoConfig }: { photoConfig: any }) => {
             transition={{
               duration: 1.5,
               ease: 'easeOut',
-              delay: 0.2
+              delay: 0.8
             }}
           >
             <PhotoResult config={photoConfig} scale={0.7} className="shadow-[0px_2px_10px_0px_#00000040]" />
